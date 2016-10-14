@@ -159,15 +159,21 @@ public class Util {
     }
 
     public static int getObstacleSize() {
-        return 20;
+    	final int OBSTACLES_SIZE_ON_MAP = 20;
+    	
+    	return OBSTACLES_SIZE_ON_MAP;
     }
 
     static int getMinimumNumberOfObstacles() {
-        return 50;
+    	final int MIN_NUMBER_OF_OBSTACLES = 50;
+        
+    	return MIN_NUMBER_OF_OBSTACLES;
     }
 
     static int getMaxiumNumberOfObstacles() {
-        return 60;
+    	final int MAX_NUMBER_OF_OBSTACLES = 60;
+    	
+        return MAX_NUMBER_OF_OBSTACLES;
     }
 
     /**
