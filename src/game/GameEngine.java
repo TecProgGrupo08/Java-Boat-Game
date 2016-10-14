@@ -24,6 +24,9 @@ public class GameEngine implements Runnable {
     final int MAX_NUMBER_OF_OBSTACLES = MIN_NUMBER_OF_OBSTACLES + 5;
     final int OBSTACLES_SIZE_ON_MAP = 20;
     
+    final String GAME_OVER_GAME = "Game Over!";
+    final String WIN_GAME = "You Win!";
+    
     public static Character getCharacter(String type){
         return GameEngine.getInstance().getCharacters().get(type);
     }
@@ -150,11 +153,11 @@ public class GameEngine implements Runnable {
     }
 
     public void gameOver() {
-        endGame("GAME OVER!");
+        endGame(GAME_OVER_GAME);
     }
 
     public void win() {
-        endGame("YOU WIN!");
+        endGame(WIN_GAME);
 
     }
 
