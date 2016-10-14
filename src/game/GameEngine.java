@@ -20,6 +20,9 @@ public class GameEngine implements Runnable {
     public static final int SLEEP_LENGTH = 16;//16 ms equates to ~60 frames per second
     private static GameEngine gameEngine;
 
+    final int MIN_NUMBER_OF_OBSTACLES = 10;
+    final int MAX_NUMBER_OF_OBSTACLES = MIN_NUMBER_OF_OBSTACLES + 5;
+    final int OBSTACLES_SIZE_ON_MAP = 20;
     
     public static Character getCharacter(String type){
         return GameEngine.getInstance().getCharacters().get(type);
@@ -28,9 +31,9 @@ public class GameEngine implements Runnable {
         cast = game.character.Cast.getInstance();
         renderer = Renderer.getInstance();
         controller = InputController.getInstance();
-        minObstacles = 10;
-        maxObstacles = minObstacles + 5;
-        obstacleSize = 20;
+        minObstacles = MIN_NUMBER_OF_OBSTACLES;
+        maxObstacles = MAX_NUMBER_OF_OBSTACLES;
+        obstacleSize = OBSTACLES_SIZE_ON_MAP;
 
 
     }
