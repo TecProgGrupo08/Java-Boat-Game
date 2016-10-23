@@ -24,19 +24,19 @@ public class GameEngine implements Runnable {
     public static final int SLEEP_LENGTH = 16;//16 ms equates to ~60 frames per second
     private static GameEngine gameEngine;
 
-    final int MIN_NUMBER_OF_OBSTACLES = 10;
-    final int MAX_NUMBER_OF_OBSTACLES = MIN_NUMBER_OF_OBSTACLES + 5;
-    final int OBSTACLES_SIZE_ON_MAP = 20;
+    final int MIN_NUMBER_OF_OBSTACLES = 10; // Minimum number of obstacles that have in the map. 
+    final int MAX_NUMBER_OF_OBSTACLES = MIN_NUMBER_OF_OBSTACLES + 5; // Maximum number of obstacles that have in the map.
+    final int OBSTACLES_SIZE_ON_MAP = 20; // Size of obstacles that have in the map.
     
-    final String GAME_OVER_GAME = "Game Over!";
-    final String WIN_GAME = "You Win!";
+    final String GAME_OVER_GAME = "Game Over!"; // Game Over Message.
+    final String WIN_GAME = "You Win!"; // Win Message.
     
     public static Character getCharacter(String type){
         return GameEngine.getInstance().getCharacters().get(type);
     }
     
     private GameEngine() {
-        cast = game.character.Cast.getInstance();
+        cast = game.character.Cast.getInstance(); 
         renderer = Renderer.getInstance();
         controller = InputController.getInstance();
         minObstacles = MIN_NUMBER_OF_OBSTACLES;
