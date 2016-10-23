@@ -160,6 +160,11 @@ public class GameEngine implements Runnable {
     }
     boolean storm = false;
 
+    /**
+     * Change the environment of the map
+     * 
+     * @param obstacle - Array of obstacles that have in the map
+     */
     public void storm() {
         ArrayList<Character> obstacles = GameEngine.cast.getObstacles();
         int x = obstacles.size();
