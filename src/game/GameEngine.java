@@ -69,6 +69,7 @@ public class GameEngine implements Runnable {
     }
 
     private Factory factory() {
+    	//This if verify if the factory object has already been created.
         if (this.characterFactory == null) {
             this.characterFactory = new Factory();
         }
@@ -159,6 +160,8 @@ public class GameEngine implements Runnable {
         }
 
         storm = !storm;
+        
+        //This structure controller verify if the player want to see evening map
         if (storm) {
             renderer.setBackgroundImage(Util.imageResources.get("NIGHT"));
 
