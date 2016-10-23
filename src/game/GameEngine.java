@@ -35,6 +35,17 @@ public class GameEngine implements Runnable {
         return GameEngine.getInstance().getCharacters().get(type);
     }
     
+    /**
+     * Private contructor of game engine
+     * 
+     * @param cast - cast all characters on map.
+     * @param renderer - render the boats in map..
+     * @param controller - define the input controllers to the game.
+     * @param minObstacles - Minimum number of obstacles that have in the map.
+     * @param maxObstacles - Maximum number of obstacles that have in the map.
+     * @param obstacleSize - size of obstacles that have in the map..
+     */
+    
     private GameEngine() {
         cast = game.character.Cast.getInstance(); 
         renderer = Renderer.getInstance();
