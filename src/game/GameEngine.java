@@ -88,7 +88,15 @@ public class GameEngine implements Runnable {
         Character character = factory().createCharacter(type);
         return character;
     }
-
+    
+    /**
+     * Initialize the obstacles of map
+     * 
+     * @param obstacle - object of obstacles
+     * @param min - Minimum number of obstacles that have in the map.
+     * @param max - Maximum number of obstacles that have in the map.
+     * @param numberOfObstacles - size of obstacles that have in the map.
+     */
     private void setupObstacles() {
     	logging.debug("The method of obstacles creation was activated!");
         Character obstacle;
