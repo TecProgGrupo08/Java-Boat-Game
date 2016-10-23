@@ -48,12 +48,14 @@ public class GameEngine implements Runnable {
 
     public static GameEngine getInstance() {
     	logging.debug("Entering in Singleton on GameEngine");
+    	//Verify if the object of GameEngine was already created.
         if (gameEngine != null) {
         	logging.debug("The instance of GameEngine already created!");
             return gameEngine;
 
         } else {
             synchronized (GameEngine.class) {
+            	//If the gameEngine is null a instance is created.
                 if (gameEngine == null) {
                 	logging.debug("The instance of GameEngine hass been created!");
                     gameEngine = new GameEngine();
