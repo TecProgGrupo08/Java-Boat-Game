@@ -8,7 +8,12 @@ import game.character.Character;
 
 import java.util.*;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+  
 public class GameEngine implements Runnable {
+
+	static Logger logging = Logger.getLogger(GameEngine.class);
 
     private static Cast cast = game.character.Cast.getInstance();
     public static Renderer renderer;
@@ -30,6 +35,7 @@ public class GameEngine implements Runnable {
     public static Character getCharacter(String type){
         return GameEngine.getInstance().getCharacters().get(type);
     }
+    
     private GameEngine() {
         cast = game.character.Cast.getInstance();
         renderer = Renderer.getInstance();
@@ -42,18 +48,22 @@ public class GameEngine implements Runnable {
     }
 
     public static GameEngine getInstance() {
+    	logging.debug("Entering in Singleton on GameEngine");
         if (gameEngine != null) {
+        	logging.debug("The instance of GameEngine already created!");
             return gameEngine;
 
         } else {
             synchronized (GameEngine.class) {
                 if (gameEngine == null) {
+                	logging.debug("The instance of GameEngine hass been created!");
                     gameEngine = new GameEngine();
                 }
             }
 
         }
 
+    	logging.info("Returning object of GameEngine.");
         return gameEngine;
     }
 
