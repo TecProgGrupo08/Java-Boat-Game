@@ -88,11 +88,13 @@ public class GameEngine implements Runnable {
     }
 
     private void setupObstacles() {
+    	logging.debug("The method of obstacles creation was activated!");
         Character obstacle;
 
         int min = Util.getMinimumNumberOfObstacles();
         int max = Util.getMaxiumNumberOfObstacles();
         int numberOfObstacles = (int) (Math.random() * (max - min));
+    	logging.info("Total of obstacles created: " +numberOfObstacles);
         for (int x = 0; x
                 < numberOfObstacles + 1; x++) {
             if (Math.random() > 0.5) {
@@ -101,6 +103,7 @@ public class GameEngine implements Runnable {
                 obstacle = create("OCTOPUS");
 
             }
+        	logging.debug("Type of obstacle were defined!");
 
             Location l = new Location(
                     Math.random() * renderer.getWidth(),
@@ -114,8 +117,10 @@ public class GameEngine implements Runnable {
                     s.getUntransformedArea().createTransformedArea(obstacle.getSprite().
                     getTransform()));
 
+        	logging.debug("Obstacle location were defined!");
 
             cast.put("Obstacle" + String.valueOf(x), obstacle);
+        	logging.info("Obstacle created!");
         }
 
     }
