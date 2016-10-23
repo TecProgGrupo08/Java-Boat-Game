@@ -97,6 +97,7 @@ public class GameEngine implements Runnable {
         int max = Util.getMaxiumNumberOfObstacles();
         int numberOfObstacles = (int) (Math.random() * (max - min));
     	logging.info("Total of obstacles created: " +numberOfObstacles);
+    	//This for determined by the number of obstacles the type of obstacle.
         for (int x = 0; x
                 < numberOfObstacles + 1; x++) {
             if (Math.random() > 0.5) {
@@ -161,7 +162,7 @@ public class GameEngine implements Runnable {
 
         storm = !storm;
         
-        //This structure controller verify if the player want to see evening map
+        //This structure controller verify if the player want to see evening map.
         if (storm) {
             renderer.setBackgroundImage(Util.imageResources.get("NIGHT"));
 
