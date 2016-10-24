@@ -200,15 +200,12 @@ public class Factory {
 
     private Character createOctopus() {
 
-
-        Renderer renderer = Renderer.getInstance();
-
-        Character octopus = new Obstacle();
-
         Image[] images = new Image[1];
         images[0] = Util.imageResources.get("OCTOPUS");
+        Character octopus = new Obstacle();
         SpriteImage octopusSprite = new SpriteImage(images, octopus);
-
+        
+        Renderer renderer = Renderer.getInstance();
         Ellipse2D boundingEllipse = new Ellipse2D.Double(0, 0,
                 images[0].getWidth(renderer),
                 images[0].getHeight(renderer));
@@ -241,8 +238,6 @@ public class Factory {
     private game.character.Goal createGoal() {
 
 
-        Renderer renderer = Renderer.getInstance();
-
         game.character.Goal goal = new game.character.Goal();
 
 
@@ -252,6 +247,8 @@ public class Factory {
 
         goalSprite.setUntransformedArea(area);
         AffineTransform transform = new AffineTransform();
+ 
+        Renderer renderer = Renderer.getInstance();
         transform.setToTranslation(renderer.getWidth() - 100, renderer.getHeight() - 50);
         goalSprite.setTransform(transform);
 
@@ -271,17 +268,18 @@ public class Factory {
 
     public Obstacle createBuoy() {
         Renderer renderer = Renderer.getInstance();
-        Obstacle buoy = new Obstacle();
-        Sprite sprite = new Buoy(buoy);
         double randomX = (Math.random() * renderer.getWidth());
         double randomY = (Math.random() * renderer.getHeight());
 
+        Obstacle buoy = new Obstacle();
         buoy.setLocation(randomX, randomY);
 
         Movement sway = new game.movement.Swaying(null, randomX, randomY, randomY, buoy, 1, 2);
         buoy.setMoveBehaviour(sway);
         int size = Util.getObstacleSize();
         Area area = new Area(new java.awt.geom.Ellipse2D.Double(randomX - size / 2, randomY - size / 2, size, size));
+        
+        Sprite sprite = new Buoy(buoy);
         sprite.setUntransformedArea(area);
         AffineTransform transform = new AffineTransform();
         transform.setToTranslation(randomX, randomY);

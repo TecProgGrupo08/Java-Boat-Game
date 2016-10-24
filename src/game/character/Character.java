@@ -58,12 +58,12 @@ public abstract class Character {
     }
 
     public void setTransform(Location rotateCentre) {
-        double centreHeight;
-        double centreWidth;
+
 
         AffineTransform temp = AffineTransform.getTranslateInstance(
                 getLocation().getX(), getLocation().getY());
-
+        double centreHeight = 0;
+        double centreWidth = 0;
         if (rotateCentre == null) {
             centreWidth = centreX();
             centreHeight = centreY();
