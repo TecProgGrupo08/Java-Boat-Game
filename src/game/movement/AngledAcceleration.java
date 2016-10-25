@@ -41,6 +41,13 @@ public class AngledAcceleration extends Movement {
         return location;
 
     }
+    
+    /**
+     * Executes movement changes in angle and velocity  when the boat is making a turn
+     * 
+     * @param location - object that points out the boat's location
+     * @return location
+     */
 
     public Location turn(Location location) {
 
