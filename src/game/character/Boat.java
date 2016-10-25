@@ -101,7 +101,7 @@ public class Boat extends Moveable {
     private void processMouse() {
     	logging.setLevel(Level.INFO);
     	
-        Point2D point = this.getController().getMouseLocation(); //mouse pointing
+        Point2D point = (Point2D) this.getController().getMouseLocation(); //mouse pointing
 
         Location dest = new Location(point.getX(), point.getY()); //game coordinates
 
@@ -111,12 +111,12 @@ public class Boat extends Moveable {
         assert(dy < 1080 && dy > -1080) : "Error! Mouse bug";  
         logging.debug("dx click:" + dx);
         logging.debug("dy click:" + dy);
-        double destinationAngle = Math.atan2(dy, dx);
+        double destinationAngle = (double) Math.atan2(dy, dx);
 
         AngledAcceleration mouseMove = (AngledAcceleration) getMoveBehaviour();
         double angleDelta = destinationAngle - mouseMove.getAngle();
 
-        angleDelta = pinAngle(angleDelta);
+        angleDelta = (double) pinAngle(angleDelta);
         logging.debug("mouse angle:" + angleDelta);
         assert(angleDelta > -4 && angleDelta < 4 ) : "Angle cant be more than -4 or 4";
         

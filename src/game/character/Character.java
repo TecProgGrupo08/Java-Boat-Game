@@ -60,7 +60,7 @@ public abstract class Character {
     public void setTransform(Location rotateCentre) {
 
 
-        AffineTransform temp = AffineTransform.getTranslateInstance(
+        AffineTransform temp = (AffineTransform) AffineTransform.getTranslateInstance(
                 getLocation().getX(), getLocation().getY());
         double centreHeight = 0;
         double centreWidth = 0;
@@ -106,7 +106,7 @@ public abstract class Character {
         }
         
         Area intersectArea = new Area(getTransformedArea());
-        Area b = character.getTransformedArea();
+        Area b = (Area) character.getTransformedArea();
 
         intersectArea.intersect(b);
 
@@ -131,7 +131,7 @@ public abstract class Character {
 
         int length = moving.size();
         for (int i = 0; i < length; i++) {
-            Character character = moving.get(i);
+            Character character = (Character) moving.get(i);
 
             if (collision = collides(character)) {
                 character.collide();

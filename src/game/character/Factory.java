@@ -117,7 +117,7 @@ public class Factory {
         computerBoatSprite.setTransformation(x, y, Util.getBoatArea(boatImages[0]));
         computerBoat.setSprite(computerBoatSprite);
 
-        Movement computerBoatMove = Util.angledAccelerationPresets();
+        Movement computerBoatMove = (Movement) Util.angledAccelerationPresets();
         computerBoat.setMoveBehaviour(computerBoatMove);
 
         assert(computerBoat != null) : "computerBoat is null!";
@@ -139,7 +139,7 @@ public class Factory {
 
 
         int[] locations = Util.getHarbourData();
-        Area area = createAreaFromLocations(locations, generalPath);
+        Area area = (Area) createAreaFromLocations(locations, generalPath);
 
 
         harbour.setLocation(new Location(0, 0));
@@ -176,7 +176,7 @@ public class Factory {
 
         GeneralPath generalPath = new GeneralPath();
         island.setLocation(new Location(0, 0));
-        int[] locations = Util.getIslandData();
+        int[] locations = (int[]) Util.getIslandData();
         Area area = createAreaFromLocations(locations, generalPath);
 
         islandSprite.setUntransformedArea(area);
@@ -201,7 +201,7 @@ public class Factory {
     private Character createOctopus() {
 
         Image[] images = new Image[1];
-        images[0] = Util.imageResources.get("OCTOPUS");
+        images[0] = (Image) Util.imageResources.get("OCTOPUS");
         Character octopus = new Obstacle();
         SpriteImage octopusSprite = new SpriteImage(images, octopus);
         
