@@ -22,8 +22,14 @@ public class Movement {
     private double angularMaxVelocity = 0;
     private double angularAcceleration= 0;
     
+    /**
+     * Calibrates received values to not exceed the maximum allowed 
+     * 
+     * @param value - the x or y velocity
+     * @param max - the maximum value allowed for the velocity
+     * @return value
+     */
     
-
     private double pinValue(double value, double max) {
         if (value > 0.0) {
             if (value > max) {
@@ -37,6 +43,11 @@ public class Movement {
         return value;
     }
 
+    /**
+     * Determines a new location of the object
+     * @param location
+     * @return
+     */
     public Location go(Location location) {
         double x = location.getX();
         double y = location.getY();
