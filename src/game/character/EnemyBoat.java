@@ -23,6 +23,7 @@ public class EnemyBoat extends Moveable
     int randomLength = 0;
     int turnDuration = 15;
     boolean changeDirection = false;
+    final int lengthMultiplier = 50;
     int i = 0;
 
     @Override
@@ -58,7 +59,7 @@ public class EnemyBoat extends Moveable
 
             if (randomLength <= 0)
             {
-                randomLength = (int) (Math.random() * 50);
+                randomLength = (int) (Math.random() * lengthMultiplier);
                 changeDirection = true;
 
             }

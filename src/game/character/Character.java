@@ -23,6 +23,7 @@ public abstract class Character {
     private Movement moveBehaviour = null; // behaviour of the movement
     private Sprite sprite = null; // sets the hitbox of the character boat
     private InputController controller = InputController.getInstance();
+    final double initialPosition = 0.0;
 
     public abstract void collide();
     public abstract void update();
@@ -150,7 +151,7 @@ public abstract class Character {
      * Creates a new instance of Character
      */
     public Character() {
-        myLocation = new Location(0.0, 0.0);
+        myLocation = new Location(initialPosition, initialPosition);
     }
 
     public Movement getMoveBehaviour() {

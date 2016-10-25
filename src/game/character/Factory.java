@@ -27,7 +27,9 @@ import org.apache.log4j.Logger;
 public class Factory {
 	
 	static Logger logging = Logger.getLogger(Factory.class);
-    public Factory() {
+	final int staticLocationRender = 30;
+	final int initialLocation = 0;
+	public Factory() {
     }
     
     public Obstacle createBuoy() {
@@ -36,6 +38,7 @@ public class Factory {
         Sprite sprite = new Buoy(buoy);
         double randomX = (Math.random() * renderer.getWidth());
         double randomY = (Math.random() * renderer.getHeight());
+        
 
         buoy.setLocation(randomX, randomY);
 
@@ -125,7 +128,7 @@ public class Factory {
         Renderer renderer = Renderer.getInstance();
 
         int x = 10;
-        int y = Renderer.getInstance().getHeight() - 30;
+        int y = Renderer.getInstance().getHeight() - staticLocationRender;
         Location location = new Location(x, y);
 
         boat.setLocation(location);
@@ -141,7 +144,7 @@ public class Factory {
         boatSprite.setTransformation(x, y, Util.getBoatArea(boatImages[0]));
 
 
-        boat.setLocation(new Location(30, renderer.getHeight()));
+        boat.setLocation(new Location(staticLocationRender, renderer.getHeight()));
 
 
 
@@ -211,11 +214,11 @@ public class Factory {
         Area area = (Area) createAreaFromLocations(locations, generalPath);
 
 
-        harbour.setLocation(new Location(0, 0));
+        harbour.setLocation(new Location(initialLocation, initialLocation));
 
         harbourSprite.setUntransformedArea(area);
         AffineTransform transform = new AffineTransform();
-        transform.setToTranslation(0, 0);
+        transform.setToTranslation(initialLocation, initialLocation);
         harbourSprite.setTransform(transform);
         harbourSprite.setTransformedArea(area.createTransformedArea(transform));
 
@@ -244,7 +247,7 @@ public class Factory {
         game.sprite.Island islandSprite = new game.sprite.Island(island);
 
         GeneralPath generalPath = new GeneralPath();
-        island.setLocation(new Location(0, 0));
+        island.setLocation(new Location(initialLocation, initialLocation));
         int[] locations = (int[]) Util.getIslandData();
         Area area = createAreaFromLocations(locations, generalPath);
 
@@ -275,7 +278,7 @@ public class Factory {
         SpriteImage octopusSprite = new SpriteImage(images, octopus);
         
         Renderer renderer = Renderer.getInstance();
-        Ellipse2D boundingEllipse = new Ellipse2D.Double(0, 0,
+        Ellipse2D boundingEllipse = new Ellipse2D.Double(initialLocation, initialLocation,
                 images[0].getWidth(renderer),
                 images[0].getHeight(renderer));
 
@@ -283,7 +286,7 @@ public class Factory {
 
         //MoveAngledAccelerate move, double x, double y, double pRandomPhase, CharacterBase owner,
         //double swayH, double swayV)
-        Swaying move = new Swaying(null, 0, 0, Math.random(), octopus, 100.0, 1.0);
+        Swaying move = new Swaying(null, initialLocation, initialLocation, Math.random(), octopus, 100.0, 1.0);
         octopus.setMoveBehaviour(move);
 
         octopusSprite.setUntransformedArea(area);
@@ -312,7 +315,7 @@ public class Factory {
 
         game.sprite.Goal goalSprite = new game.sprite.Goal(goal);
 
-        Area area = new Area(new Rectangle(0, 0, 100, 50));
+        Area area = new Area(new Rectangle(initialLocation, initialLocation, 100, 50));
 
         goalSprite.setUntransformedArea(area);
         AffineTransform transform = new AffineTransform();
