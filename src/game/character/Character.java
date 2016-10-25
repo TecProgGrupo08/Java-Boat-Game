@@ -1,3 +1,7 @@
+/*
+ * File name: Character.
+ * File purpose: Class that controls position, area and collisions of the main boat.
+ */
 package game.character;
 
 import game.InputController;

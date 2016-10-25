@@ -1,3 +1,7 @@
+/*
+ * File name: Boat.
+ * File purpose: Class that controls boat movement and energy.
+ */
 package game.character;
 
 import game.GameEngine;

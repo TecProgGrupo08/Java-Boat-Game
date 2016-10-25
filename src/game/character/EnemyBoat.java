@@ -1,3 +1,7 @@
+/*
+ * File name: EnemyBoat.
+ * File purpose: Class that controls the AI's boat movement.
+ */
 package game.character;
 
 import game.movement.Location;

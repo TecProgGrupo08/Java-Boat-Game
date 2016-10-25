@@ -1,3 +1,7 @@
+/*
+ * File name: Moveable.
+ * File pourpose: Class that defines the moveable area.
+ */
 package game.character;
 
 import game.movement.Movement;

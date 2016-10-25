@@ -1,3 +1,7 @@
+/*
+ * File name: Factory.
+ * File purpose: Class that initializes elements of the game.
+ */
 package game.character;
 
 import game.GameEngine;
