@@ -1,3 +1,7 @@
+/*
+ * File name: Character.
+ * File purpose: Class that controls position, area and collisions of the main boat.
+ */
 package game.character;
 
 import game.InputController;
@@ -19,8 +23,152 @@ public abstract class Character {
     private Movement moveBehaviour = null; // behaviour of the movement
     private Sprite sprite = null; // sets the hitbox of the character boat
     private InputController controller = InputController.getInstance();
+    final double initialPosition = 0.0;
 
     public abstract void collide();
+    public abstract void update();
+    
+    public boolean collides(Character character) {
+        if (character.equals(this)) {
+            return false;
+        }else{
+        	//do nothing
+        }
+        
+        Area intersectArea = new Area(getTransformedArea());
+        Area b = character.getTransformedArea();
+
+        intersectArea.intersect(b);
+
+        return !intersectArea.isEmpty();
+    }
+    
+
+    /**
+     *
+     * @param data an ArrayList<CharacterBase> used to check for collisions
+     * @return true if this Character collided with one of characters
+     */
+    
+    public void setTransform(Location rotateCentre) {
+
+
+        AffineTransform temp = (AffineTransform) AffineTransform.getTranslateInstance(
+                getLocation().getX(), getLocation().getY());
+        double centreHeight = 0;
+        double centreWidth = 0;
+        if (rotateCentre == null) {
+            centreWidth = centreX();
+            centreHeight = centreY();
+        } else {
+            centreWidth = rotateCentre.getX();
+            centreHeight = rotateCentre.getY();
+        }
+
+        temp.rotate(getMoveBehaviour().getAngle(),
+                centreWidth,
+                centreHeight);
+
+
+        sprite.setTransform(temp);
+        sprite.setTransformedArea(sprite.getUntransformedArea().createTransformedArea(temp));
+
+    }
+
+    public Rectangle getBounds() {
+        return sprite.getBounds();
+    }
+    
+    public double x(){
+        return getBounds().getCenterX();
+
+    }
+        
+    public double y(){
+        return getBounds().getCenterY();
+
+    }
+
+    public Area getTransformedArea() {
+        return sprite.getTransformedArea();
+    }
+
+    public void collide(Character character) {
+    }
+
+    /**
+     *
+     * @param data an ArrayList<CharacterBase> used to check for collisions
+     * @return true if this Character collided with one of characters
+     */
+    public boolean detectCollision(ArrayList<Character> data) {
+        ArrayList<Character> moving = data;
+        boolean collision = false;
+
+        int length = moving.size();
+        for (int i = 0; i < length; i++) {
+            Character character = (Character) moving.get(i);
+
+            if (collision = collides(character)) {
+                character.collide();
+            }else{
+            	//do nothing
+            }
+        }
+
+        return collision;
+    }
+
+    public InputController getController() {
+        return controller;
+    }
+
+    public Area getUntransformedArea() {
+        return sprite.getUntransformedArea();
+    }
+
+    public void setUntransformedArea(Area area) {
+        sprite.setUntransformedArea(area);
+    }
+
+    public void setLocation(Location location) {
+    	//set to info to avoid loop (location is re-created once a second)
+    	logging.setLevel(Level.INFO);
+    	logging.debug("location set " + location.getX() + " " + location.getY());
+        myLocation = location;
+
+    }
+
+    void setLocation(double x, double y) {
+        if (myLocation == null) {
+            myLocation = new Location(x, y);
+        } else {
+            this.myLocation.setLocation(x, y);
+        }
+    }
+
+    /**
+     * Creates a new instance of Character
+     */
+    public Character() {
+        myLocation = new Location(initialPosition, initialPosition);
+    }
+
+    public Movement getMoveBehaviour() {
+        return moveBehaviour;
+    }
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
+
+    public void setMoveBehaviour(Movement moveBehaviour) {
+        this.moveBehaviour = moveBehaviour;
+    }
 
     public Location getLocation() {
     	assert(myLocation != null) : "myLocation is null";
@@ -55,142 +203,5 @@ public abstract class Character {
     public double getWidth() {
     	assert(getBounds().getWidth() > 0) : "getBounds.get.Widht() is negative";
         return getBounds().getWidth();
-    }
-
-    public void setTransform(Location rotateCentre) {
-        double centreHeight;
-        double centreWidth;
-
-        AffineTransform temp = AffineTransform.getTranslateInstance(
-                getLocation().getX(), getLocation().getY());
-
-        if (rotateCentre == null) {
-            centreWidth = centreX();
-            centreHeight = centreY();
-        } else {
-            centreWidth = rotateCentre.getX();
-            centreHeight = rotateCentre.getY();
-        }
-
-        temp.rotate(getMoveBehaviour().getAngle(),
-                centreWidth,
-                centreHeight);
-
-
-        sprite.setTransform(temp);
-        sprite.setTransformedArea(sprite.getUntransformedArea().createTransformedArea(temp));
-
-    }
-
-    public abstract void update();
-
-    public Rectangle getBounds() {
-        return sprite.getBounds();
-    }
-    
-    public double x(){
-        return getBounds().getCenterX();
-
-    }
-        
-    public double y(){
-        return getBounds().getCenterY();
-
-    }
-        
-    public boolean collides(Character character) {
-        if (character.equals(this)) {
-            return false;
-        }else{
-        	//do nothing
-        }
-        
-        Area intersectArea = new Area(getTransformedArea());
-        Area b = character.getTransformedArea();
-
-        intersectArea.intersect(b);
-
-        return !intersectArea.isEmpty();
-    }
-
-    public Area getTransformedArea() {
-        return sprite.getTransformedArea();
-    }
-
-    public void collide(Character character) {
-    }
-
-    /**
-     *
-     * @param data an ArrayList<CharacterBase> used to check for collisions
-     * @return true if this Character collided with one of characters
-     */
-    public boolean detectCollision(ArrayList<Character> data) {
-        ArrayList<Character> moving = data;
-        boolean collision = false;
-
-        int length = moving.size();
-        for (int i = 0; i < length; i++) {
-            Character character = moving.get(i);
-
-            if (collision = collides(character)) {
-                character.collide();
-            }else{
-            	//do nothing
-            }
-        }
-
-        return collision;
-    }
-
-    public InputController getController() {
-        return controller;
-    }
-
-    public Area getUntransformedArea() {
-        return sprite.getUntransformedArea();
-    }
-
-    public void setUntransformedArea(Area area) {
-        sprite.setUntransformedArea(area);
-    }
-
-    public void setLocation(Location location) {
-    	//set to info to avoid loop (location is re-created once a second)
-    	logging.setLevel(Level.INFO);
-    	logging.debug("location set " + location.getX() + " " + location.getY());
-        myLocation = location;
-
-    }
-
-    /**
-     * Creates a new instance of Character
-     */
-    public Character() {
-        myLocation = new Location(0.0, 0.0);
-    }
-
-    public Movement getMoveBehaviour() {
-        return moveBehaviour;
-    }
-
-    public Sprite getSprite() {
-        return sprite;
-    }
-
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
-    }
-
-    public void setMoveBehaviour(Movement moveBehaviour) {
-        this.moveBehaviour = moveBehaviour;
-    }
-
-    void setLocation(double x, double y) {
-        if (myLocation == null) {
-            myLocation = new Location(x, y);
-        } else {
-            this.myLocation.setLocation(x, y);
-        }
     }
 }

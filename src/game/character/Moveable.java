@@ -1,3 +1,7 @@
+/*
+ * File name: Moveable.
+ * File pourpose: Class that defines the moveable area.
+ */
 package game.character;
 
 import game.movement.Movement;
@@ -25,8 +29,6 @@ public abstract class Moveable extends Character
 
     protected boolean checkScreenEdge()
     {
-        boolean hitEdge = false;
-
         double h = (double) renderer.getHeight();
         double w = (double) renderer.getWidth();
 
@@ -36,7 +38,8 @@ public abstract class Moveable extends Character
 
         double x = getLocation().getX();
         double y = getLocation().getY();
-
+        
+        boolean hitEdge = false;
 //if over right side
         if (x > w)
         {

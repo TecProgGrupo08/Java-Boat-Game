@@ -1,3 +1,7 @@
+/*
+ * File name: Boat.
+ * File purpose: Class that controls boat movement and energy.
+ */
 package game.character;
 
 import game.GameEngine;
@@ -25,29 +29,75 @@ public class Boat extends Moveable {
     final String LOGDYCLICK = "dy click:";
     final String LOGMOUSE = "mouse angle:";
     final String ASSERTMOUSE = "Angle cant be more than -4 or 4";
+    final int mouseMaxHeigh = 1920;
+    final int mouseMaxWidth = 1080;
+    final int mouseMinHeigh = -1920;
+    final int mouseMinWidth = -1080;
+    final int maxAngleDelta = 4;
+    final int minAngleDelta = -4;
     
     Location pivotPoint = null; //sets the x y point to the boat
     private int energy = 100; //energy of the boat
+    
 
     /*
-     * function that sets the energy of the boat
-     * @param energy
+     * basic constructor
      */
-    public void setEnergy(int energy) {
-        assert(energy >= 0) : ASSERTENERGY;
-        logging.debug( LOGSETENERGY + energy);
-        this.energy = energy;
+    public Boat() {
+    	
     }
 
     /*
-     * function that returns the energy of the boat
-     * @return energy   the energy of the boat
+     * function that reduces energy after collision
+     * @param character   boat that is defined as a player
      */
-    public int getEnergy() {
-        logging.debug( LOGGETENERGY + energy);
-        return energy;
+    public void collision(Character character) {
+        logging.debug(LOGCOLLISION);
+        reduceEnergy();
     }
 
+	/*
+	 * (non-Javadoc)
+	 * @see game.character.Moveable#update()
+	 */
+	@Override
+	public void update() {
+	    InputController controller = getController();
+	    if (controller.keyPressEventsPending()) {
+	        try{
+	            InputController.Control pressedControl = controller.getPressedControl();
+	            processKeyPressRotating(pressedControl);
+	        }catch(NullPointerException|IndexOutOfBoundsException e){
+	            System.out.println("Erro: " + e);
+	            
+	        }
+	    } else {
+	        setLocation(getMoveBehaviour().go(getLocation()));
+	    }
+	
+	    if (controller.keyHeldEventsPending()) {
+	        int count = 0;
+	        while (count <= controller.getNumberOfHeldControls()) {
+	            InputController.Control control = controller.getHeldControl(count);
+	            processKeyPressRotating(control);
+	            count++;
+	        }
+	    }
+	
+	    if (controller.isMouseHeld()) {
+	        processMouse();
+	    }
+	
+	    setTransform(pivotPoint);
+	
+	    if (checkScreenEdge()) {
+	        this.getMoveBehaviour().setVelocity(getMoveBehaviour().getVelocity() / 10);
+	    }
+	
+	    GameWindow.getInstance()
+	            .updateControlPanel(this);
+	}
+ 
     /*
      * method that reduce energy of the boat
      */
@@ -65,20 +115,6 @@ public class Boat extends Moveable {
             GameWindow.getInstance().setEnergyBarLevel(reduceEnergy);
         }
 
-    }
-
-    /*
-     * function that reduces energy after collision
-     * @param character   boat that is defined as a player
-     */
-    public void collision(Character character) {
-        logging.debug(LOGCOLLISION);
-        reduceEnergy();
-    }
-    /*
-     * basic constructor
-     */
-    public Boat() {
     }
 
     /*
@@ -104,7 +140,8 @@ public class Boat extends Moveable {
      * function that processes mouse click
      */
     private void processMouse() {
-        logging.setLevel(Level.INFO);
+    	logging.setLevel(Level.INFO);
+    	
         
         Point2D point = this.getController().getMouseLocation(); //mouse pointing
 
@@ -112,8 +149,12 @@ public class Boat extends Moveable {
 
         double dy = dest.getY() - y();
         double dx = dest.getX() - x();
-        assert(dx < 1920 && dx > -1920) : MSGERROMOUSE;
-        assert(dy < 1080 && dy > -1080) : MSGERROMOUSE;  
+        assert(dx < mouseMaxHeigh && dx > mouseMinHeigh) : MSGERROMOUSE;
+        assert(dy < mouseMaxWidth && dy > mouseMinWidth) : MSGERROMOUSE;  
+        logging.debug("dx click:" + dx);
+        logging.debug("dy click:" + dy);
+        assert(dx < mouseMaxHeigh && dx > mouseMinHeigh) : MSGERROMOUSE;
+        assert(dy < mouseMaxWidth && dy > mouseMinWidth) : MSGERROMOUSE;  
         logging.debug(LOGDXCLICK + dx);
         logging.debug(LOGDYCLICK + dy);
         double destinationAngle = Math.atan2(dy, dx);
@@ -121,9 +162,13 @@ public class Boat extends Moveable {
         AngledAcceleration mouseMove = (AngledAcceleration) getMoveBehaviour();
         double angleDelta = destinationAngle - mouseMove.getAngle();
 
+        angleDelta = (double) pinAngle(angleDelta);
+        logging.debug("mouse angle:" + angleDelta);
+        assert(angleDelta > minAngleDelta && angleDelta < maxAngleDelta ) : "Angle cant be more than -4 or 4";
+
         angleDelta = pinAngle(angleDelta);
         logging.debug(LOGMOUSE + angleDelta);
-        assert(angleDelta > -4 && angleDelta < 4 ) : ASSERTMOUSE;
+        assert(angleDelta > minAngleDelta && angleDelta < maxAngleDelta ) : ASSERTMOUSE;
         
         if (Math.abs(angleDelta) < (Math.PI / 2.0)) {
             if ((angleDelta < Math.PI) && (angleDelta > 0)) {
@@ -227,48 +272,6 @@ public class Boat extends Moveable {
         }catch(NullPointerException e){
             System.out.println("Erro: " + e);
         }
-        
-    }
-    /*
-     * (non-Javadoc)
-     * @see game.character.Moveable#update()
-     */
-    @Override
-    public void update() {
-        InputController controller = getController();
-        if (controller.keyPressEventsPending()) {
-            try{
-                InputController.Control pressedControl = controller.getPressedControl();
-                processKeyPressRotating(pressedControl);
-            }catch(NullPointerException|IndexOutOfBoundsException e){
-                System.out.println("Erro: " + e);
-                
-            }
-        } else {
-            setLocation(getMoveBehaviour().go(getLocation()));
-        }
-
-        if (controller.keyHeldEventsPending()) {
-            int count = 0;
-            while (count <= controller.getNumberOfHeldControls()) {
-                InputController.Control control = controller.getHeldControl(count);
-                processKeyPressRotating(control);
-                count++;
-            }
-        }
-
-        if (controller.isMouseHeld()) {
-            processMouse();
-        }
-
-        setTransform(pivotPoint);
-
-        if (checkScreenEdge()) {
-            this.getMoveBehaviour().setVelocity(getMoveBehaviour().getVelocity() / 10);
-        }
-
-        GameWindow.getInstance()
-                .updateControlPanel(this);
     }
 
     /*
@@ -280,4 +283,24 @@ public class Boat extends Moveable {
         super.setSprite(sprite);
         pivotPoint = Util.getBoatPivotPoint(sprite);
     }
+    
+    /*
+     * function that sets the energy of the boat
+     * @param energy
+     */
+    public void setEnergy(int energy) {
+        assert(energy >= 0) : ASSERTENERGY;
+        logging.debug( LOGSETENERGY + energy);
+        this.energy = energy;
+    }
+
+    /*
+     * function that returns the energy of the boat
+     * @return energy   the energy of the boat
+     */
+    public int getEnergy() {
+        logging.debug( LOGGETENERGY + energy);
+        return energy;
+    }
+
 }
