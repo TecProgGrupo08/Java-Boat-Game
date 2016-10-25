@@ -30,7 +30,7 @@ public class Factory {
     public Factory() {
     }
     
-    public Obstacle createBuoy1() {
+    public Obstacle createBuoy() {
         Renderer renderer = Renderer.getInstance();
         Obstacle buoy = new Obstacle();
         Sprite sprite = new Buoy(buoy);
@@ -61,7 +61,7 @@ public class Factory {
 
     }
 
-    public Character createCharacter1(String type) {
+    public Character createCharacter(String type) {
 
 
         Character character = null;
@@ -76,7 +76,7 @@ public class Factory {
                 character = createHarbour();
                 break;
             case "BUOY":
-                character = createBuoy1();
+                character = createBuoy();
                 break;
             case "ISLAND":
                 character = createIsland();
@@ -334,71 +334,4 @@ public class Factory {
         return goal;
 
     }
-
-    public Obstacle createBuoy() {
-        Renderer renderer = Renderer.getInstance();
-        double randomX = (Math.random() * renderer.getWidth());
-        double randomY = (Math.random() * renderer.getHeight());
-
-        Obstacle buoy = new Obstacle();
-        buoy.setLocation(randomX, randomY);
-
-        Movement sway = new game.movement.Swaying(null, randomX, randomY, randomY, buoy, 1, 2);
-        buoy.setMoveBehaviour(sway);
-        int size = Util.getObstacleSize();
-        Area area = new Area(new java.awt.geom.Ellipse2D.Double(randomX - size / 2, randomY - size / 2, size, size));
-        
-        Sprite sprite = new Buoy(buoy);
-        sprite.setUntransformedArea(area);
-        AffineTransform transform = new AffineTransform();
-        transform.setToTranslation(randomX, randomY);
-
-        sprite.setTransformedArea(area);
-        sprite.setShowSprite(true);
-        sprite.setHeight(size);
-        sprite.setWidth(size);
-
-        buoy.setSprite(sprite);
-
-        assert(buoy != null) : "buoy is null!";
-        logging.info("Buoy created!");
-        
-        return buoy;
-
-    }
-
-    public Character createCharacter(String type) {
-
-
-        Character character = null;
-        switch (type) {
-            case "BOAT":
-                character = createBoat();
-                break;
-            case "COMPUTER_BOAT":
-                character = createComputerBoat();
-                break;
-            case "HARBOUR":
-                character = createHarbour();
-                break;
-            case "BUOY":
-                character = createBuoy1();
-                break;
-            case "ISLAND":
-                character = createIsland();
-                break;
-            case "OCTOPUS":
-                character = createOctopus();
-                break;
-            case "GOAL":
-                character = createGoal();
-                break;
-
-        }
-
-        assert(character != null) : "character is null!";
-        
-        return character;
-    }
-
 }

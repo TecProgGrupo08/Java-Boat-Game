@@ -27,7 +27,7 @@ public abstract class Character {
     public abstract void collide();
     public abstract void update();
     
-    public boolean collides1(Character character) {
+    public boolean collides(Character character) {
         if (character.equals(this)) {
             return false;
         }else{
@@ -48,23 +48,6 @@ public abstract class Character {
      * @param data an ArrayList<CharacterBase> used to check for collisions
      * @return true if this Character collided with one of characters
      */
-    public boolean detectCollision1(ArrayList<Character> data) {
-        ArrayList<Character> moving = data;
-        boolean collision = false;
-
-        int length = moving.size();
-        for (int i = 0; i < length; i++) {
-            Character character = moving.get(i);
-
-            if (collision = collides1(character)) {
-                character.collide();
-            }else{
-            	//do nothing
-            }
-        }
-
-        return collision;
-    }
     
     public void setTransform(Location rotateCentre) {
 
@@ -104,21 +87,6 @@ public abstract class Character {
         return getBounds().getCenterY();
 
     }
-        
-    public boolean collides(Character character) {
-        if (character.equals(this)) {
-            return false;
-        }else{
-        	//do nothing
-        }
-        
-        Area intersectArea = new Area(getTransformedArea());
-        Area b = (Area) character.getTransformedArea();
-
-        intersectArea.intersect(b);
-
-        return !intersectArea.isEmpty();
-    }
 
     public Area getTransformedArea() {
         return sprite.getTransformedArea();
@@ -140,7 +108,7 @@ public abstract class Character {
         for (int i = 0; i < length; i++) {
             Character character = (Character) moving.get(i);
 
-            if (collision = collides1(character)) {
+            if (collision = collides(character)) {
                 character.collide();
             }else{
             	//do nothing

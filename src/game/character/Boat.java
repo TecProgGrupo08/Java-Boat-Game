@@ -138,9 +138,9 @@ public class Boat extends Moveable {
     	
         logging.setLevel(Level.INFO);
         
-        Point2D point1 = this.getController().getMouseLocation(); //mouse pointing
+        Point2D point = this.getController().getMouseLocation(); //mouse pointing
 
-        Location dest = new Location(point1.getX(), point1.getY()); //game coordinates
+        Location dest = new Location(point.getX(), point.getY()); //game coordinates
 
         double dy = dest.getY() - y();
         double dx = dest.getX() - x();
@@ -152,10 +152,10 @@ public class Boat extends Moveable {
         assert(dy < 1080 && dy > -1080) : MSGERROMOUSE;  
         logging.debug(LOGDXCLICK + dx);
         logging.debug(LOGDYCLICK + dy);
-        double destinationAngle1 = Math.atan2(dy, dx);
+        double destinationAngle = Math.atan2(dy, dx);
 
         AngledAcceleration mouseMove = (AngledAcceleration) getMoveBehaviour();
-        double angleDelta = destinationAngle1 - mouseMove.getAngle();
+        double angleDelta = destinationAngle - mouseMove.getAngle();
 
         angleDelta = (double) pinAngle(angleDelta);
         logging.debug("mouse angle:" + angleDelta);
