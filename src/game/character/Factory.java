@@ -29,6 +29,71 @@ public class Factory {
 	static Logger logging = Logger.getLogger(Factory.class);
     public Factory() {
     }
+    
+    public Obstacle createBuoy1() {
+        Renderer renderer = Renderer.getInstance();
+        Obstacle buoy = new Obstacle();
+        Sprite sprite = new Buoy(buoy);
+        double randomX = (Math.random() * renderer.getWidth());
+        double randomY = (Math.random() * renderer.getHeight());
+
+        buoy.setLocation(randomX, randomY);
+
+        Movement sway = new game.movement.Swaying(null, randomX, randomY, randomY, buoy, 1, 2);
+        buoy.setMoveBehaviour(sway);
+        int size = Util.getObstacleSize();
+        Area area = new Area(new java.awt.geom.Ellipse2D.Double(randomX - size / 2, randomY - size / 2, size, size));
+        sprite.setUntransformedArea(area);
+        AffineTransform transform = new AffineTransform();
+        transform.setToTranslation(randomX, randomY);
+
+        sprite.setTransformedArea(area);
+        sprite.setShowSprite(true);
+        sprite.setHeight(size);
+        sprite.setWidth(size);
+
+        buoy.setSprite(sprite);
+
+        assert(buoy != null) : "buoy is null!";
+        logging.info("Buoy created!");
+        
+        return buoy;
+
+    }
+
+    public Character createCharacter1(String type) {
+
+
+        Character character = null;
+        switch (type) {
+            case "BOAT":
+                character = createBoat();
+                break;
+            case "COMPUTER_BOAT":
+                character = createComputerBoat();
+                break;
+            case "HARBOUR":
+                character = createHarbour();
+                break;
+            case "BUOY":
+                character = createBuoy1();
+                break;
+            case "ISLAND":
+                character = createIsland();
+                break;
+            case "OCTOPUS":
+                character = createOctopus();
+                break;
+            case "GOAL":
+                character = createGoal();
+                break;
+
+        }
+
+        assert(character != null) : "character is null!";
+        
+        return character;
+    }
 
     private Area createAreaFromLocations(int[] locations, GeneralPath generalPath) {
         
@@ -317,7 +382,7 @@ public class Factory {
                 character = createHarbour();
                 break;
             case "BUOY":
-                character = createBuoy();
+                character = createBuoy1();
                 break;
             case "ISLAND":
                 character = createIsland();
@@ -335,4 +400,5 @@ public class Factory {
         
         return character;
     }
+
 }

@@ -17,32 +17,81 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 public class Boat extends Moveable {
-	static Logger logging = Logger.getLogger(Boat.class);
-	
-	
+
+    static Logger logging = Logger.getLogger(Boat.class);
+    
+    final String ASSERTENERGY = "Energy cant be negative";
+    final String LOGSETENERGY = "setEnergy value: ";
+    final String LOGGETENERGY = "getEnergy value: ";
+    final String LOGCOLLISION = "Reducing energy, collision";
+    final String MSGERROMOUSE = "Error! Mouse bug";
+    final String LOGDXCLICK = "dx click:";
+    final String LOGDYCLICK = "dy click:";
+    final String LOGMOUSE = "mouse angle:";
+    final String ASSERTMOUSE = "Angle cant be more than -4 or 4";
+    
     Location pivotPoint = null; //sets the x y point to the boat
     private int energy = 100; //energy of the boat
+    
 
     /*
-     * function that sets the energy of the boat
-     * @param energy
+     * basic constructor
      */
-    public void setEnergy(int energy) {
-        assert(energy >= 0) : "Energy cant be negative";
-        logging.debug("setEnergy value: " + energy);
-    	this.energy = energy;
+    public Boat() {
+    	
     }
 
     /*
-     * function that returns the energy of the boat
-     * @return energy   the energy of the boat
+     * function that reduces energy after collision
+     * @param character   boat that is defined as a player
      */
-    public int getEnergy() {
-    	logging.debug("getEnergy value: " + energy);
-    	assert(energy >= 0) :"Energy is negative";
-        return energy;
+    public void collision(Character character) {
+        logging.debug(LOGCOLLISION);
+        reduceEnergy();
     }
 
+	/*
+	 * (non-Javadoc)
+	 * @see game.character.Moveable#update()
+	 */
+	@Override
+	public void update() {
+	    InputController controller = getController();
+	    if (controller.keyPressEventsPending()) {
+	        try{
+	            InputController.Control pressedControl = controller.getPressedControl();
+	            processKeyPressRotating(pressedControl);
+	        }catch(NullPointerException|IndexOutOfBoundsException e){
+	            System.out.println("Erro: " + e);
+	            
+	        }
+	    } else {
+	        setLocation(getMoveBehaviour().go(getLocation()));
+	    }
+	
+	    if (controller.keyHeldEventsPending()) {
+	        int count = 0;
+	        while (count <= controller.getNumberOfHeldControls()) {
+	            InputController.Control control = controller.getHeldControl(count);
+	            processKeyPressRotating(control);
+	            count++;
+	        }
+	    }
+	
+	    if (controller.isMouseHeld()) {
+	        processMouse();
+	    }
+	
+	    setTransform(pivotPoint);
+	
+	    if (checkScreenEdge()) {
+	        this.getMoveBehaviour().setVelocity(getMoveBehaviour().getVelocity() / 10);
+	    }
+	
+	    GameWindow.getInstance()
+	            .updateControlPanel(this);
+	}
+ 
     /*
      * method that reduce energy of the boat
      */
@@ -63,20 +112,6 @@ public class Boat extends Moveable {
     }
 
     /*
-     * function that reduces energy after collision
-     * @param character   boat that is defined as a player
-     */
-    public void collision(Character character) {
-    	logging.debug("Reducing energy, collision");
-        reduceEnergy();
-    }
-    /*
-     * basic constructor
-     */
-    public Boat() {
-    }
-
-    /*
      * function that sets the angle that the boat is navigating
      * @param value  initial angle of the boat
      * @return value  new angle defined by function
@@ -89,11 +124,7 @@ public class Boat extends Moveable {
             while (value < -Math.PI) {
                 value = value + (2 * Math.PI);
             }
-        }else{
-        	//do nothing
         }
-        assert(value < value + Math.PI && value > value - Math.PI) : "value is out" +
-        		"of limits";
         return value;
 
     }
@@ -105,9 +136,11 @@ public class Boat extends Moveable {
     private void processMouse() {
     	logging.setLevel(Level.INFO);
     	
-        Point2D point = (Point2D) this.getController().getMouseLocation(); //mouse pointing
+        logging.setLevel(Level.INFO);
+        
+        Point2D point1 = this.getController().getMouseLocation(); //mouse pointing
 
-        Location dest = new Location(point.getX(), point.getY()); //game coordinates
+        Location dest = new Location(point1.getX(), point1.getY()); //game coordinates
 
         double dy = dest.getY() - y();
         double dx = dest.getX() - x();
@@ -115,22 +148,30 @@ public class Boat extends Moveable {
         assert(dy < 1080 && dy > -1080) : "Error! Mouse bug";  
         logging.debug("dx click:" + dx);
         logging.debug("dy click:" + dy);
-        double destinationAngle = (double) Math.atan2(dy, dx);
+        assert(dx < 1920 && dx > -1920) : MSGERROMOUSE;
+        assert(dy < 1080 && dy > -1080) : MSGERROMOUSE;  
+        logging.debug(LOGDXCLICK + dx);
+        logging.debug(LOGDYCLICK + dy);
+        double destinationAngle1 = Math.atan2(dy, dx);
 
         AngledAcceleration mouseMove = (AngledAcceleration) getMoveBehaviour();
-        double angleDelta = destinationAngle - mouseMove.getAngle();
+        double angleDelta = destinationAngle1 - mouseMove.getAngle();
 
         angleDelta = (double) pinAngle(angleDelta);
         logging.debug("mouse angle:" + angleDelta);
         assert(angleDelta > -4 && angleDelta < 4 ) : "Angle cant be more than -4 or 4";
+
+        angleDelta = pinAngle(angleDelta);
+        logging.debug(LOGMOUSE + angleDelta);
+        assert(angleDelta > -4 && angleDelta < 4 ) : ASSERTMOUSE;
         
         if (Math.abs(angleDelta) < (Math.PI / 2.0)) {
             if ((angleDelta < Math.PI) && (angleDelta > 0)) {
                 setLocation(mouseMove.goRight(getLocation()));
-            } else if ((angleDelta < 0) && (angleDelta > -Math.PI)) {
+            }
+
+            if ((angleDelta < 0) && (angleDelta > -Math.PI)) {
                 setLocation(mouseMove.goLeft(getLocation()));
-            }else{
-            	//do nothing
             }
             //accelerate
             setLocation(mouseMove.goUp(getLocation()));
@@ -140,10 +181,10 @@ public class Boat extends Moveable {
             if ((angleDelta > 0)) {
 
                 setLocation(mouseMove.goRight(getLocation()));
-            }else if ((angleDelta < 0)) {
+            }
+
+            if ((angleDelta < 0)) {
                 setLocation(mouseMove.goLeft(getLocation()));
-            }else{
-            	//do nothing
             }
 
         }
@@ -156,10 +197,10 @@ public class Boat extends Moveable {
     }
     
     @SuppressWarnings("unused")
-	private void processKeyPressSquare(InputController.Control keypress) {
-    	
-    	logging.debug("keypressed: " + keypress);
-    	switch (keypress) {
+    private void processKeyPressSquare(InputController.Control keypress) {
+        
+        logging.debug("keypressed: " + keypress);
+        switch (keypress) {
             case UP:
                 setLocation(getMoveBehaviour().goUp(getLocation()));
 
@@ -179,7 +220,7 @@ public class Boat extends Moveable {
             case STORM:
                 break;
             case PAUSE: //don't update
-//		GameEngine.getInstance().togglePause();
+//      GameEngine.getInstance().togglePause();
                 break;
             default:
 
@@ -194,10 +235,10 @@ public class Boat extends Moveable {
      * @param keypress   key pressed by player
      */
     private void processKeyPressRotating(InputController.Control keypress) {
-    	logging.setLevel(Level.INFO);
-    	logging.debug("keypressed: " + keypress);
-    	try{
-    	switch (keypress) {
+        logging.setLevel(Level.INFO);
+        logging.debug("keypressed: " + keypress);
+        try{
+        switch (keypress) {
             case UP:
                 setLocation(getMoveBehaviour().goUp(getLocation()));
                 break;
@@ -216,64 +257,16 @@ public class Boat extends Moveable {
             case STORM:
                 break;
             case PAUSE: //don't update
-//		GameEngine.getInstance().togglePause();
+//      GameEngine.getInstance().togglePause();
                 break;
             default:
 
                 //do nothing
                 break;
         }
-    	}catch(NullPointerException e){
-    		System.out.println("Erro: " + e);
-    	}
-    	
-    }
-    /*
-     * (non-Javadoc)
-     * @see game.character.Moveable#update()
-     */
-    @Override
-    public void update() {
-        InputController controller = getController();
-        if (controller.keyPressEventsPending()) {
-        	try{
-        		InputController.Control pressedControl = controller.getPressedControl();
-        		processKeyPressRotating(pressedControl);
-            }catch(NullPointerException|IndexOutOfBoundsException e){
-            	System.out.println("Erro: " + e);
-            	
-            }
-        } else {
-            setLocation(getMoveBehaviour().go(getLocation()));
+        }catch(NullPointerException e){
+            System.out.println("Erro: " + e);
         }
-
-        if (controller.keyHeldEventsPending()) {
-            int count = 0;
-            while (count <= controller.getNumberOfHeldControls()) {
-                InputController.Control control = controller.getHeldControl(count);
-                processKeyPressRotating(control);
-                count++;
-            }
-        }else{
-        	//do nothing
-        }
-
-        if (controller.isMouseHeld()) {
-            processMouse();
-        }else{
-        	//do nothing
-        }
-
-        setTransform(pivotPoint);
-
-        if (checkScreenEdge()) {
-            this.getMoveBehaviour().setVelocity(getMoveBehaviour().getVelocity() / 10);
-        }else{
-        	//do nothing
-        }
-
-        GameWindow.getInstance()
-                .updateControlPanel(this);
     }
 
     /*
@@ -285,4 +278,24 @@ public class Boat extends Moveable {
         super.setSprite(sprite);
         pivotPoint = Util.getBoatPivotPoint(sprite);
     }
+    
+    /*
+     * function that sets the energy of the boat
+     * @param energy
+     */
+    public void setEnergy(int energy) {
+        assert(energy >= 0) : ASSERTENERGY;
+        logging.debug( LOGSETENERGY + energy);
+        this.energy = energy;
+    }
+
+    /*
+     * function that returns the energy of the boat
+     * @return energy   the energy of the boat
+     */
+    public int getEnergy() {
+        logging.debug( LOGGETENERGY + energy);
+        return energy;
+    }
+
 }
