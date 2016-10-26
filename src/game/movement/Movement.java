@@ -1,3 +1,8 @@
+/*
+ *  File name: Movement
+ *  File purpose: Class that contains all the movement properties.
+ */
+
 package game.movement;
 
 public class Movement {
