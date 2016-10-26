@@ -1,5 +1,10 @@
-package game.movement;
+/*
+ *  File name: AngledAcceleration
+ *  File purpose: Class responsible for managing physics by axis.
+ */
 
+
+package game.movement;
 public class AngledAcceleration extends Movement {
 
     private double angularAcceleration = 0;
