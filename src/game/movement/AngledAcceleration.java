@@ -116,30 +116,30 @@ public class AngledAcceleration extends Movement {
         setAngularVelocity(newVelocity);
     }
 
-    private double pin(double value, double max) {
-        if (value >= max) {
-            value = max;
-        } else if (value < -max) {
-            value = -max;
+    private double pin(double valueToVerify, double limit) {
+        if (valueToVerify >= limit) {
+            valueToVerify = limit;
+        } else if (valueToVerify < -limit) {
+            valueToVerify = -limit;
         }
 
-        return value;
+        return valueToVerify;
     }
 
-    private double damp(double value, double factor) {
-        if (value > 0.0) {
-            value = value - factor;
-            if (value < 0.0) {
-                value = 0.0;
+    private double damp(double velocity, double friction) {
+        if (velocity > 0.0) {
+            velocity = velocity - friction;
+            if (velocity < 0.0) {
+                velocity = 0.0;
             }
         } else {
-            value = value + factor;
-            if (value > 0.0) {
-                value = 0.0;
+            velocity = velocity + friction;
+            if (velocity > 0.0) {
+                velocity = 0.0;
             }
         }
 
-        return value;
+        return velocity;
     }
 
     @Override
