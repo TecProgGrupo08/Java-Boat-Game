@@ -58,8 +58,8 @@ public class Movement {
         xVelocity = pinValue(xVelocity, maxVelocity);
         yVelocity = pinValue(yVelocity, maxVelocity);
 
-        double x = location.getX();
-        double y = location.getY();
+        double x = location.getX(); // Position in the axis X
+        double y = location.getY(); //Position in the axis Y
         x += xVelocity;
         y += yVelocity;
         location.setLocation(x, y);
@@ -67,8 +67,8 @@ public class Movement {
     }
 
     public Location brake(Location location) {
-        double x = location.getX();
-        double y = location.getY();
+        double x = location.getX(); // Position in the axis X
+        double y = location.getY(); // Position in the axis Y
 
         x += xVelocity;
         y += yVelocity;

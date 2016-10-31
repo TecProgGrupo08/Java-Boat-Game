@@ -64,8 +64,8 @@ public class AngledAcceleration extends Movement {
         /*
          * Changes the angle of the boat (if going left or right)
          */
-        double cosine = 0.0;
-        double sin = 0.0;
+        double cosine = 0.0; // This variable helps to calculate the velocity in the axis X
+        double sin = 0.0; // This variable helps to calculate the velocity in the axis Y
         
         cosine = Math.cos(getAngle());
         sin = Math.sin(getAngle());
@@ -74,8 +74,8 @@ public class AngledAcceleration extends Movement {
         double yVelocity = 0;
         double xVelocity = 0;
         
-        xVelocity = cosine * velocity; // This is the equation to find the decomposed velocity to axes X
-        yVelocity = sin * velocity; // Equation to velocity at axes Y.
+        xVelocity = cosine * velocity; // This is the equation to find the decomposed velocity to axis X
+        yVelocity = sin * velocity; // Equation to velocity at axis Y.
 
         setAngle(angle);
         setAngularVelocity(angularVelocity);
