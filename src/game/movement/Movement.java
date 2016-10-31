@@ -54,12 +54,12 @@ public class Movement {
      * @return
      */
     public Location go(Location location) {
-        double x = location.getX();
-        double y = location.getY();
 
         xVelocity = pinValue(xVelocity, maxVelocity);
         yVelocity = pinValue(yVelocity, maxVelocity);
 
+        double x = location.getX();
+        double y = location.getY();
         x += xVelocity;
         y += yVelocity;
         location.setLocation(x, y);
@@ -111,12 +111,13 @@ public class Movement {
      * @return Returns an updated Location object
      */
     public Location goLeft(Location location) {
-        double x = location.getX();
+        
         velocity -= acceleration;
 
         if ((-velocity) > (-maxVelocity)) {
             velocity = -maxVelocity;
         }
+        double x = location.getX();
         x = x - velocity;
         location.setX(x);
 
@@ -131,11 +132,12 @@ public class Movement {
      * @return Returns an updated Location object
      */
     public Location goDown(Location location) {
-        double y = location.getY();
+        
         velocity += acceleration;
         if ((velocity) > (maxVelocity)) {
             velocity = maxVelocity;
         }
+        double y = location.getY();
         y = y + velocity;
         location.setY(y);
         return location;
@@ -149,11 +151,12 @@ public class Movement {
      * @return Returns an updated Location object
      */
     public Location goUp(Location location) {
-        double y = location.getY();
+        
         velocity -= acceleration;
         if ((-velocity) > (-maxVelocity)) {
             velocity = -maxVelocity;
         }
+        double y = location.getY();
         y = y + velocity;
         location.setY(y);
         return location;

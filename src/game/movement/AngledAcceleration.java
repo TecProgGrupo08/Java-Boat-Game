@@ -56,10 +56,6 @@ public class AngledAcceleration extends Movement {
 
     public Location turn(Location location) {
 
-        double velocity = getVelocity();
-        double xVelocity = 0;
-        double yVelocity = 0;
-
         double angle = getAngle();
         double angularVelocity = getAngularVelocity();
         angle = angle + angularVelocity;
@@ -73,7 +69,10 @@ public class AngledAcceleration extends Movement {
         
         cosine = Math.cos(getAngle());
         sin = Math.sin(getAngle());
-
+        
+        double velocity = getVelocity();
+        double yVelocity = 0;
+        double xVelocity = 0;
         
         xVelocity = cosine * velocity; // This is the equation to find the decomposed velocity to axes X
         yVelocity = sin * velocity; // Equation to velocity at axes Y.
@@ -227,25 +226,27 @@ public class AngledAcceleration extends Movement {
     }
 
     private void recalculateXVelocity() {
-        double xVelocity = 0.0;
+        
         double cosine = 0.0;
         double velocity = 0.0;
         
         cosine = Math.cos(getAngle());
         velocity = getVelocity();
         
+        double xVelocity = 0.0;
         xVelocity = cosine * velocity;
         setXVelocity(xVelocity);
     }
 
     private void recalculateYVelocity() {
-        double yVelocity = 0.0;
+       
         double sin = 0.0;
         double velocity = 0.0;
         
         sin = Math.sin(getAngle());
         velocity = getVelocity();
         
+        double yVelocity = 0.0;
         yVelocity = sin * velocity;
         setYVelocity(yVelocity);
     }
