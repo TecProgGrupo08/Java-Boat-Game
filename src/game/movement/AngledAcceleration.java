@@ -107,8 +107,10 @@ public class AngledAcceleration extends Movement {
     private void setNewAngularVelocity(String type) {
         double velocity;
         if (type == "+") {
+        	//the type + means that it is going right
             velocity = getAngularVelocity() + getAngularAcceleration();
         } else {
+        	//it is going left
             velocity = getAngularVelocity() - getAngularAcceleration();
         }
         double newVelocity = pin(velocity, getAngularMaxVelocity());
@@ -128,13 +130,16 @@ public class AngledAcceleration extends Movement {
 
     private double damp(double velocity, double friction) {
         if (velocity > 0.0) {
+        	//this is how friction acts over the movement
             velocity = velocity - friction;
             if (velocity < 0.0) {
                 velocity = 0.0;
             }
         } else {
+        	//the friction is always in the opposite way (signal) of the movement
             velocity = velocity + friction;
             if (velocity > 0.0) {
+            	//the friction can only make the velocity drop to zero, it can't generate movement in the opposite way
                 velocity = 0.0;
             }
         }
