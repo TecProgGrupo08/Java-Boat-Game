@@ -1,8 +1,10 @@
+/*
+ *  File name: Random.java
+ *  File purpose: This class determines the randomness of the AI objects movement
+ */
 
 package game.movement;
-/*
- * This class determines the randomness of the AI objects movement
- */
+
 public class Random extends AngledAcceleration{
 
 	public Random(AngledAcceleration move){
