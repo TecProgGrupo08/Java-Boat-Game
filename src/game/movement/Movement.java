@@ -55,8 +55,8 @@ public class Movement {
      */
     public Location go(Location location) {
 
-        xVelocity = pinValue(xVelocity, maxVelocity);
-        yVelocity = pinValue(yVelocity, maxVelocity);
+        xVelocity = pinValue(xVelocity, maxVelocity); // Making sure that the xVelocity doesn't surpass it's maximum limit
+        yVelocity = pinValue(yVelocity, maxVelocity); // Making sure that the yVelocity doesn't surpass it's maximum limit
 
         double x = location.getX(); // Position in the axis X
         double y = location.getY(); //Position in the axis Y
@@ -95,7 +95,7 @@ public class Movement {
     public Location goRight(Location location) {
         double x = location.getX();
         velocity += acceleration;
-        velocity = pinValue(velocity, maxVelocity);
+        velocity = pinValue(velocity, maxVelocity);  // Making sure that the xVelocity doesn't surpass it's maximum limit
 
         x = x + velocity;
         location.setX(x);
@@ -115,7 +115,7 @@ public class Movement {
         velocity -= acceleration;
 
         if ((-velocity) > (-maxVelocity)) {
-            velocity = -maxVelocity;
+            velocity = -maxVelocity; // The max velocity is a negative number because it is going left.
         }
         double x = location.getX();
         x = x - velocity;
@@ -154,7 +154,7 @@ public class Movement {
         
         velocity -= acceleration;
         if ((-velocity) > (-maxVelocity)) {
-            velocity = -maxVelocity;
+            velocity = -maxVelocity; // The max velocity is a negative number because it is going up.
         }
         double y = location.getY();
         y = y + velocity;
