@@ -5,6 +5,8 @@
 
 package game.movement;
 
+import game.GameEngine;
+
 public class Movement {
 
     public Movement() {
@@ -54,10 +56,17 @@ public class Movement {
      * @return
      */
     public Location go(Location location) {
+    	
+    	assert (location!= null) : "Null location";
+    	try {
 
-        xVelocity = pinValue(xVelocity, maxVelocity); // Making sure that the xVelocity doesn't surpass it's maximum limit
-        yVelocity = pinValue(yVelocity, maxVelocity); // Making sure that the yVelocity doesn't surpass it's maximum limit
-
+    		xVelocity = pinValue(xVelocity, maxVelocity); // Making sure that the xVelocity doesn't surpass it's maximum limit
+    		yVelocity = pinValue(yVelocity, maxVelocity); // Making sure that the yVelocity doesn't surpass it's maximum limit
+    	
+    	}catch(NumberFormatException error){
+  		  GameEngine.endGame("Number format error");
+    	}
+    	
         double x = location.getX(); // Position in the axis X
         double y = location.getY(); //Position in the axis Y
         x += xVelocity;
@@ -67,6 +76,9 @@ public class Movement {
     }
 
     public Location brake(Location location) {
+    	
+    	assert(location != null) : "Null location";
+    	
         double x = location.getX(); // Position in the axis X
         double y = location.getY(); // Position in the axis Y
 
@@ -93,6 +105,9 @@ public class Movement {
      * @return Returns an updated Location object
      */
     public Location goRight(Location location) {
+    	
+    	assert(location != null) : "Null location";
+    	
         double x = location.getX();
         velocity += acceleration;
         velocity = pinValue(velocity, maxVelocity);  // Making sure that the xVelocity doesn't surpass it's maximum limit
@@ -111,6 +126,8 @@ public class Movement {
      * @return Returns an updated Location object
      */
     public Location goLeft(Location location) {
+
+    	assert(location != null) : "Null location";
         
         velocity -= acceleration;
 
@@ -132,6 +149,8 @@ public class Movement {
      * @return Returns an updated Location object
      */
     public Location goDown(Location location) {
+    	
+    	assert(location != null) : "Null location";
         
         velocity += acceleration;
         if ((velocity) > (maxVelocity)) {
