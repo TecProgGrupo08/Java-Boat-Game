@@ -21,35 +21,47 @@ public abstract class Character {
     private InputController controller = InputController.getInstance();
 
     public abstract void collide();
+    public abstract void update();
+    
+    public boolean collides(Character character) {
+        if (character.equals(this)) {
+            return false;
+        }else{
+        	//do nothing
+        }
+        
+        Area intersectArea = new Area(getTransformedArea());
+        Area b = character.getTransformedArea();
 
-    public Location getLocation() {
-        return myLocation;
+        intersectArea.intersect(b);
+
+        return !intersectArea.isEmpty();
     }
+    
 
-    public double getX() {
-        return myLocation.getX();
+    /**
+     *
+     * @param data an ArrayList<CharacterBase> used to check for collisions
+     * @return true if this Character collided with one of characters
+     */
+    public boolean detectCollision(ArrayList<Character> data) {
+        ArrayList<Character> moving = data;
+        boolean collision = false;
+
+        int length = moving.size();
+        for (int i = 0; i < length; i++) {
+            Character character = moving.get(i);
+
+            if (collision = collides(character)) {
+                character.collide();
+            }else{
+            	//do nothing
+            }
+        }
+
+        return collision;
     }
-
-    public double getY() {
-        return myLocation.getY();
-    }
-
-    public double centreY() {
-        return getHeight() / 2;
-    }
-
-    public double centreX() {
-        return getWidth() / 2;
-    }
-
-    public double getHeight() {
-        return getBounds().getHeight();
-    }
-
-    public double getWidth() {
-        return getBounds().getWidth();
-    }
-
+    
     public void setTransform(Location rotateCentre) {
         double centreHeight;
         double centreWidth;
@@ -75,8 +87,6 @@ public abstract class Character {
 
     }
 
-    public abstract void update();
-
     public Rectangle getBounds() {
         return sprite.getBounds();
     }
@@ -90,46 +100,13 @@ public abstract class Character {
         return getBounds().getCenterY();
 
     }
-        
-    public boolean collides(Character character) {
-        if (character.equals(this)) {
-            return false;
-        }
-
-        Area intersectArea = new Area(getTransformedArea());
-        Area b = character.getTransformedArea();
-
-        intersectArea.intersect(b);
-
-        return !intersectArea.isEmpty();
-    }
 
     public Area getTransformedArea() {
         return sprite.getTransformedArea();
     }
 
     public void collide(Character character) {
-    }
-
-    /**
-     *
-     * @param data an ArrayList<CharacterBase> used to check for collisions
-     * @return true if this Character collided with one of characters
-     */
-    public boolean detectCollision(ArrayList<Character> data) {
-        ArrayList<Character> moving = data;
-        boolean collision = false;
-
-        int length = moving.size();
-        for (int i = 0; i < length; i++) {
-            Character character = moving.get(i);
-
-            if (collision = collides(character)) {
-                character.collide();
-            }
-        }
-
-        return collision;
+    
     }
 
     public InputController getController() {
@@ -150,6 +127,14 @@ public abstract class Character {
     	logging.debug("location set " + location.getX() + " " + location.getY());
         myLocation = location;
 
+    }
+
+    void setLocation(double x, double y) {
+        if (myLocation == null) {
+            myLocation = new Location(x, y);
+        } else {
+            this.myLocation.setLocation(x, y);
+        }
     }
 
     /**
@@ -175,11 +160,38 @@ public abstract class Character {
         this.moveBehaviour = moveBehaviour;
     }
 
-    void setLocation(double x, double y) {
-        if (myLocation == null) {
-            myLocation = new Location(x, y);
-        } else {
-            this.myLocation.setLocation(x, y);
-        }
+    public Location getLocation() {
+    	assert(myLocation != null) : "myLocation is null";
+        return myLocation;
+    }
+
+    public double getX() {
+    	assert(myLocation.getX() > -100) : "getX() is negative";
+        return myLocation.getX();
+    }
+
+    public double getY() {
+    	assert(myLocation.getY() > -100) : "getY() is negative";
+        return myLocation.getY();
+    }
+
+    public double centreY() {
+    	assert(getHeight() > 0) : "getHeight() is negative";
+        return getHeight() / 2;
+    }
+
+    public double centreX() {
+    	assert(getWidth() > 0) : "getWidth() is negative";
+        return getWidth() / 2;
+    }
+
+    public double getHeight() {
+    	assert(getBounds().getHeight() > 0) : "getBounds.getHeight() is negative";
+        return getBounds().getHeight();
+    }
+
+    public double getWidth() {
+    	assert(getBounds().getWidth() > 0) : "getBounds.get.Widht() is negative";
+        return getBounds().getWidth();
     }
 }
