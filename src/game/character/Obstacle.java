@@ -1,3 +1,7 @@
+/*
+ * File name: Obstacle.
+ * File purpose: Class that defines the obstacle behavior.
+ */
 package game.character;
 
 

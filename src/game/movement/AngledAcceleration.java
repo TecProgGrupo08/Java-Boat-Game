@@ -1,5 +1,10 @@
-package game.movement;
+/*
+ *  File name: AngledAcceleration
+ *  File purpose: Class responsible for managing physics by axis.
+ */
 
+
+package game.movement;
 public class AngledAcceleration extends Movement {
 
     private double angularAcceleration = 0;
@@ -41,23 +46,36 @@ public class AngledAcceleration extends Movement {
         return location;
 
     }
+    
+    /**
+     * Executes movement changes in angle and velocity  when the boat is making a turn
+     * 
+     * @param location - object that points out the object's location
+     * @return location
+     */
 
     public Location turn(Location location) {
 
-        double velocity = getVelocity();
-        double xVelocity = 0;
-        double yVelocity = 0;
-
         double angle = getAngle();
         double angularVelocity = getAngularVelocity();
-        angle += angularVelocity;
+        angle = angle + angularVelocity;
         angle = clampAngle(angle);
         
         /*
          * Changes the angle of the boat (if going left or right)
          */
-        xVelocity = Math.cos(angle) * velocity;
-        yVelocity = Math.sin(angle) * velocity;
+        double cosine = 0.0; // This variable helps to calculate the velocity in the axis X
+        double sin = 0.0; // This variable helps to calculate the velocity in the axis Y
+        
+        cosine = Math.cos(getAngle());
+        sin = Math.sin(getAngle());
+        
+        double velocity = getVelocity();
+        double yVelocity = 0;
+        double xVelocity = 0;
+        
+        xVelocity = cosine * velocity; // This is the equation to find the decomposed velocity to axis X
+        yVelocity = sin * velocity; // Equation to velocity at axis Y.
 
         setAngle(angle);
         setAngularVelocity(angularVelocity);
@@ -89,8 +107,10 @@ public class AngledAcceleration extends Movement {
     private void setNewAngularVelocity(String type) {
         double velocity;
         if (type == "+") {
+        	//the type + means that it is going right
             velocity = getAngularVelocity() + getAngularAcceleration();
         } else {
+        	//it is going left
             velocity = getAngularVelocity() - getAngularAcceleration();
         }
         double newVelocity = pin(velocity, getAngularMaxVelocity());
@@ -98,30 +118,33 @@ public class AngledAcceleration extends Movement {
         setAngularVelocity(newVelocity);
     }
 
-    private double pin(double value, double max) {
-        if (value >= max) {
-            value = max;
-        } else if (value < -max) {
-            value = -max;
+    private double pin(double valueToVerify, double limit) {
+        if (valueToVerify >= limit) {
+            valueToVerify = limit;
+        } else if (valueToVerify < -limit) {
+            valueToVerify = -limit;
         }
 
-        return value;
+        return valueToVerify;
     }
 
-    private double damp(double value, double factor) {
-        if (value > 0.0) {
-            value -= factor;
-            if (value < 0.0) {
-                value = 0.0;
+    private double damp(double velocity, double friction) {
+        if (velocity > 0.0) {
+        	//this is how friction acts over the movement
+            velocity = velocity - friction;
+            if (velocity < 0.0) {
+                velocity = 0.0;
             }
         } else {
-            value += factor;
-            if (value > 0.0) {
-                value = 0.0;
+        	//the friction is always in the opposite way (signal) of the movement
+            velocity = velocity + friction;
+            if (velocity > 0.0) {
+            	//the friction can only make the velocity drop to zero, it can't generate movement in the opposite way
+                velocity = 0.0;
             }
         }
 
-        return value;
+        return velocity;
     }
 
     @Override
@@ -151,7 +174,7 @@ public class AngledAcceleration extends Movement {
 
     private void recalculateAngle() {
         double angle = getAngle();
-        angle += getAngularVelocity();
+        angle = angle + getAngularVelocity();
         angle = clampAngle(angle);
         setAngle(angle);
     }
@@ -208,14 +231,28 @@ public class AngledAcceleration extends Movement {
     }
 
     private void recalculateXVelocity() {
-        double xVelocity;
-        xVelocity = Math.cos(getAngle()) * getVelocity();
+        
+        double cosine = 0.0;
+        double velocity = 0.0;
+        
+        cosine = Math.cos(getAngle());
+        velocity = getVelocity();
+        
+        double xVelocity = 0.0;
+        xVelocity = cosine * velocity;
         setXVelocity(xVelocity);
     }
 
     private void recalculateYVelocity() {
-        double yVelocity;
-        yVelocity = Math.sin(getAngle()) * getVelocity();
+       
+        double sin = 0.0;
+        double velocity = 0.0;
+        
+        sin = Math.sin(getAngle());
+        velocity = getVelocity();
+        
+        double yVelocity = 0.0;
+        yVelocity = sin * velocity;
         setYVelocity(yVelocity);
     }
 }

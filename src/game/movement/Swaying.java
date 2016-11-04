@@ -1,3 +1,8 @@
+/*
+ *  File name: Swaying
+ *  File purpose: Class responsible for the sway of the movement of the boat.
+ */
+
 package game.movement;
 
 import game.character.Character;

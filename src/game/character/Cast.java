@@ -1,3 +1,7 @@
+/*
+ * File name: Cast.
+ * File purpose: Class that casts elements of the game.
+ */
 package game.character;
 
 import java.util.*;

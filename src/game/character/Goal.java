@@ -1,3 +1,7 @@
+/*
+ * File name: Goal.
+ * File purpose: Class that defines the behavior of the goal.
+ */
 package game.character;
 
 import game.GameEngine;

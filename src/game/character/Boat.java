@@ -1,3 +1,7 @@
+/*
+ * File name: Boat.
+ * File purpose: Class that controls boat movement and energy.
+ */
 package game.character;
 
 import game.GameEngine;
@@ -25,6 +29,12 @@ public class Boat extends Moveable {
     final String LOGDYCLICK = "dy click:";
     final String LOGMOUSE = "mouse angle:";
     final String ASSERTMOUSE = "Angle cant be more than -4 or 4";
+    final int mouseMaxHeigh = 1920;
+    final int mouseMaxWidth = 1080;
+    final int mouseMinHeigh = -1920;
+    final int mouseMinWidth = -1080;
+    final int maxAngleDelta = 4;
+    final int minAngleDelta = -4;
     
     Location pivotPoint = null; //sets the x y point to the boat
     private int energy = 100; //energy of the boat
@@ -130,7 +140,8 @@ public class Boat extends Moveable {
      * function that processes mouse click
      */
     private void processMouse() {
-        logging.setLevel(Level.INFO);
+    	logging.setLevel(Level.INFO);
+    	
         
         Point2D point = this.getController().getMouseLocation(); //mouse pointing
 
@@ -138,8 +149,12 @@ public class Boat extends Moveable {
 
         double dy = dest.getY() - y();
         double dx = dest.getX() - x();
-        assert(dx < 1920 && dx > -1920) : MSGERROMOUSE;
-        assert(dy < 1080 && dy > -1080) : MSGERROMOUSE;  
+        assert(dx < mouseMaxHeigh && dx > mouseMinHeigh) : MSGERROMOUSE;
+        assert(dy < mouseMaxWidth && dy > mouseMinWidth) : MSGERROMOUSE;  
+        logging.debug("dx click:" + dx);
+        logging.debug("dy click:" + dy);
+        assert(dx < mouseMaxHeigh && dx > mouseMinHeigh) : MSGERROMOUSE;
+        assert(dy < mouseMaxWidth && dy > mouseMinWidth) : MSGERROMOUSE;  
         logging.debug(LOGDXCLICK + dx);
         logging.debug(LOGDYCLICK + dy);
         double destinationAngle = Math.atan2(dy, dx);
@@ -147,9 +162,13 @@ public class Boat extends Moveable {
         AngledAcceleration mouseMove = (AngledAcceleration) getMoveBehaviour();
         double angleDelta = destinationAngle - mouseMove.getAngle();
 
+        angleDelta = (double) pinAngle(angleDelta);
+        logging.debug("mouse angle:" + angleDelta);
+        assert(angleDelta > minAngleDelta && angleDelta < maxAngleDelta ) : "Angle cant be more than -4 or 4";
+
         angleDelta = pinAngle(angleDelta);
         logging.debug(LOGMOUSE + angleDelta);
-        assert(angleDelta > -4 && angleDelta < 4 ) : ASSERTMOUSE;
+        assert(angleDelta > minAngleDelta && angleDelta < maxAngleDelta ) : ASSERTMOUSE;
         
         if (Math.abs(angleDelta) < (Math.PI / 2.0)) {
             if ((angleDelta < Math.PI) && (angleDelta > 0)) {
@@ -253,6 +272,7 @@ public class Boat extends Moveable {
         }catch(NullPointerException e){
             System.out.println("Erro: " + e);
         }
+    }
 
     /*
      * (non-Javadoc)

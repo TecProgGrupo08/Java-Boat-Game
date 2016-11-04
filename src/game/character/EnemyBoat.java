@@ -1,3 +1,7 @@
+/*
+ * File name: EnemyBoat.
+ * File purpose: Class that controls the AI's boat movement.
+ */
 package game.character;
 
 import game.movement.Location;
@@ -19,6 +23,7 @@ public class EnemyBoat extends Moveable
     int randomLength = 0;
     int turnDuration = 15;
     boolean changeDirection = false;
+    final int lengthMultiplier = 50;
     int i = 0;
 
     @Override
@@ -54,7 +59,7 @@ public class EnemyBoat extends Moveable
 
             if (randomLength <= 0)
             {
-                randomLength = (int) (Math.random() * 50);
+                randomLength = (int) (Math.random() * lengthMultiplier);
                 changeDirection = true;
 
             }
@@ -64,7 +69,7 @@ public class EnemyBoat extends Moveable
         setLocation(getMoveBehaviour().go(getLocation()));
 
 
-        Rectangle2D enemyBoat = this.getSprite().getUntransformedArea().getBounds2D();
+        Rectangle2D enemyBoat = (Rectangle2D) this.getSprite().getUntransformedArea().getBounds2D();
         setTransform(new Location(enemyBoat.getCenterX(), enemyBoat.getCenterY()));
         if (checkScreenEdge())
         {
@@ -78,7 +83,7 @@ public class EnemyBoat extends Moveable
     @Override
     public void collide()
     {
-        Movement moveAction = getMoveBehaviour();
+        Movement moveAction = (Movement) getMoveBehaviour();
 //		moveAction.setAngle(Math.random() + moveAction.getAngle());
         moveAction.setVelocity(moveAction.getVelocity() * 0.99);
         double random = Math.random();

@@ -1,3 +1,7 @@
+/*
+ * File name: Character.
+ * File purpose: Class that controls position, area and collisions of the main boat.
+ */
 package game.character;
 
 import game.InputController;
@@ -19,6 +23,7 @@ public abstract class Character {
     private Movement moveBehaviour = null; // behaviour of the movement
     private Sprite sprite = null; // sets the hitbox of the character boat
     private InputController controller = InputController.getInstance();
+    final double initialPosition = 0.0;
 
     public abstract void collide();
     public abstract void update();
@@ -44,31 +49,14 @@ public abstract class Character {
      * @param data an ArrayList<CharacterBase> used to check for collisions
      * @return true if this Character collided with one of characters
      */
-    public boolean detectCollision(ArrayList<Character> data) {
-        ArrayList<Character> moving = data;
-        boolean collision = false;
-
-        int length = moving.size();
-        for (int i = 0; i < length; i++) {
-            Character character = moving.get(i);
-
-            if (collision = collides(character)) {
-                character.collide();
-            }else{
-            	//do nothing
-            }
-        }
-
-        return collision;
-    }
     
     public void setTransform(Location rotateCentre) {
-        double centreHeight;
-        double centreWidth;
 
-        AffineTransform temp = AffineTransform.getTranslateInstance(
+
+        AffineTransform temp = (AffineTransform) AffineTransform.getTranslateInstance(
                 getLocation().getX(), getLocation().getY());
-
+        double centreHeight = 0;
+        double centreWidth = 0;
         if (rotateCentre == null) {
             centreWidth = centreX();
             centreHeight = centreY();
@@ -106,7 +94,29 @@ public abstract class Character {
     }
 
     public void collide(Character character) {
-    
+    }
+
+    /**
+     *
+     * @param data an ArrayList<CharacterBase> used to check for collisions
+     * @return true if this Character collided with one of characters
+     */
+    public boolean detectCollision(ArrayList<Character> data) {
+        ArrayList<Character> moving = data;
+        boolean collision = false;
+
+        int length = moving.size();
+        for (int i = 0; i < length; i++) {
+            Character character = (Character) moving.get(i);
+
+            if (collision = collides(character)) {
+                character.collide();
+            }else{
+            	//do nothing
+            }
+        }
+
+        return collision;
     }
 
     public InputController getController() {
@@ -141,7 +151,7 @@ public abstract class Character {
      * Creates a new instance of Character
      */
     public Character() {
-        myLocation = new Location(0.0, 0.0);
+        myLocation = new Location(initialPosition, initialPosition);
     }
 
     public Movement getMoveBehaviour() {
