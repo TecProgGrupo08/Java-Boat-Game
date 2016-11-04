@@ -10,12 +10,11 @@ import java.util.*;
 import java.awt.*;
 import java.net.URL;
 
-/**
- *
- * @author Mark
- */
+import org.apache.log4j.Logger;
+
 public class Util {
 
+	static Logger logging = Logger.getLogger(Util.class);
     private static MediaTracker mt;
     public static HashMap<String, Image> imageResources = new HashMap<>();
 
@@ -24,19 +23,24 @@ public class Util {
     }
 
     public static Area getBoatArea(Image img) {
+    	logging.debug("Rendering boat by image in getBoatArea!");
         Renderer renderer = Renderer.getInstance();
         int boatWidth = img.getWidth(renderer);
         int boatHeight = img.getHeight(renderer);
+        
         Area a = new Area(new Rectangle(0, 0, boatWidth * 2 / 3,
                 boatHeight));
         Polygon triangle = new Polygon();
+    	logging.debug("Area and Polygon has been initialized!");
 
         triangle.addPoint((int) (boatWidth * 4 / 5), 0);
         triangle.addPoint((int) (boatWidth * 4 / 5), boatHeight);
         triangle.addPoint(boatWidth, (int) (boatHeight / 2));
 
         a.add(new Area(triangle));
+    	logging.debug("Area and Polygon has been defined!");
 
+    	logging.info("The object of Area hass been returned, and the boat values were defined.");
         return a;
 
     }

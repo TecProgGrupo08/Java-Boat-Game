@@ -12,9 +12,9 @@ import org.apache.log4j.Logger;
 public class GameWindow extends javax.swing.JFrame {
 
 	static Logger logging = Logger.getLogger(GameWindow.class);
-    private GameEngine gameEngine;
-    private static GameWindow window;
-    Thread thread;
+    private GameEngine gameEngine; // Engine of the game that is initialize on start the game.
+    private static GameWindow window; // Window that is initialize on start the game.
+    Thread thread; // Thread that is used on start the game.
 
     public GameWindow() {
         initComponents();

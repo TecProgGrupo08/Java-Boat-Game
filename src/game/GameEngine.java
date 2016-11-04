@@ -8,30 +8,46 @@ import game.character.Character;
 
 import java.util.*;
 
+import org.apache.log4j.Logger;
+  
 public class GameEngine implements Runnable {
 
-    private static Cast cast = game.character.Cast.getInstance();
-    public static Renderer renderer;
-    private static InputController controller = InputController.getInstance();
-    private static int minObstacles;
-    private static int maxObstacles;
-    private Factory characterFactory;
-    private static int obstacleSize;
-    public static final int SLEEP_LENGTH = 16;//16 ms equates to ~60 frames per second
-    private static GameEngine gameEngine;
+	static Logger logging = Logger.getLogger(GameEngine.class);
 
-    final int MIN_NUMBER_OF_OBSTACLES = 10;
-    final int MAX_NUMBER_OF_OBSTACLES = MIN_NUMBER_OF_OBSTACLES + 5;
-    final int OBSTACLES_SIZE_ON_MAP = 20;
+    private static Cast cast = game.character.Cast.getInstance(); // Object that cast all characters on map.
+    public static Renderer renderer; // Object that render boat in map.
+    private static InputController controller = InputController.getInstance(); // Object that defines controllers of game.
+    private static int minObstacles; // Minimum number of obstacles that have in the map.
+    private static int maxObstacles; // Maximum number of obstacles that have in the map.
+    private static int obstacleSize; // Size of obstacles that have in the map.
+    private Factory characterFactory; // Criator of characters
+    public static final int SLEEP_LENGTH = 16;//16 ms equates to ~60 frames per second
+    private static GameEngine gameEngine; // Engine of the game
+
+    final int MIN_NUMBER_OF_OBSTACLES = 10; // Constant of minimum number of obstacles that have in the map. 
+    final int MAX_NUMBER_OF_OBSTACLES = MIN_NUMBER_OF_OBSTACLES + 5; // Constant of maximum number of obstacles that have in the map.
+    final int OBSTACLES_SIZE_ON_MAP = 20; // Constant of size of obstacles that have in the map.
     
-    final String GAME_OVER_GAME = "Game Over!";
-    final String WIN_GAME = "You Win!";
+    final String GAME_OVER_GAME = "Game Over!"; // Game Over Message.
+    final String WIN_GAME = "You Win!"; // Win Message.
     
     public static Character getCharacter(String type){
         return GameEngine.getInstance().getCharacters().get(type);
     }
+    
+    /**
+     * Private contructor of game engine
+     * 
+     * @param cast - cast all characters on map.
+     * @param renderer - render the boats in map..
+     * @param controller - define the input controllers to the game.
+     * @param minObstacles - Minimum number of obstacles that have in the map.
+     * @param maxObstacles - Maximum number of obstacles that have in the map.
+     * @param obstacleSize - size of obstacles that have in the map..
+     */
+    
     private GameEngine() {
-        cast = game.character.Cast.getInstance();
+        cast = game.character.Cast.getInstance(); 
         renderer = Renderer.getInstance();
         controller = InputController.getInstance();
         minObstacles = MIN_NUMBER_OF_OBSTACLES;
@@ -42,22 +58,29 @@ public class GameEngine implements Runnable {
     }
 
     public static GameEngine getInstance() {
+    	logging.debug("Entering in Singleton on GameEngine");
+    	//Verify if the object of GameEngine was already created.
         if (gameEngine != null) {
+        	logging.debug("The instance of GameEngine already created!");
             return gameEngine;
 
         } else {
             synchronized (GameEngine.class) {
+            	//If the gameEngine is null a instance is created.
                 if (gameEngine == null) {
+                	logging.debug("The instance of GameEngine hass been created!");
                     gameEngine = new GameEngine();
                 }
             }
 
         }
 
+    	logging.info("Returning object of GameEngine.");
         return gameEngine;
     }
 
     private Factory factory() {
+    	//This if verify if the factory object has already been created.
         if (this.characterFactory == null) {
             this.characterFactory = new Factory();
         }
@@ -76,13 +99,24 @@ public class GameEngine implements Runnable {
         Character character = factory().createCharacter(type);
         return character;
     }
-
+    
+    /**
+     * Initialize the obstacles of map
+     * 
+     * @param obstacle - object of obstacles
+     * @param min - Minimum number of obstacles that have in the map.
+     * @param max - Maximum number of obstacles that have in the map.
+     * @param numberOfObstacles - size of obstacles that have in the map.
+     */
     private void setupObstacles() {
+    	logging.debug("The method of obstacles creation was activated!");
         Character obstacle;
 
         int min = Util.getMinimumNumberOfObstacles();
         int max = Util.getMaxiumNumberOfObstacles();
         int numberOfObstacles = (int) (Math.random() * (max - min));
+    	logging.info("Total of obstacles created: " +numberOfObstacles);
+    	//This for determined by the number of obstacles the type of obstacle.
         for (int x = 0; x
                 < numberOfObstacles + 1; x++) {
             if (Math.random() > 0.5) {
@@ -91,6 +125,7 @@ public class GameEngine implements Runnable {
                 obstacle = create("OCTOPUS");
 
             }
+        	logging.debug("Type of obstacle were defined!");
 
             Location l = new Location(
                     Math.random() * renderer.getWidth(),
@@ -104,8 +139,10 @@ public class GameEngine implements Runnable {
                     s.getUntransformedArea().createTransformedArea(obstacle.getSprite().
                     getTransform()));
 
+        	logging.debug("Obstacle location were defined!");
 
             cast.put("Obstacle" + String.valueOf(x), obstacle);
+        	logging.info("Obstacle created!");
         }
 
     }
@@ -134,6 +171,11 @@ public class GameEngine implements Runnable {
     }
     boolean storm = false;
 
+    /**
+     * Change the environment of the map
+     * 
+     * @param obstacle - Array of obstacles that have in the map
+     */
     public void storm() {
         ArrayList<Character> obstacles = GameEngine.cast.getObstacles();
         int x = obstacles.size();
@@ -143,6 +185,8 @@ public class GameEngine implements Runnable {
         }
 
         storm = !storm;
+        
+        //This structure controller verify if the player want to see evening map.
         if (storm) {
             renderer.setBackgroundImage(Util.imageResources.get("NIGHT"));
 
