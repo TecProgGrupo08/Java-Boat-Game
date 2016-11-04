@@ -1,3 +1,7 @@
+/*
+ *  File name: Location.java
+ *  File purpose: This class describes the location of an object based on the X and Y axes.
+ */
 
 package game.movement;
 

@@ -1,3 +1,8 @@
+/*
+ *  File name: Movement
+ *  File purpose: Class that contains all the movement properties.
+ */
+
 package game.movement;
 
 public class Movement {
@@ -22,8 +27,14 @@ public class Movement {
     private double angularMaxVelocity = 0;
     private double angularAcceleration= 0;
     
+    /**
+     * Calibrates received values to not exceed the maximum allowed 
+     * 
+     * @param value - the x or y velocity
+     * @param max - the maximum value allowed for the velocity
+     * @return value
+     */
     
-
     private double pinValue(double value, double max) {
         if (value > 0.0) {
             if (value > max) {
@@ -37,13 +48,18 @@ public class Movement {
         return value;
     }
 
+    /**
+     * Determines a new location of the object
+     * @param location
+     * @return
+     */
     public Location go(Location location) {
-        double x = location.getX();
-        double y = location.getY();
 
         xVelocity = pinValue(xVelocity, maxVelocity);
         yVelocity = pinValue(yVelocity, maxVelocity);
 
+        double x = location.getX(); // Position in the axis X
+        double y = location.getY(); //Position in the axis Y
         x += xVelocity;
         y += yVelocity;
         location.setLocation(x, y);
@@ -51,8 +67,8 @@ public class Movement {
     }
 
     public Location brake(Location location) {
-        double x = location.getX();
-        double y = location.getY();
+        double x = location.getX(); // Position in the axis X
+        double y = location.getY(); // Position in the axis Y
 
         x += xVelocity;
         y += yVelocity;
@@ -95,12 +111,13 @@ public class Movement {
      * @return Returns an updated Location object
      */
     public Location goLeft(Location location) {
-        double x = location.getX();
+        
         velocity -= acceleration;
 
         if ((-velocity) > (-maxVelocity)) {
             velocity = -maxVelocity;
         }
+        double x = location.getX();
         x = x - velocity;
         location.setX(x);
 
@@ -115,11 +132,12 @@ public class Movement {
      * @return Returns an updated Location object
      */
     public Location goDown(Location location) {
-        double y = location.getY();
+        
         velocity += acceleration;
         if ((velocity) > (maxVelocity)) {
             velocity = maxVelocity;
         }
+        double y = location.getY();
         y = y + velocity;
         location.setY(y);
         return location;
@@ -133,11 +151,12 @@ public class Movement {
      * @return Returns an updated Location object
      */
     public Location goUp(Location location) {
-        double y = location.getY();
+        
         velocity -= acceleration;
         if ((-velocity) > (-maxVelocity)) {
             velocity = -maxVelocity;
         }
+        double y = location.getY();
         y = y + velocity;
         location.setY(y);
         return location;
