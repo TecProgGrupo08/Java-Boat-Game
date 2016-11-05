@@ -67,12 +67,17 @@ public class GameEngine implements Runnable {
     }
 
     private Character addCharacter(String name, String type) {
+    	
+    	assert(type != null) : "Null character type";
+    	assert(name != null) : "Null character name";
         Character character = create(type);
         cast.put(name, character);
         return character;
     }
 
     private Character create(String type) {
+    	
+    	assert(type != null) : "Null character type";
         Character character = factory().createCharacter(type);
         return character;
     }
@@ -83,8 +88,7 @@ public class GameEngine implements Runnable {
         int min = Util.getMinimumNumberOfObstacles();
         int max = Util.getMaxiumNumberOfObstacles();
         int numberOfObstacles = (int) (Math.random() * (max - min));
-        for (int x = 0; x
-                < numberOfObstacles + 1; x++) {
+        for (int x = 0; x < numberOfObstacles + 1; x++) {
             if (Math.random() > 0.5) {
                 obstacle = create("BUOY");
             } else {
@@ -162,6 +166,9 @@ public class GameEngine implements Runnable {
     }
 
     public static void endGame(String message) {
+    	
+    	assert (message != null) : "Null message for end game";
+    	
         if (cast.setBoatVulnerable()) {
             javax.swing.JOptionPane.showMessageDialog(null, message);
             cast.setBoatImmune();
@@ -186,6 +193,7 @@ public class GameEngine implements Runnable {
             }
             
             x = moving.size();
+            assert (x > 0): "Moving size is incompatible ";
             
             for (int i = 0; i < x; i++) {
                 try{
