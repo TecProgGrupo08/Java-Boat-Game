@@ -6,6 +6,7 @@ import game.sprite.Sprite;
 import game.character.Factory;
 import game.character.Character;
 
+
 import java.util.*;
 
 public class GameEngine implements Runnable {
@@ -19,11 +20,12 @@ public class GameEngine implements Runnable {
     private static int obstacleSize;
     public static final int SLEEP_LENGTH = 16;//16 ms equates to ~60 frames per second
     private static GameEngine gameEngine;
-
+    private final int NAME_MAX_SIZE = 50;
     
     public static Character getCharacter(String type){
         return GameEngine.getInstance().getCharacters().get(type);
     }
+
     private GameEngine() {
         cast = game.character.Cast.getInstance();
         renderer = Renderer.getInstance();
@@ -36,38 +38,48 @@ public class GameEngine implements Runnable {
     }
 
     public static GameEngine getInstance() {
-        if (gameEngine != null) {
-            return gameEngine;
+  
+        if(gameEngine == null) {
 
-        } else {
             synchronized (GameEngine.class) {
+                
                 if (gameEngine == null) {
                     gameEngine = new GameEngine();
                 }
             }
 
-        }
+        } else {
 
-        return gameEngine;
+            return gameEngine;
+        
+        }
+        
     }
 
     private Factory factory() {
+
         if (this.characterFactory == null) {
             this.characterFactory = new Factory();
         }
-
+        
         return this.characterFactory;
-
-    }
-
-    private Character addCharacter(String name, String type) {
-        Character character = create(type);
-        cast.put(name, character);
-        return character;
     }
 
     private Character create(String type) {
+
+        assert(type != null);
         Character character = factory().createCharacter(type);
+        return character;
+    }
+
+    private Character addCharacter(String name, String type) {
+        
+        assert(name != null);
+        assert(name.length() <= NAME_MAX_SIZE);
+        assert(type != null);
+        assert(type.length() <= NAME_MAX_SIZE);
+        Character character = create(type);
+        cast.put(name, character);
         return character;
     }
 
@@ -75,8 +87,12 @@ public class GameEngine implements Runnable {
         Character obstacle;
 
         int min = Util.getMinimumNumberOfObstacles();
+        assert(min >= 0);
         int max = Util.getMaxiumNumberOfObstacles();
+        assert(max >= 0);
+        
         int numberOfObstacles = (int) (Math.random() * (max - min));
+        
         for (int x = 0; x
                 < numberOfObstacles + 1; x++) {
             if (Math.random() > 0.5) {
@@ -126,6 +142,7 @@ public class GameEngine implements Runnable {
 
 
     }
+
     boolean storm = false;
 
     public void storm() {
@@ -156,6 +173,7 @@ public class GameEngine implements Runnable {
     }
 
     private void endGame(String message) {
+        assert(message != null);
         if (cast.setBoatVulnerable()) {
             javax.swing.JOptionPane.showMessageDialog(null, message);
             cast.setBoatImmune();
@@ -171,8 +189,17 @@ public class GameEngine implements Runnable {
             ArrayList<Character> moving = cast.getMovingCharacters();
             ArrayList<Character> obstacles = cast.getObstacles();
 
+            assert(moving != null);
+            assert(obstacles != null);
+
             int x = obstacles.size();
+
+            assert(x >= 0);
+            
             for (int i = 0; i < x; i++) {
+
+                
+                assert(obstacles.get(i) != null);
                 Character character = obstacles.get(i);
 
                 character.update();
@@ -183,6 +210,8 @@ public class GameEngine implements Runnable {
             
             for (int i = 0; i < x; i++) {
                 try{
+                    
+                    assert(moving.get(i) != null);
             		Character character = moving.get(i);
             		character.update();
             		character.detectCollision(moving);
