@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 public class Buoy extends Vector {
     
 	
-	static Logger logging = Logger.getLogger(Character.class); //basic log system
+	static Logger logging = Logger.getLogger(Buoy.class); //basic log system
 	
     Color mainColor= new Color(20,50,24);
  
@@ -21,16 +21,13 @@ public class Buoy extends Vector {
     
     public Graphics paint(Graphics g, Location loc) {
 	
-    	logging.info("Colorindo campo.");
 		int x = this.getTransformedArea().getBounds().x;
-		logging.debug("The windown with is: " + x);
 		int y = this.getTransformedArea().getBounds().y;
-		logging.debug("The windown hight is: " + y);
+		
 		Graphics2D gg = (Graphics2D) g;
 		
 		if (isSpriteShown()){
-			
-			logging.info("Sprite was load seccessfully.");
+		
 		    gg.setColor(Color.BLUE);
 		    //loc.setLocation(x,y);
 		    gg.setColor(Color.BLACK);
