@@ -17,6 +17,9 @@ public class InputController {
 
     /** Creates a new instance of Controller */
     private InputController() {
+
+        assert(keyBoardMappings != null);
+
         keyBoardMappings.put("w", Control.UP);
         keyBoardMappings.put("W", Control.UP);
         keyBoardMappings.put("s", Control.DOWN);
@@ -40,6 +43,7 @@ public class InputController {
 
     public static void reset() {
         controller = null;
+        assert(controller == null);
     }
 
     public static InputController getInstance() {
@@ -55,11 +59,16 @@ public class InputController {
     }
 
     public void handleMouseClick(MouseEvent evt) {
+
+        assert(evt != null);
         this.mouseLocation.setLocation(evt.getX(), evt.getY());
         this.blnMouseHeld = true;
+    
     }
 
     public void handleMouseReleased(MouseEvent evt) {
+        
+        assert(evt != null);
         this.blnMouseHeld = false;
 
     }
@@ -68,6 +77,8 @@ public class InputController {
     @param evt - a KeyEvent describing which Key was pressed
      */
     public void handleMouseMove(MouseEvent evt) {
+
+        assert(evt != null);
         this.mouseLocation.setLocation(evt.getX(), evt.getY());
         this.blnHasMouseMoved = true;
     }
@@ -91,6 +102,8 @@ public class InputController {
     @param evt - a KeyEvent describing which Key was released
      */
     public void handleKeyRelease(KeyEvent evt) {
+
+        assert(evt != null);
         if (heldControls.size() > 0) {
             Control c = keyBoardMappings.get(KeyEvent.getKeyText(evt.getKeyCode()));
             while (heldControls.contains(c)) {
@@ -120,6 +133,8 @@ public class InputController {
     @param evt - A KeyEvent representing which key was pressed
      */
     public void handleKeyPress(KeyEvent evt) {
+        
+        assert(evt != null);
         Control pressed;
         String s = KeyEvent.getKeyText(evt.getKeyCode());
         pressed = keyBoardMappings.get(s);
