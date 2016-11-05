@@ -16,20 +16,31 @@ import java.net.URL;
  */
 public class Util {
 
-    private static MediaTracker mt;
+    private static MediaTracker mt = null; //global variable, not a god practice
     public static HashMap<String, Image> imageResources = new HashMap<>();
 
     public static Location getBoatPivotPoint(Sprite sprite) {
+
+        assert(sprite != null);
         return new Location(sprite.getWidth() / 4, sprite.getHeight() / 2);
     }
 
     public static Area getBoatArea(Image img) {
+
+        assert(img != null);
+        
         Renderer renderer = Renderer.getInstance();
+        assert(renderer != null);
+
         int boatWidth = img.getWidth(renderer);
         int boatHeight = img.getHeight(renderer);
+
         Area a = new Area(new Rectangle(0, 0, boatWidth * 2 / 3,
                 boatHeight));
+        assert(a != null);
+
         Polygon triangle = new Polygon();
+        assert(triangle != null);
 
         triangle.addPoint((int) (boatWidth * 4 / 5), 0);
         triangle.addPoint((int) (boatWidth * 4 / 5), boatHeight);
@@ -42,7 +53,10 @@ public class Util {
     }
 
     public static Movement angledAccelerationPresets() {
+
         AngledAcceleration angledAcceleration = new AngledAcceleration();
+        assert(angledAcceleration != null);
+        
         angledAcceleration.setVelocity(0.414);
         angledAcceleration.setMaxVelocity(1.414);
         angledAcceleration.setAngle(0.0);
@@ -59,40 +73,63 @@ public class Util {
     }
 
     public static void loadImages() {
-        URL url;
+        URL url = null;
 
         Renderer renderer = Renderer.getInstance();
+        assert(renderer != null);
 
         mt = new MediaTracker(renderer);
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         url = ClassLoader.getSystemResource("game/images/seaharbour.jpg");
+        assert(url != null);
+        
         Image imgBackground = toolkit.getImage(url);
+        assert(imgBackground != null);
 
         mt.addImage(imgBackground, 1);
 
         url = ClassLoader.getSystemResource("game/images/boat_sm.gif");
+        assert(url != null);
+
         Image imgBoat = toolkit.getImage(url);
+        assert(imgBoat != null);
+
         imgBoat.setAccelerationPriority(1.0f);
         mt.addImage(imgBoat, 2);
 
         url = ClassLoader.getSystemResource("game/images/boat_sm2.gif");
+        assert(url != null);
+
         Image imgBoat2 = toolkit.getImage(url);
+        assert(imgBoat2 != null);
         imgBoat2.setAccelerationPriority(1.0f);
 
         mt.addImage(imgBoat2, 3);
 
         url = ClassLoader.getSystemResource("game/images/night.gif");
+        assert(url != null);
+
         Image imgNight = toolkit.getImage(url);
+        assert(imgNight != null);
+
         mt.addImage(imgNight, 4);
 
 
         url = ClassLoader.getSystemResource("game/images/boatexplode_sm.gif");
+        assert(url != null);
+
         Image imgBoatExplode = toolkit.getImage(url);
+        assert(imgBoatExplode != null);
+        
         mt.addImage(imgBoatExplode, 5);
 
         url = ClassLoader.getSystemResource("game/images/octopus_sm.gif");
+        assert(url != null);
+
         Image imgOctopus = toolkit.getImage(url);
+        assert(imgOctopus != null);
+
         mt.addImage(imgOctopus, 7);
 
 
@@ -116,7 +153,10 @@ public class Util {
     }
 
     public static Movement getBoatMovePresets() {
+
         AngledAcceleration boatMove = new AngledAcceleration();
+        assert(boatMove != null);
+
         boatMove.setAcceleration(0.0116);
         boatMove.setMaxVelocity(2.214);
         boatMove.setFriction(0.00448);
@@ -130,6 +170,7 @@ public class Util {
     }
 
     public static int[] getIslandData() {
+
 
         int[] i = {167, 198,
             221, 248,
@@ -149,12 +190,20 @@ public class Util {
             233, 132,
             181, 158,
             164, 192};
+        
+        assert(i != null);
+        assert(i[0] == 167);
+
         return i;
     }
 
     public static int[] getHarbourData() {
 
         int[] i = {550, 2, 561, 54, 569, 77, 552, 137, 540, 148, 558, 175, 615, 225, 610, 260, 625, 380, 618, 461, 605, 483, 676, 484, 673, 0, 555, 1};
+        
+        assert(i != null);
+        assert(i[0] == 550);
+        
         return i;
     }
 
