@@ -10,14 +10,14 @@ import java.util.*;
 
 public class GameEngine implements Runnable {
 
-    private static Cast cast = game.character.Cast.getInstance();
-    public static Renderer renderer;
-    private static InputController controller = InputController.getInstance();
-    private static int minObstacles;
-    private static int maxObstacles;
-    private Factory characterFactory;
-    private static int obstacleSize;
-    public static final int SLEEP_LENGTH = 16;//16 ms equates to ~60 frames per second
+    private static Cast cast = game.character.Cast.getInstance(); // This object instance helps to cast elements of the stage
+    public static Renderer renderer; // This object contemplates the JPanel of which the game is played
+    private static InputController controller = InputController.getInstance(); // This object reads the player's inputs
+    private static int minObstacles;	// Contains the minimum number of obstacles the stage is going to generate
+    private static int maxObstacles;	// Contains the maximum number of obstacles the stage is going to generate
+    private Factory characterFactory; // Generate and place the game elements on the map
+    private static int obstacleSize; // Define a size for the obstacles in the game
+    public static final int SLEEP_LENGTH = 16; // 16 ms equates to ~60 frames per second
     private static GameEngine gameEngine;
 
     final int MIN_NUMBER_OF_OBSTACLES = 10;
@@ -87,7 +87,8 @@ public class GameEngine implements Runnable {
 
         int min = Util.getMinimumNumberOfObstacles();
         int max = Util.getMaxiumNumberOfObstacles();
-        int numberOfObstacles = (int) (Math.random() * (max - min));
+        int numberOfObstacles = (int) (Math.random() * (max - min)); // Creates the number of objects between the maximum and minimum allowed
+        
         for (int x = 0; x < numberOfObstacles + 1; x++) {
             if (Math.random() > 0.5) {
                 obstacle = create("BUOY");
