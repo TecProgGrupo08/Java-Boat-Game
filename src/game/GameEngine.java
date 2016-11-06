@@ -149,10 +149,10 @@ public class GameEngine implements Runnable {
 
         storm = !storm;
         if (storm) {
-            renderer.setBackgroundImage(Util.imageResources.get("NIGHT"));
+            renderer.setBackgroundImage(Util.imageResources.get("NIGHT")); // When the player hit the storm button, then the night map is loaded
 
         } else {
-            renderer.setBackgroundImage(Util.imageResources.get("SEA"));
+            renderer.setBackgroundImage(Util.imageResources.get("SEA")); //  If the storm is not activated, the map should just be normal "SEA"
         }
 
     }
@@ -171,7 +171,7 @@ public class GameEngine implements Runnable {
     	assert (message != null) : "Null message for end game";
     	
         if (cast.setBoatVulnerable()) {
-            javax.swing.JOptionPane.showMessageDialog(null, message);
+            javax.swing.JOptionPane.showMessageDialog(null, message); // Creates a dialog with the user with the defined message
             cast.setBoatImmune();
 
         }
