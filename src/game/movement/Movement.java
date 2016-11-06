@@ -130,7 +130,8 @@ public class Movement {
     	assert(location != null) : "Null location";
         
         velocity -= acceleration;
-
+        
+    	// If the velocity exceeds the allowed limit, then it should receive the limit as it's own value.
         if ((-velocity) > (-maxVelocity)) {
             velocity = -maxVelocity; // The max velocity is a negative number because it is going left.
         }
@@ -153,6 +154,7 @@ public class Movement {
     	assert(location != null) : "Null location";
         
         velocity += acceleration;
+        // If the velocity exceeds the allowed limit, then it should receive the limit as it's own value.
         if ((velocity) > (maxVelocity)) {
             velocity = maxVelocity;
         }
@@ -172,6 +174,7 @@ public class Movement {
     public Location goUp(Location location) {
         
         velocity -= acceleration;
+        // If the velocity exceeds the allowed limit, then it should receive the limit as it's own value.
         if ((-velocity) > (-maxVelocity)) {
             velocity = -maxVelocity; // The max velocity is a negative number because it is going up.
         }

@@ -31,9 +31,11 @@ public class Random extends AngledAcceleration{
 			}
 			
 			velocity = velocity + (Math.random() -0.5) * maxVelocity;
+			 // Making sure that the velocity doesn't surpass it's maximum limit
 			if (velocity > maxVelocity){
 				velocity = maxVelocity;
 			}
+			// Making sure that the velocity doesn't surpass it's minimum limit
 			if (velocity <- maxVelocity){
 				velocity = -maxVelocity;
 			}
