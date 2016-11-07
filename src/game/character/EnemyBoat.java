@@ -14,26 +14,30 @@ import java.awt.geom.*;
  */
 public class EnemyBoat extends Moveable
 {
-
-    /** Creates a new instance of CharacterComputerBoat */
+    private int randomLength = 0;
+    private int turnDuration = 15;
+    private boolean changeDirection = false;
+    final int lengthMultiplier = 50;
+    private int counter = 0;
+	
+	    /** Creates a new instance of CharacterComputerBoat */
     public EnemyBoat()
     {
 
     }
-    int randomLength = 0;
-    int turnDuration = 15;
-    boolean changeDirection = false;
-    final int lengthMultiplier = 50;
-    int i = 0;
+
+    private void finalizeObject(Object object){
+    	object = null;
+    }
 
     @Override
     public void update()
     {
-        if (changeDirection)
+        if (changeDirection == true)
         {
             turnDuration--;
 
-            switch (i)
+            switch (counter)
             {
                 case 0:
                     setLocation(getMoveBehaviour().goRight(getLocation()));
@@ -48,7 +52,7 @@ public class EnemyBoat extends Moveable
             if (turnDuration <= 0)
             {
                 turnDuration = 15;
-                i = (int) (2 * Math.random());
+                counter = (int) (2 * Math.random());
                 changeDirection = false;
             }
         }
@@ -75,6 +79,8 @@ public class EnemyBoat extends Moveable
         {
             getMoveBehaviour().setAngle(Math.PI + this.getMoveBehaviour().getAngle());
         }
+        
+        finalizeObject(enemyBoat);
     }
 
     
@@ -107,5 +113,8 @@ public class EnemyBoat extends Moveable
         {
             setLocation(moveAction.goUp(getLocation()));
         }
+    
+        finalizeObject(moveAction);
     }
+    
 }

@@ -32,6 +32,10 @@ public class Factory {
 	public Factory() {
     }
     
+    private void finalizeObject(Object object){
+    	object = null;
+    }
+    
     public Obstacle createBuoy() {
         Renderer renderer = Renderer.getInstance();
         Obstacle buoy = new Obstacle();
@@ -60,6 +64,11 @@ public class Factory {
         assert(buoy != null) : "buoy is null!";
         logging.info("Buoy created!");
         
+        finalizeObject(renderer);
+        finalizeObject(sprite);
+        finalizeObject(transform);
+        finalizeObject(sway);
+        finalizeObject(area);
         return buoy;
 
     }
@@ -158,6 +167,13 @@ public class Factory {
         
         assert(boat != null): "Boat is null!";
         logging.info("Boat created!");
+        
+        finalizeObject(renderer);
+        finalizeObject(swayMove);
+        finalizeObject(move);
+        finalizeObject(boatSprite);
+        finalizeObject(boatImages);
+        
         return boat;
     }
 
@@ -194,6 +210,12 @@ public class Factory {
 
         assert(computerBoat != null) : "computerBoat is null!";
         logging.info("Computer boat created!");
+        
+        finalizeObject(renderer);
+        finalizeObject(boatImages);
+        finalizeObject(computerBoatSprite);
+        finalizeObject(computerBoatMove);
+        
         return computerBoat;
     }
 

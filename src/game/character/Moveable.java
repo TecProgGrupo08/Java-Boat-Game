@@ -17,7 +17,7 @@ public abstract class Moveable extends Character
 	
 	static Logger logging = Logger.getLogger(Moveable.class);
     protected boolean immune = false; //boolean that sets player to receive damage
-    Renderer renderer = Renderer.getInstance();
+    private Renderer renderer = Renderer.getInstance();
 
     
     public Moveable()
@@ -76,7 +76,7 @@ public abstract class Moveable extends Character
     {
 
 
-        if (!immune)
+        if (immune == false)
         {
             SpriteImage boatImage = (SpriteImage) getSprite();
             boatImage.setFrame(1);

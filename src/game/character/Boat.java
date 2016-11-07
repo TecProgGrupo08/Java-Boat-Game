@@ -36,7 +36,7 @@ public class Boat extends Moveable {
     final int maxAngleDelta = 4;
     final int minAngleDelta = -4;
     
-    Location pivotPoint = null; //sets the x y point to the boat
+    private Location pivotPoint = null; //sets the x y point to the boat
     private int energy = 100; //energy of the boat
     
 
@@ -47,6 +47,10 @@ public class Boat extends Moveable {
     	
     }
 
+    private void finalizeObject(Object object){
+    	object = null;
+    }
+    
     /*
      * function that reduces energy after collision
      * @param character   boat that is defined as a player
@@ -96,6 +100,7 @@ public class Boat extends Moveable {
 	
 	    GameWindow.getInstance()
 	            .updateControlPanel(this);
+	    finalizeObject(controller);
 	}
  
     /*
@@ -197,7 +202,8 @@ public class Boat extends Moveable {
 
 
         setLocation(mouseMove.goUp(getLocation()));
-
+        finalizeObject(point);
+        finalizeObject(dest);
 
     }
     
