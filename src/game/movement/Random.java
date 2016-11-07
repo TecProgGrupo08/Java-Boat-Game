@@ -12,8 +12,8 @@ public class Random extends AngledAcceleration{
 	}
 
 	AngledAcceleration move;
-	int framesBetweenTurns=200;
-	int frames;
+	private int framesBetweenTurns=200;
+	private int frames;
 
 	@Override
 	public Location go(Location location) {
