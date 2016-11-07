@@ -81,7 +81,7 @@ public class Movement {
         velocity += acceleration;
         velocity = pinValue(velocity, maxVelocity);
 
-        x = x + velocity;
+        x =+ velocity;
         location.setX(x);
 
         return location;

@@ -39,8 +39,12 @@ public abstract class Character {
         Area b = character.getTransformedArea();
 
         intersectArea.intersect(b);
-
-        return !intersectArea.isEmpty();
+        boolean checkArea = intersectArea.isEmpty();
+        if(checkArea == true){
+        	return false;
+        }else{
+        	return true;
+        }
     }
     
 

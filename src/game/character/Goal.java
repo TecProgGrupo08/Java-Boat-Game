@@ -15,8 +15,8 @@ class Goal extends Stationary {
 
         for (int i = 0; i < length; i++) {
             Character character = moving.get(i);
-
-            if (collision = collides(character)) {
+            boolean detectCollision = collides(character);
+            if (collision = detectCollision) {
                 if (character.equals(GameEngine.getCharacter("Boat"))) {
                     GameEngine.getInstance().win();
 

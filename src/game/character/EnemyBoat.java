@@ -29,7 +29,7 @@ public class EnemyBoat extends Moveable
     @Override
     public void update()
     {
-        if (changeDirection)
+        if (changeDirection == true)
         {
             turnDuration--;
 

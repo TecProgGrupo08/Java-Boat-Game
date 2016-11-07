@@ -76,7 +76,7 @@ public abstract class Moveable extends Character
     {
 
 
-        if (!immune)
+        if (immune == false)
         {
             SpriteImage boatImage = (SpriteImage) getSprite();
             boatImage.setFrame(1);
