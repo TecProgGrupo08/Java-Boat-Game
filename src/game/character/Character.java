@@ -27,6 +27,10 @@ public abstract class Character {
 
     public abstract void collide();
     public abstract void update();
+   
+    private void finalizeObject(Object object){
+    	object = null;
+    }
     
     public boolean collides(Character character) {
         if (character.equals(this)) {
@@ -76,7 +80,7 @@ public abstract class Character {
 
         sprite.setTransform(temp);
         sprite.setTransformedArea(sprite.getUntransformedArea().createTransformedArea(temp));
-
+        finalizeObject(temp);
     }
 
     public Rectangle getBounds() {
@@ -119,7 +123,7 @@ public abstract class Character {
             	//do nothing
             }
         }
-
+        finalizeObject(moving);
         return collision;
     }
 
