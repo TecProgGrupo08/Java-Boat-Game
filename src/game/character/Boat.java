@@ -36,7 +36,7 @@ public class Boat extends Moveable {
     final int maxAngleDelta = 4;
     final int minAngleDelta = -4;
     
-    Location pivotPoint = null; //sets the x y point to the boat
+    private Location pivotPoint = null; //sets the x y point to the boat
     private int energy = 100; //energy of the boat
     
 

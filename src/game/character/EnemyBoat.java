@@ -20,11 +20,11 @@ public class EnemyBoat extends Moveable
     {
 
     }
-    int randomLength = 0;
-    int turnDuration = 15;
-    boolean changeDirection = false;
+    private int randomLength = 0;
+    private int turnDuration = 15;
+    private boolean changeDirection = false;
     final int lengthMultiplier = 50;
-    int i = 0;
+    private int counter = 0;
 
     @Override
     public void update()
@@ -33,7 +33,7 @@ public class EnemyBoat extends Moveable
         {
             turnDuration--;
 
-            switch (i)
+            switch (counter)
             {
                 case 0:
                     setLocation(getMoveBehaviour().goRight(getLocation()));
@@ -48,7 +48,7 @@ public class EnemyBoat extends Moveable
             if (turnDuration <= 0)
             {
                 turnDuration = 15;
-                i = (int) (2 * Math.random());
+                counter = (int) (2 * Math.random());
                 changeDirection = false;
             }
         }
