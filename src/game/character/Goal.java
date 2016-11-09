@@ -26,7 +26,7 @@ class Goal extends Stationary {
             }
 
         }
-        
+        assert(collision == false || collision == true) : "collision is invalid!";
         return collision;
     }
 }

@@ -42,6 +42,7 @@ public class Obstacle extends Character
     	
     }
 	public double getAngMomentum() {
+		assert(angMomentum > 0) : "angMomentum is negative!";
 		return angMomentum;
 	}
 	public void setAngMomentum(double angMomentum) {
@@ -49,6 +50,7 @@ public class Obstacle extends Character
 	}
 	
 	public double getxAngMomentum() {
+		assert(xAngMomentum > 0) : "xAngMomentum is negative!";
 		return xAngMomentum;
 	}
 	public void setxAngMomentum(double xAngMomentum) {
@@ -56,6 +58,7 @@ public class Obstacle extends Character
 	}
 	
 	public double getPhase() {
+		assert(phase >= 0) : "phase is negative!";
 		return phase;
 	}
 	public void setPhase(double phase) {

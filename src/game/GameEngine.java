@@ -63,11 +63,13 @@ public class GameEngine implements Runnable {
     private Character addCharacter(String name, String type) {
         Character character = create(type);
         cast.put(name, character);
+        assert(character != null) : "character is null!";
         return character;
     }
 
     private Character create(String type) {
         Character character = factory().createCharacter(type);
+        assert(character != null) : "character is null!";
         return character;
     }
 

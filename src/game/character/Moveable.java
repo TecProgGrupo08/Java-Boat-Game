@@ -68,6 +68,7 @@ public abstract class Moveable extends Character
             getLocation().setY(0);
             hitEdge = true;
         }
+        assert(hitEdge == false || hitEdge == true) : "hitEdge is invalid!";
         return hitEdge;
     }
 
