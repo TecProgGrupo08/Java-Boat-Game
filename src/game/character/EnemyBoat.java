@@ -25,7 +25,11 @@ public class EnemyBoat extends Moveable
     {
 
     }
-
+      
+    /*
+     * function that finalizes any object
+     * @param object object that will be finalized
+     */
     private void finalizeObject(Object object){
     	object = null;
     }

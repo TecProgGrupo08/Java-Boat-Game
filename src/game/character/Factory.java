@@ -32,6 +32,10 @@ public class Factory {
 	public Factory() {
     }
     
+    /*
+     * function that finalizes any object
+     * @param object object that will be finalized
+     */
     private void finalizeObject(Object object){
     	object = null;
     }
@@ -72,7 +76,11 @@ public class Factory {
         return buoy;
 
     }
-
+    /*
+     * function that initializes the characters of the game
+     * @param type	type of character needed to be created
+     * @return character	character created
+     */
     public Character createCharacter(String type) {
 
 

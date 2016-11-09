@@ -46,7 +46,10 @@ public class Boat extends Moveable {
     public Boat() {
     	
     }
-
+    /*
+     * function that finalizes any object
+     * @param object object that will be finalized
+     */
     private void finalizeObject(Object object){
     	object = null;
     }
