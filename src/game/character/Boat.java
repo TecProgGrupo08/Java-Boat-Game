@@ -131,7 +131,11 @@ public class Boat extends Moveable {
      * @return value  new angle defined by function
      */
     private double pinAngle(double value) {
-        if (Math.abs(value) > Math.PI) {
+        /*
+         * compares if value is absolute value is bigger than pi
+         * then adjusts according for later use
+         */
+    	if (Math.abs(value) > Math.PI) {
             while (value > Math.PI) {
                 value = value - (2 * Math.PI);
             }
@@ -177,7 +181,10 @@ public class Boat extends Moveable {
         angleDelta = pinAngle(angleDelta);
         logging.debug(LOGMOUSE + angleDelta);
         assert(angleDelta > minAngleDelta && angleDelta < maxAngleDelta ) : ASSERTMOUSE;
-        
+        /*
+         * checks if angleDelta is bigger than pi
+         * then moves the boat according the comparison
+         */
         if (Math.abs(angleDelta) < (Math.PI / 2.0)) {
             if ((angleDelta < Math.PI) && (angleDelta > 0)) {
                 setLocation(mouseMove.goRight(getLocation()));
@@ -251,6 +258,11 @@ public class Boat extends Moveable {
     private void processKeyPressRotating(InputController.Control keypress) {
         logging.setLevel(Level.INFO);
         logging.debug("keypressed: " + keypress);
+        
+        /*
+         * processes the pressed key then moves
+         * the boat according to the key pressed
+         */
         try{
         switch (keypress) {
             case UP:
