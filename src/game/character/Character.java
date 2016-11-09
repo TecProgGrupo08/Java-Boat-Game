@@ -121,8 +121,8 @@ public abstract class Character {
         for (int i = 0; i < length; i++) {
             Character character = (Character) moving.get(i);
 
-            if (collision = collides(character)) {
-                character.collide();
+            if (collision = collides(character)) { //checks the collision with the
+                character.collide();			   // character
             }else{
             	//do nothing
             }

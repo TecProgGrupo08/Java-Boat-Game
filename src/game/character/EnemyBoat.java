@@ -41,7 +41,7 @@ public class EnemyBoat extends Moveable
         {
             turnDuration--;
 
-            switch (counter)
+            switch (counter) //randomizes the movement of the enemy boat
             {
                 case 0:
                     setLocation(getMoveBehaviour().goRight(getLocation()));
@@ -97,24 +97,22 @@ public class EnemyBoat extends Moveable
 //		moveAction.setAngle(Math.random() + moveAction.getAngle());
         moveAction.setVelocity(moveAction.getVelocity() * 0.99);
         double random = Math.random();
-        if (random > 0.5)
-        {
-            for (int x = 1; x < 10; x++)
-            {
+        if (random > 0.5){
+            for (int x = 1; x < 10; x++){
+            	//sets the new location after a collision
                 setLocation(moveAction.goRight(getLocation()));
             }
 
         }
-        else
-        {
-            for (int x = 1; x < 10; x++)
-            {
+        else{
+            for (int x = 1; x < 10; x++){
+            	//sets the new location after a collision
                 setLocation(moveAction.goLeft(getLocation()));
             }
 
         }
-        for (int x = 1; x < 3; x++)
-        {
+        for (int x = 1; x < 3; x++){
+        		//sets the new location after a collision
             setLocation(moveAction.goUp(getLocation()));
         }
     
