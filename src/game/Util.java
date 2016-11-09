@@ -27,7 +27,7 @@ public class Util {
         Renderer renderer = Renderer.getInstance();
         int boatWidth = img.getWidth(renderer);
         int boatHeight = img.getHeight(renderer);
-        Area a = new Area(new Rectangle(0, 0, boatWidth * 2 / 3,
+        Area area = new Area(new Rectangle(0, 0, boatWidth * 2 / 3,
                 boatHeight));
         Polygon triangle = new Polygon();
 
@@ -35,9 +35,9 @@ public class Util {
         triangle.addPoint((int) (boatWidth * 4 / 5), boatHeight);
         triangle.addPoint(boatWidth, (int) (boatHeight / 2));
 
-        a.add(new Area(triangle));
-
-        return a;
+        area.add(new Area(triangle));
+        assert(area != null) : "area is null!";
+        return area;
 
     }
 
@@ -125,7 +125,7 @@ public class Util {
         boatMove.setAngularAcceleration(0.00129);
         boatMove.setAngularMaxVelocity(0.0296);
         boatMove.setAngularFriction(0.000421);
-
+        assert (boatMove != null): "boatMove is null!";
         return boatMove;
     }
 
