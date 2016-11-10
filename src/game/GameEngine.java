@@ -11,14 +11,14 @@ import java.util.*;
 
 public class GameEngine implements Runnable {
 
-    private static Cast cast = game.character.Cast.getInstance();
-    public static Renderer renderer;
-    private static InputController controller = InputController.getInstance();
-    private static int minObstacles;
-    private static int maxObstacles;
-    private Factory characterFactory;
-    private static int obstacleSize;
-    public static final int SLEEP_LENGTH = 16;//16 ms equates to ~60 frames per second
+    private static Cast cast = game.character.Cast.getInstance();               //Mold the map.Set Characters, obstacles ...
+    public static Renderer renderer;                                            //Render Characters and backgroung 
+    private static InputController controller = InputController.getInstance();  //Handle the input comands of the user
+    private static int minObstacles;                                            //Defines the minimun amount of enemys on the map
+    private static int maxObstacles;                                            //Defines the maximum amount of enemys on the map
+    private Factory characterFactory;                                           //Create characters 
+    private static int obstacleSize;                                            
+    public static final int SLEEP_LENGTH = 16;                                  //16 ms equates to ~60 frames per second
     private static GameEngine gameEngine;
     private final int NAME_MAX_SIZE = 50;
     
