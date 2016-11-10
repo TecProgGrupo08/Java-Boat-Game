@@ -22,7 +22,11 @@ public class Util {
     public static Location getBoatPivotPoint(Sprite sprite) {
         return new Location(sprite.getWidth() / 4, sprite.getHeight() / 2);
     }
-
+    
+    final static int obstacleSize = 20;
+    final static int minimumObstacles = 50;
+    final static int maximumObstacles = 60;
+    
     public static Area getBoatArea(Image img) {
         Renderer renderer = Renderer.getInstance();
         int boatWidth = img.getWidth(renderer);
@@ -159,15 +163,15 @@ public class Util {
     }
 
     public static int getObstacleSize() {
-        return 20;
+        return obstacleSize;
     }
 
     static int getMinimumNumberOfObstacles() {
-        return 50;
+        return minimumObstacles;
     }
 
     static int getMaxiumNumberOfObstacles() {
-        return 60;
+        return maximumObstacles;
     }
 
     /**
