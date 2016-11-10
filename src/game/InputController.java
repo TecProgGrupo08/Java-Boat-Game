@@ -133,6 +133,7 @@ public class InputController {
                 this.heldControls.add(pressed); // any key is 'held' until released
             }
         }
+        finalizeObject(pressed);
     }
     
     public void triggerStorm(){
@@ -176,5 +177,9 @@ public class InputController {
     public boolean isMouseHeld() {
     	assert (blnMouseHeld == false || blnMouseHeld == true);
         return blnMouseHeld;
+    }
+    
+    private void finalizeObject(Object object) {
+    	object = null;
     }
 }
