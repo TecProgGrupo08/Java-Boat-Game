@@ -45,7 +45,6 @@ public class Factory {
     public Obstacle createBuoy() {
         Renderer renderer = Renderer.getInstance();
         Obstacle buoy = new Obstacle();
-        Sprite sprite = new Buoy(buoy);
         double randomX = (Math.random() * renderer.getWidth());
         double randomY = (Math.random() * renderer.getHeight());
         
@@ -56,14 +55,10 @@ public class Factory {
         buoy.setMoveBehaviour(sway);
         int size = Util.getObstacleSize();
         Area area = new Area(new java.awt.geom.Ellipse2D.Double(randomX - size / 2, randomY - size / 2, size, size));
-        sprite.setUntransformedArea(area);
         AffineTransform transform = new AffineTransform();
         transform.setToTranslation(randomX, randomY);
 
-        sprite.setTransformedArea(area);
-        sprite.setShowSprite(true);
-        sprite.setHeight(size);
-        sprite.setWidth(size);
+        Sprite sprite = initializeSprite(area, buoy, size);
 
         buoy.setSprite(sprite);
 
@@ -77,6 +72,24 @@ public class Factory {
         finalizeObject(area);
         return buoy;
 
+    }
+    
+    /*
+     * function that initializes the sprites
+     * @param area	location of sprite in map
+     * @param buoy	type of sprite
+     * @param size	size of sprite
+     * @return sprite sprite object initialized
+     */
+    private Sprite initializeSprite(Area area, Obstacle buoy, int size){
+        Sprite sprite = new Buoy(buoy);
+        sprite.setUntransformedArea(area);
+        sprite.setTransformedArea(area);
+        sprite.setShowSprite(true);
+        sprite.setHeight(size);
+        sprite.setWidth(size);
+        
+        return sprite;
     }
     /*
      * function that initializes the characters of the game
@@ -272,26 +285,17 @@ public class Factory {
         @SuppressWarnings("unused")
 		Renderer renderer = Renderer.getInstance();
 
-
         Island island = new Island();
-
-
-        game.sprite.Island islandSprite = new game.sprite.Island(island);
-
-        GeneralPath generalPath = new GeneralPath();
         island.setLocation(new Location(initialLocation, initialLocation));
-        int[] locations = (int[]) Util.getIslandData();
-        Area area = createAreaFromLocations(locations, generalPath);
 
-        islandSprite.setUntransformedArea(area);
+        int[] locations = (int[]) Util.getIslandData();
+        GeneralPath generalPath = new GeneralPath();
+        Area area = createAreaFromLocations(locations, generalPath);
+        
         AffineTransform transform = new AffineTransform();
         transform.setToIdentity();
-        islandSprite.setTransform(transform);
-
-        islandSprite.setTransformedArea(area.createTransformedArea(transform));
-
-        islandSprite.setShowSprite(false);
-
+        
+        game.sprite.Island islandSprite = initializeIslandSprite(area, transform, island);
 
         island.setSprite(islandSprite);
 
@@ -300,6 +304,17 @@ public class Factory {
         
         return island;
 
+    }
+    
+    private game.sprite.Island initializeIslandSprite(Area area, AffineTransform transform, Island island){
+    	game.sprite.Island islandSprite = new game.sprite.Island(island);
+
+        islandSprite.setUntransformedArea(area);
+        islandSprite.setTransform(transform);
+        islandSprite.setTransformedArea(area.createTransformedArea(transform));
+        islandSprite.setShowSprite(false);
+		
+    	return islandSprite;
     }
 
     private Character createOctopus() {
