@@ -13,6 +13,7 @@ public class Random extends AngledAcceleration
     AngledAcceleration move;
     int framesBetweenTurns=200;
     int frames;
+    final static double averageRandom = 0.5;
 
     @Override
     public Location go(Location location)
@@ -30,7 +31,7 @@ public class Random extends AngledAcceleration
 	    {
 		angle-=(2*Math.PI);
 	    }
-	    velocity += (Math.random()-0.5)*maxVelocity;
+	    velocity += (Math.random()-averageRandom)*maxVelocity;
 	    if (velocity>maxVelocity){
 		velocity = maxVelocity;
 	    }
