@@ -18,7 +18,8 @@ public abstract class Moveable extends Character
 	static Logger logging = Logger.getLogger(Moveable.class);
     protected boolean immune = false; //boolean that sets player to receive damage
     private Renderer renderer = Renderer.getInstance();
-
+    static final double averageRandom = 0.5;
+    static final double collisionInertia = 3.8; //constant speed after collision
     
     public Moveable()
     {
@@ -83,10 +84,10 @@ public abstract class Moveable extends Character
             boatImage.setFrame(1);
             immune = true;
             Movement moveAction = getMoveBehaviour();
-            //getMoveBehaviour().angle+=(Math.random()-0.5);
-            moveAction.setAngularVelocity(moveAction.getAngularVelocity() + (Math.random() - 0.5) * 0.4);
-            moveAction.setAngle(moveAction.getAngle() + (Math.random() - 0.5) * 0.1);
-            moveAction.setVelocity(-moveAction.getVelocity() * (3.8 * Math.random()));
+            //getMoveBehaviour().angle+=(Math.random()-averageRandom);
+            moveAction.setAngularVelocity(moveAction.getAngularVelocity() + (Math.random() - averageRandom) * 0.4);
+            moveAction.setAngle(moveAction.getAngle() + (Math.random() - averageRandom) * 0.1);
+            moveAction.setVelocity(-moveAction.getVelocity() * (collisionInertia * Math.random()));
 
             if (moveAction.getVelocity() > moveAction.getMaxVelocity())
             {

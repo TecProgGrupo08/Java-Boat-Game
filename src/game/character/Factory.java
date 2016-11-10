@@ -27,8 +27,10 @@ import org.apache.log4j.Logger;
 public class Factory {
 	
 	static Logger logging = Logger.getLogger(Factory.class);
-	final int staticLocationRender = 30;
-	final int initialLocation = 0;
+	static final int staticLocationRender = 30;
+	static final int initialLocation = 0;
+	static final int horizontalGoal = 100; // horizontal coordinate for placing goal
+	static final int verticalGoal = 50;    // horizontal coordinate for placing goal
 	public Factory() {
     }
     
@@ -170,7 +172,7 @@ public class Factory {
         Movement move = Util.getBoatMovePresets();
 
         //Add a swaying motion to the boat
-        Movement swayMove = new Swaying((AngledAcceleration) move, 0, 0, Math.random(), boat, 0.2, 0.3);
+        Movement swayMove = new Swaying((AngledAcceleration) move, initialLocation, initialLocation, Math.random(), boat, 0.2, 0.3);
         boat.setMoveBehaviour(swayMove);
         
         assert(boat != null): "Boat is null!";
@@ -345,13 +347,13 @@ public class Factory {
 
         game.sprite.Goal goalSprite = new game.sprite.Goal(goal);
 
-        Area area = new Area(new Rectangle(initialLocation, initialLocation, 100, 50));
+        Area area = new Area(new Rectangle(initialLocation, initialLocation, horizontalGoal, verticalGoal));
 
         goalSprite.setUntransformedArea(area);
         AffineTransform transform = new AffineTransform();
  
         Renderer renderer = Renderer.getInstance();
-        transform.setToTranslation(renderer.getWidth() - 100, renderer.getHeight() - 50);
+        transform.setToTranslation(renderer.getWidth() - horizontalGoal, renderer.getHeight() - verticalGoal);
         goalSprite.setTransform(transform);
 
         goalSprite.setTransformedArea(area.createTransformedArea(transform));
