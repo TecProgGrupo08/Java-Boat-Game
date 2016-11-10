@@ -32,6 +32,8 @@ public class AngledAcceleration extends Movement {
         setYVelocity(Math.sin(getAngle()) * getVelocity());
 
         location = super.go(location);
+        
+        assert(location != null) : "Location is null!";
         return location;
     }
 
@@ -43,6 +45,8 @@ public class AngledAcceleration extends Movement {
          */
         this.setVelocity(getVelocity() - getAcceleration());
         location = changedAccelerate(location);
+        
+        assert(location != null):"location is null!";
         return location;
 
     }
@@ -82,7 +86,8 @@ public class AngledAcceleration extends Movement {
         setVelocity(velocity);
         setXVelocity(xVelocity);
         setYVelocity(yVelocity);
-
+        
+        assert(location != null):"location is null!";
         return location;
     }
 
@@ -157,6 +162,8 @@ public class AngledAcceleration extends Movement {
         recalculateXVelocity();
 
         location = super.go(location);
+        
+        assert(location != null) : "location is null!";
         return location;
     }
 

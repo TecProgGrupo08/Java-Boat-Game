@@ -8,6 +8,7 @@ import game.character.Character;
 
 import java.util.*;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
   
 public class GameEngine implements Runnable {
@@ -58,6 +59,7 @@ public class GameEngine implements Runnable {
     }
 
     public static GameEngine getInstance() {
+    	logging.setLevel(Level.INFO);
     	logging.debug("Entering in Singleton on GameEngine");
     	//Verify if the object of GameEngine was already created.
         if (gameEngine != null) {
@@ -92,11 +94,13 @@ public class GameEngine implements Runnable {
     private Character addCharacter(String name, String type) {
         Character character = create(type);
         cast.put(name, character);
+        assert(character != null) : "character is null!";
         return character;
     }
 
     private Character create(String type) {
         Character character = factory().createCharacter(type);
+        assert(character != null) : "character is null!";
         return character;
     }
     

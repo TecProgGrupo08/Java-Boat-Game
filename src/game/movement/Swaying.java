@@ -33,6 +33,9 @@ public class Swaying extends AngledAcceleration
     private double swaySizeVertical = 0;
     private double xAnchor = 0;
     private double yAnchor = 0;
+    final static double averageRandom = 0.5;
+    final static double horizontalSway = 10; //sway constant
+    final static double verticalSway = 20; //sway constant
     
     public void setOwner(Character owner)
     {
@@ -49,7 +52,7 @@ public class Swaying extends AngledAcceleration
     {
 	xOffset = Math.sin(phase + (Math.PI * location.getX() / (2 * game.Renderer.width())));
 	
-	yOffset = 0.5 * Math.sin(phase);//+Math.abs(xOffset);
+	yOffset = averageRandom * Math.sin(phase);//+Math.abs(xOffset);
 	
 	phase += angMomentum;
 	
@@ -68,8 +71,8 @@ public class Swaying extends AngledAcceleration
 	}
 	else
 	{
-	    double newX = (this.xAnchor + xOffset * 10 - (swaySizeHorizontal / 2));
-	    double newY = (this.yAnchor + yOffset * 20 / (3.0 - (swaySizeVertical / 2)));
+	    double newX = (this.xAnchor + xOffset * horizontalSway - (swaySizeHorizontal / 2));
+	    double newY = (this.yAnchor + yOffset * verticalSway / (3.0 - (swaySizeVertical / 2)));
 	    
 	    location.setLocation(newX, newY);
 	    

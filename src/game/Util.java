@@ -21,14 +21,19 @@ public class Util {
     public static Location getBoatPivotPoint(Sprite sprite) {
         return new Location(sprite.getWidth() / 4, sprite.getHeight() / 2);
     }
-
+    
+    final static int obstacleSize = 20;
+    final static int minimumObstacles = 50;
+    final static int maximumObstacles = 60;
+    
     public static Area getBoatArea(Image img) {
     	logging.debug("Rendering boat by image in getBoatArea!");
         Renderer renderer = Renderer.getInstance();
         int boatWidth = img.getWidth(renderer);
         int boatHeight = img.getHeight(renderer);
-        
-        Area a = new Area(new Rectangle(0, 0, boatWidth * 2 / 3,
+
+        Area area = new Area(new Rectangle(0, 0, boatWidth * 2 / 3,
+
                 boatHeight));
         Polygon triangle = new Polygon();
     	logging.debug("Area and Polygon has been initialized!");
@@ -37,11 +42,11 @@ public class Util {
         triangle.addPoint((int) (boatWidth * 4 / 5), boatHeight);
         triangle.addPoint(boatWidth, (int) (boatHeight / 2));
 
-        a.add(new Area(triangle));
+        area.add(new Area(triangle));
     	logging.debug("Area and Polygon has been defined!");
 
     	logging.info("The object of Area hass been returned, and the boat values were defined.");
-        return a;
+        return area;
 
     }
 
@@ -129,7 +134,7 @@ public class Util {
         boatMove.setAngularAcceleration(0.00129);
         boatMove.setAngularMaxVelocity(0.0296);
         boatMove.setAngularFriction(0.000421);
-
+        assert (boatMove != null): "boatMove is null!";
         return boatMove;
     }
 
@@ -163,21 +168,15 @@ public class Util {
     }
 
     public static int getObstacleSize() {
-    	final int OBSTACLES_SIZE_ON_MAP = 20;
-    	
-    	return OBSTACLES_SIZE_ON_MAP;
+        return obstacleSize;
     }
 
     static int getMinimumNumberOfObstacles() {
-    	final int MIN_NUMBER_OF_OBSTACLES = 50;
-        
-    	return MIN_NUMBER_OF_OBSTACLES;
+        return minimumObstacles;
     }
 
     static int getMaxiumNumberOfObstacles() {
-    	final int MAX_NUMBER_OF_OBSTACLES = 60;
-    	
-        return MAX_NUMBER_OF_OBSTACLES;
+        return maximumObstacles;
     }
 
     /**

@@ -16,7 +16,7 @@ class Goal extends Stationary {
         for (int i = 0; i < length; i++) {
             Character character = moving.get(i);
             boolean detectCollision = collides(character);
-            if (collision = detectCollision) {
+            if (collision = detectCollision) { //checks if the boat hits the goal
                 if (character.equals(GameEngine.getCharacter("Boat"))) {
                     GameEngine.getInstance().win();
 
@@ -26,7 +26,7 @@ class Goal extends Stationary {
             }
 
         }
-        
+        assert(collision == false || collision == true) : "collision is invalid!";
         return collision;
     }
 }

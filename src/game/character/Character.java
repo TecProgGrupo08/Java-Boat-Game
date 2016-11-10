@@ -28,6 +28,10 @@ public abstract class Character {
     public abstract void collide();
     public abstract void update();
    
+    /*
+     * function that finalizes any object
+     * @param object object that will be finalized
+     */
     private void finalizeObject(Object object){
     	object = null;
     }
@@ -117,8 +121,8 @@ public abstract class Character {
         for (int i = 0; i < length; i++) {
             Character character = (Character) moving.get(i);
 
-            if (collision = collides(character)) {
-                character.collide();
+            if (collision = collides(character)) { //checks the collision with the
+                character.collide();			   // character
             }else{
             	//do nothing
             }

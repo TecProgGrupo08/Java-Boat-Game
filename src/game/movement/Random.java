@@ -4,11 +4,54 @@
  */
 
 package game.movement;
+<<<<<<< HEAD
 
 public class Random extends AngledAcceleration{
 
 	public Random(AngledAcceleration move){
 		this.move = move;
+=======
+	/*
+	 * This class determines the randomness of the AI objects movement
+	 */
+public class Random extends AngledAcceleration
+{
+    
+    public Random(AngledAcceleration move)
+    {
+	this.move = move;
+    }
+    AngledAcceleration move;
+    int framesBetweenTurns=200;
+    int frames;
+    final static double averageRandom = 0.5;
+
+    @Override
+    public Location go(Location location)
+    {
+	double angle = getAngle();
+	double velocity = getVelocity();
+	double maxVelocity = getMaxVelocity();
+	
+	
+	if (frames>=framesBetweenTurns)
+	{
+	    frames=0;
+	    angle+=Math.random();
+	    if (angle>2*Math.PI)
+	    {
+		angle-=(2*Math.PI);
+	    }
+	    velocity += (Math.random()-averageRandom)*maxVelocity;
+	    if (velocity>maxVelocity){
+		velocity = maxVelocity;
+	    }
+	    if (velocity<-maxVelocity){
+		velocity = -maxVelocity;
+	    }
+	    
+	    frames++;
+>>>>>>> character-techniques
 	}
 
 	AngledAcceleration move;

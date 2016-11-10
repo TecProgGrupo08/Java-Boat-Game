@@ -19,13 +19,22 @@ public class EnemyBoat extends Moveable
     private boolean changeDirection = false;
     final int lengthMultiplier = 50;
     private int counter = 0;
+    final static double averageRandom = 0.5;
+    final static int initialMove = 1;
+    final static int lastRightLeftMove = 10;
+    final static int lastUpMove = 3;
+    
 	
 	    /** Creates a new instance of CharacterComputerBoat */
     public EnemyBoat()
     {
 
     }
-
+      
+    /*
+     * function that finalizes any object
+     * @param object object that will be finalized
+     */
     private void finalizeObject(Object object){
     	object = null;
     }
@@ -37,7 +46,7 @@ public class EnemyBoat extends Moveable
         {
             turnDuration--;
 
-            switch (counter)
+            switch (counter) //randomizes the movement of the enemy boat
             {
                 case 0:
                     setLocation(getMoveBehaviour().goRight(getLocation()));
@@ -93,24 +102,22 @@ public class EnemyBoat extends Moveable
 //		moveAction.setAngle(Math.random() + moveAction.getAngle());
         moveAction.setVelocity(moveAction.getVelocity() * 0.99);
         double random = Math.random();
-        if (random > 0.5)
-        {
-            for (int x = 1; x < 10; x++)
-            {
+        if (random > averageRandom){
+            for (int x = initialMove; x < lastRightLeftMove; x++){
+            	//sets the new location after a collision
                 setLocation(moveAction.goRight(getLocation()));
             }
 
         }
-        else
-        {
-            for (int x = 1; x < 10; x++)
-            {
+        else{
+            for (int x = initialMove; x < lastRightLeftMove; x++){
+            	//sets the new location after a collision
                 setLocation(moveAction.goLeft(getLocation()));
             }
 
         }
-        for (int x = 1; x < 3; x++)
-        {
+        for (int x = initialMove; x < lastUpMove; x++){
+        		//sets the new location after a collision
             setLocation(moveAction.goUp(getLocation()));
         }
     
