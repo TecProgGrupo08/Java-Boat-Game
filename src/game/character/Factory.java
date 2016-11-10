@@ -285,26 +285,17 @@ public class Factory {
         @SuppressWarnings("unused")
 		Renderer renderer = Renderer.getInstance();
 
-
         Island island = new Island();
-
-
-        game.sprite.Island islandSprite = new game.sprite.Island(island);
-
-        GeneralPath generalPath = new GeneralPath();
         island.setLocation(new Location(initialLocation, initialLocation));
-        int[] locations = (int[]) Util.getIslandData();
-        Area area = createAreaFromLocations(locations, generalPath);
 
-        islandSprite.setUntransformedArea(area);
+        int[] locations = (int[]) Util.getIslandData();
+        GeneralPath generalPath = new GeneralPath();
+        Area area = createAreaFromLocations(locations, generalPath);
+        
         AffineTransform transform = new AffineTransform();
         transform.setToIdentity();
-        islandSprite.setTransform(transform);
-
-        islandSprite.setTransformedArea(area.createTransformedArea(transform));
-
-        islandSprite.setShowSprite(false);
-
+        
+        game.sprite.Island islandSprite = initializeIslandSprite(area, transform, island);
 
         island.setSprite(islandSprite);
 
@@ -313,6 +304,17 @@ public class Factory {
         
         return island;
 
+    }
+    
+    private game.sprite.Island initializeIslandSprite(Area area, AffineTransform transform, Island island){
+    	game.sprite.Island islandSprite = new game.sprite.Island(island);
+
+        islandSprite.setUntransformedArea(area);
+        islandSprite.setTransform(transform);
+        islandSprite.setTransformedArea(area.createTransformedArea(transform));
+        islandSprite.setShowSprite(false);
+		
+    	return islandSprite;
     }
 
     private Character createOctopus() {
