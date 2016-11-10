@@ -143,6 +143,9 @@ public class GameEngine implements Runnable {
 
             cast.put("Obstacle" + String.valueOf(x), obstacle);
         	logging.info("Obstacle created!");
+        	finalizeObject(min);
+        	finalizeObject(max);
+        	finalizeObject(numberOfObstacles);
         }
 
     }
@@ -255,5 +258,9 @@ public class GameEngine implements Runnable {
 
     public HashMap<String, Character> getCharacters() {
         return cast;
+    }
+    
+    private void finalizeObject(Object object) {
+    	object = null;
     }
 }
