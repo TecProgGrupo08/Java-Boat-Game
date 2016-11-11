@@ -7,13 +7,13 @@ import java.io.PrintStream;
 
 public class InputController {
 
-    static private InputController controller;
-    private HashMap<String, Control> keyBoardMappings = new HashMap<>();
-    private java.util.List<Control> pressedControls = new java.util.LinkedList<>();
-    private java.util.List<Control> heldControls = new java.util.LinkedList<>();
-    private Point2D mouseLocation = new Point2D.Double(0.0, 0.0);
-    private boolean blnMouseHeld = false;
-    private boolean blnHasMouseMoved = false;
+    static private InputController controller;	//Constructor
+    private HashMap<String, Control> keyBoardMappings = new HashMap<>();	//Convert the entry of keyboard to a more understandable command
+    private java.util.List<Control> pressedControls = new java.util.LinkedList<>(); //Handle the key pressed and realesed by the user
+    private java.util.List<Control> heldControls = new java.util.LinkedList<>();	//Handle the key pressed and not released by the user
+    private Point2D mouseLocation = new Point2D.Double(0.0, 0.0);	//Get the actual fresh mouse location
+    private boolean blnMouseHeld = false;	//Handle mouse pressed and not released
+    private boolean blnHasMouseMoved = false;	//Handle mouse movement 
 
     /** Creates a new instance of Controller */
     private InputController() {
@@ -161,16 +161,17 @@ public class InputController {
 		return heldControl;
     }
 
-    public Control getHeldControl(int index) {
-        if (heldControls.size() > index)//check we are not trying to get an invalid value
-        {
-            Control ret = heldControls.get(index);
-            return ret;
-        } else {
-            return Control.NULL_CONTROL;
-        }
+	public Control getHeldControl(int index) {
+		if (heldControls.size() > index)// check we are not trying to get an
+										// invalid value
+		{
+			Control ret = heldControls.get(index);
+			return ret;
+		} else {
+			return Control.NULL_CONTROL;
+		}
 
-    }
+	}
 
     public boolean isMouseHeld() {
         return blnMouseHeld;
