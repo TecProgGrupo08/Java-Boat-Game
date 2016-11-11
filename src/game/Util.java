@@ -14,9 +14,9 @@ import org.apache.log4j.Logger;
 
 public class Util {
 
-	static Logger logging = Logger.getLogger(Util.class);
-    private static MediaTracker mt;
-    public static HashMap<String, Image> imageResources = new HashMap<>();
+	static Logger logging = Logger.getLogger(Util.class);	//Basic log system
+    private static MediaTracker mt;		//Load the images 
+    public static HashMap<String, Image> imageResources = new HashMap<>();	//Set the load images to the map
 
     public static Location getBoatPivotPoint(Sprite sprite) {
         return new Location(sprite.getWidth() / 4, sprite.getHeight() / 2);
