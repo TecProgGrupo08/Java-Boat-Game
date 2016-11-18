@@ -5,6 +5,9 @@
 
 
 package game.movement;
+
+import game.GameEngine;
+
 public class AngledAcceleration extends Movement {
 
     private double angularAcceleration = 0;
@@ -18,6 +21,9 @@ public class AngledAcceleration extends Movement {
     	 *get the velocity and the acceleration to determine the 
          *new location of the object (if going forward)
          */
+    	
+    	assert (location != null) : "Null location";
+    	
         this.setVelocity(getVelocity() + getAcceleration());
         location = changedAccelerate(location);
         return location;
@@ -28,6 +34,9 @@ public class AngledAcceleration extends Movement {
     	 *sets the velocity based on the acceleration to determine 
     	 *the new location of the object (if theres no acceleration) 
     	 */
+    	
+    	assert (location != null) : "Null location";
+    	
         setXVelocity(Math.cos(getAngle()) * getVelocity());
         setYVelocity(Math.sin(getAngle()) * getVelocity());
 
@@ -60,6 +69,8 @@ public class AngledAcceleration extends Movement {
 
     public Location turn(Location location) {
 
+    	assert (location != null) : "Null location";
+    	
         double angle = getAngle();
         double angularVelocity = getAngularVelocity();
         angle = angle + angularVelocity;
@@ -105,11 +116,16 @@ public class AngledAcceleration extends Movement {
      */
     @Override
     public Location goLeft(Location location) {
+    	
+    	assert (location != null) : "Null location";
         setNewAngularVelocity("-");
         return turn(location);
     }
 
     private void setNewAngularVelocity(String type) {
+    	
+    	assert(type != null):"Null type of movement";
+    	
         double velocity;
         if (type == "+") {
         	//the type + means that it is going right
@@ -168,15 +184,24 @@ public class AngledAcceleration extends Movement {
     }
 
     private void recalculateVelocity() {
-        double velocity = damp(getVelocity(), this.friction);
-        setVelocity(velocity);
-
+    	
+    	try {
+    		double velocity = damp(getVelocity(), this.friction);
+    		setVelocity(velocity);
+    	}catch (NumberFormatException error ){
+    		 GameEngine.endGame("Number format error");
+    	}
+    	
     }
 
     private void recalculateAngularVelocity() {
-        double angularVelocity = getAngularVelocity();
-
-        setAngularVelocity(damp(angularVelocity, this.angularFriction));
+    	
+    	try{
+    		double angularVelocity = getAngularVelocity();
+    		setAngularVelocity(damp(angularVelocity, this.angularFriction));
+    	}catch (NumberFormatException error ){
+   		 GameEngine.endGame("Number format error");
+    	}
     }
 
     private void recalculateAngle() {
@@ -187,6 +212,7 @@ public class AngledAcceleration extends Movement {
     }
 
     private double clampAngle(double angle) {
+    	
         if (angle > 0) {
             while (angle > Math.PI) {
                 angle = angle - (2 * Math.PI);
