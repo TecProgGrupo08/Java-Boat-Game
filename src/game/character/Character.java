@@ -155,6 +155,7 @@ public abstract class Character {
         if (myLocation == null) {
             myLocation = new Location(x, y);
         } else {
+        	// Defines the coordinates to place and object on the map.
             this.myLocation.setLocation(x, y);
         }
     }
