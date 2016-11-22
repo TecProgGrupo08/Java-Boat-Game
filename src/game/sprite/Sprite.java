@@ -1,3 +1,8 @@
+/*
+ *  File name: Sprite.java
+ *  File purpose: Class responsible for placing the sprite on the stage.
+ */
+
 package game.sprite;
 
 import game.movement.Location;

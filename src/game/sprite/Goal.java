@@ -1,4 +1,10 @@
 /*
+ *  File name: Goal.java
+ *  File purpose: Class responsible for defining the Goal area of the stage.
+ */
+
+
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
