@@ -18,20 +18,16 @@ public class GameEngine implements Runnable {
 
     private static Cast cast = game.character.Cast.getInstance(); // Object that cast all characters on map.
     public static Renderer renderer; // Object that render boat in map.
+    private static GameEngine gameEngine; // Engine of the game
     private static InputController controller = InputController.getInstance(); // Object that defines controllers of game.
+
     private static int minObstacles; // Minimum number of obstacles that have in the map.
     private static int maxObstacles; // Maximum number of obstacles that have in the map.
     private static int obstacleSize; // Size of obstacles that have in the map.
-    private Factory characterFactory; // Criator of characters
-    public static final int SLEEP_LENGTH = 16;//16 ms equates to ~60 frames per second
-    private static GameEngine gameEngine; // Engine of the game
     
     final int MIN_NUMBER_OF_OBSTACLES = 10; // Constant of minimum number of obstacles that have in the map. 
     final int MAX_NUMBER_OF_OBSTACLES = MIN_NUMBER_OF_OBSTACLES + 5; // Constant of maximum number of obstacles that have in the map.
     final int OBSTACLES_SIZE_ON_MAP = 20; // Constant of size of obstacles that have in the map.
-    
-    final String GAME_OVER_GAME = "Game Over!"; // Game Over Message.
-    final String WIN_GAME = "You Win!"; // Win Message.
     
     public static Character getCharacter(String type){
         return GameEngine.getInstance().getCharacters().get(type);
@@ -82,6 +78,7 @@ public class GameEngine implements Runnable {
         return gameEngine;
     }
 
+    private Factory characterFactory; // Criator of characters
     private Factory factory() {
     	//This if verify if the factory object has already been created.
         if (this.characterFactory == null) {
@@ -217,6 +214,9 @@ public class GameEngine implements Runnable {
 
     }
 
+    final String GAME_OVER_GAME = "Game Over!"; // Game Over Message.
+    final String WIN_GAME = "You Win!"; // Win Message.
+    
     public void gameOver() {
         endGame(GAME_OVER_GAME);
     }
@@ -238,6 +238,7 @@ public class GameEngine implements Runnable {
 
     }
 
+    public static final int SLEEP_LENGTH = 16;//16 ms equates to ~60 frames per second
     @Override
     public void run() {
         while (true) {
