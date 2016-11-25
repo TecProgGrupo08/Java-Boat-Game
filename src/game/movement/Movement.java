@@ -39,24 +39,24 @@ public class Movement {
     /**
      * Calibrates received values to not exceed the maximum allowed 
      * 
-     * @param value - the x or y velocity
-     * @param max - the maximum value allowed for the velocity
+     * @param valueToVerify - the x or y velocity
+     * @param limit - the maximum value allowed for the velocity
      * @return value
      */
     
-    private double pinValue(double value, double max) {
+    private double pinValue(double valueToVerify, double limit) {
     	
     	
-        if (value > 0.0) {
-            if (value > max) {
-                value = max;
+        if (valueToVerify > 0.0) {
+            if (valueToVerify > limit) {
+            	valueToVerify = limit;
             }
         } else {
-            if (value < -max) {
-                value = -max;
+            if (valueToVerify < -limit) {
+            	valueToVerify = -limit;
             }
         }
-        return value;
+        return valueToVerify;
     }
 
     /**
