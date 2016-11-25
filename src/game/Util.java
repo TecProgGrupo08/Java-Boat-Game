@@ -24,10 +24,6 @@ public class Util {
         return new Location(sprite.getWidth() / 4, sprite.getHeight() / 2);
     }
     
-    final static int obstacleSize = 20;
-    final static int minimumObstacles = 50;
-    final static int maximumObstacles = 60;
-    
     public static Area getBoatArea(Image img) {
     	logging.debug("Rendering boat by image in getBoatArea!");
         Renderer renderer = Renderer.getInstance();
@@ -168,7 +164,11 @@ public class Util {
         int[] i = {550, 2, 561, 54, 569, 77, 552, 137, 540, 148, 558, 175, 615, 225, 610, 260, 625, 380, 618, 461, 605, 483, 676, 484, 673, 0, 555, 1};
         return i;
     }
-
+    
+    final static int obstacleSize = 20;
+    final static int minimumObstacles = 50;
+    final static int maximumObstacles = 60;
+    
     public static int getObstacleSize() {
         return obstacleSize;
     }
