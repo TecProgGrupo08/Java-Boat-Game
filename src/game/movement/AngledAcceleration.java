@@ -5,19 +5,46 @@
 
 
 package game.movement;
+
+import org.apache.log4j.Logger;
+
+import game.GameEngine;
+
 public class AngledAcceleration extends Movement {
 
-    private double angularAcceleration = 0;
+    
+	private double angularAcceleration = 0;
     private double friction = 0;
     private double brake = 0;
     private double angularFriction = 0;
 
+    
+    final String LOG_UP = "The boat is moving up with acceleration.";
+    final String LOG_ACCELERATE = "The boat is accelerating.";
+    final String LOG_DOWN = "The boat is moving down with acceleration.";
+    final String LOG_TURN = "The boat is turning with acceleration";
+    final String LOG_RIGHT = "The boat is moving right.";
+    final String LOG_LEFT = "The boat is moving left.";
+    final String LOG_ANGULAR_VELOCITY = "The angular velocity was seted.";
+    final String LOG_MAX = "Max speed dont is grather than the limit";
+    final String LOG_GO = "Go to the location seted";
+    final String LOG_RECALCULATE_VELOCITY = "New velocity was seted";
+    final String LOG_BRAKE = "The boat was broke.";
+    final String LOG_RECALCULATE_X = "X velocity was recalculated";
+    final String LOG_RECALCULATE_Y = "Y velocity was recalculated";
+    
+    static Logger logging = Logger.getLogger(AngledAcceleration.class);
+    
     @Override
     public Location goUp(Location location) {
     	/*
     	 *get the velocity and the acceleration to determine the 
          *new location of the object (if going forward)
          */
+    	
+    	assert (location != null) : "Null location";
+    	logging.debug(LOG_UP);
+    	
         this.setVelocity(getVelocity() + getAcceleration());
         location = changedAccelerate(location);
         return location;
@@ -28,6 +55,10 @@ public class AngledAcceleration extends Movement {
     	 *sets the velocity based on the acceleration to determine 
     	 *the new location of the object (if theres no acceleration) 
     	 */
+    	
+    	assert (location != null) : "Null location";
+    	logging.debug(LOG_ACCELERATE);
+    	
         setXVelocity(Math.cos(getAngle()) * getVelocity());
         setYVelocity(Math.sin(getAngle()) * getVelocity());
 
@@ -43,6 +74,7 @@ public class AngledAcceleration extends Movement {
     	 *get the velocity and the acceleration to determine the 
          *new location of the object (if going backwards)
          */
+    	logging.debug(LOG_DOWN);
         this.setVelocity(getVelocity() - getAcceleration());
         location = changedAccelerate(location);
         
@@ -60,6 +92,9 @@ public class AngledAcceleration extends Movement {
 
     public Location turn(Location location) {
 
+    	assert (location != null) : "Null location";
+    	logging.debug(LOG_TURN);
+    	
         double angle = getAngle();
         double angularVelocity = getAngularVelocity();
         angle = angle + angularVelocity;
@@ -96,6 +131,9 @@ public class AngledAcceleration extends Movement {
      */
     @Override
     public Location goRight(Location location) {
+    	
+    	logging.debug(LOG_RIGHT);
+    	
         setNewAngularVelocity("+");
         return turn(location);
     }
@@ -105,11 +143,18 @@ public class AngledAcceleration extends Movement {
      */
     @Override
     public Location goLeft(Location location) {
+    	
+    	assert (location != null) : "Null location";
+    	logging.debug(LOG_LEFT);
         setNewAngularVelocity("-");
         return turn(location);
     }
 
     private void setNewAngularVelocity(String type) {
+    	
+    	assert(type != null):"Null type of movement";
+    	logging.info(LOG_ANGULAR_VELOCITY);
+    	
         double velocity;
         if (type == "+") {
         	//the type + means that it is going right
@@ -124,6 +169,9 @@ public class AngledAcceleration extends Movement {
     }
 
     private double pin(double valueToVerify, double limit) {
+    	
+    	logging.info(LOG_MAX);
+    	
         if (valueToVerify >= limit) {
             valueToVerify = limit;
         } else if (valueToVerify < -limit) {
@@ -154,6 +202,9 @@ public class AngledAcceleration extends Movement {
 
     @Override
     public Location go(Location location) {
+    	
+    	logging.info(LOG_GO);
+    	
         recalculateAngularVelocity();
         recalculateAngle();
 
@@ -168,15 +219,28 @@ public class AngledAcceleration extends Movement {
     }
 
     private void recalculateVelocity() {
-        double velocity = damp(getVelocity(), this.friction);
-        setVelocity(velocity);
-
+    	
+    	logging.info(LOG_RECALCULATE_VELOCITY);
+    	
+    	try {
+    		double velocity = damp(getVelocity(), this.friction);
+    		setVelocity(velocity);
+    	}catch (NumberFormatException error ){
+    		 GameEngine.endGame("Number format error");
+    	}
+    	
     }
 
     private void recalculateAngularVelocity() {
-        double angularVelocity = getAngularVelocity();
-
-        setAngularVelocity(damp(angularVelocity, this.angularFriction));
+    	
+    	logging.info(LOG_RECALCULATE_VELOCITY);
+    	
+		try {
+			double angularVelocity = getAngularVelocity();
+			setAngularVelocity(damp(angularVelocity, this.angularFriction));
+		} catch (NumberFormatException error) {
+			GameEngine.endGame("Number format error");
+		}
     }
 
     private void recalculateAngle() {
@@ -187,6 +251,7 @@ public class AngledAcceleration extends Movement {
     }
 
     private double clampAngle(double angle) {
+    	
         if (angle > 0) {
             while (angle > Math.PI) {
                 angle = angle - (2 * Math.PI);
@@ -239,6 +304,8 @@ public class AngledAcceleration extends Movement {
 
     private void recalculateXVelocity() {
         
+    	logging.info(LOG_RECALCULATE_X);
+    	
         double cosine = 0.0;
         double velocity = 0.0;
         
@@ -252,6 +319,8 @@ public class AngledAcceleration extends Movement {
 
     private void recalculateYVelocity() {
        
+    	logging.info(LOG_RECALCULATE_Y);
+    	
         double sin = 0.0;
         double velocity = 0.0;
         
