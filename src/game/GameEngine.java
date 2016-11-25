@@ -138,20 +138,20 @@ public class GameEngine implements Runnable {
                 < numberOfObstacles + 1; x++) {
 
             if (Math.random() > 0.5) {
-                obstacle = create("BUOY");
+                obstacle = (Character) create("BUOY");
             } else {
-                obstacle = create("OCTOPUS");
+                obstacle = (Character) create("OCTOPUS");
 
             }
         	logging.debug("Type of obstacle were defined!");
 
-            Location l = new Location(
+            Location location = new Location(
                     Math.random() * renderer.getWidth(),
                     Math.random() * renderer.getHeight());
 
-            obstacle.setLocation(l);
-            Sprite s = obstacle.getSprite();
-            obstacle.getSprite().getTransform().setToTranslation(l.getX(), l.getY());
+            obstacle.setLocation(location);
+            Sprite s = (Sprite) obstacle.getSprite();
+            obstacle.getSprite().getTransform().setToTranslation(location.getX(), location.getY());
 
             s.setUntransformedArea(
                     s.getUntransformedArea().createTransformedArea(obstacle.getSprite().
