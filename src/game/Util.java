@@ -31,8 +31,8 @@ public class Util {
     public static Area getBoatArea(Image img) {
     	logging.debug("Rendering boat by image in getBoatArea!");
         Renderer renderer = Renderer.getInstance();
-        int boatWidth = img.getWidth(renderer);
-        int boatHeight = img.getHeight(renderer);
+        int boatWidth = (int) img.getWidth(renderer);
+        int boatHeight = (int) img.getHeight(renderer);
 
         Area area = new Area(new Rectangle(0, 0, boatWidth * 2 / 3,
 
