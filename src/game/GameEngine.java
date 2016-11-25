@@ -124,6 +124,10 @@ public class GameEngine implements Runnable {
 
         int min = Util.getMinimumNumberOfObstacles();
         int max = Util.getMaxiumNumberOfObstacles();
+
+        assert( min < Util.getMaxiumNumberOfObstacles());
+        assert( max > min);
+        
         int numberOfObstacles = (int) (Math.random() * (max - min));  // Creates the number of objects between the maximum and minimum allowed
     	logging.info("Total of obstacles created: " +numberOfObstacles);
     	//This for determined by the number of obstacles the type of obstacle.
