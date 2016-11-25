@@ -122,8 +122,8 @@ public class GameEngine implements Runnable {
     	logging.debug("The method of obstacles creation was activated!");
         Character obstacle;
 
-        int min = Util.getMinimumNumberOfObstacles();
-        int max = Util.getMaxiumNumberOfObstacles();
+        int min = (int) Util.getMinimumNumberOfObstacles();
+        int max = (int) Util.getMaxiumNumberOfObstacles();
 
         assert( min < Util.getMaxiumNumberOfObstacles());
         assert( max > min);
