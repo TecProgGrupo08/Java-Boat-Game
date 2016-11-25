@@ -19,6 +19,8 @@ public class Util {
     public static HashMap<String, Image> imageResources = new HashMap<>();	//Set the load images to the map
 
     public static Location getBoatPivotPoint(Sprite sprite) {
+    	assert(sprite.getHeight() > 0.0);
+    	assert(sprite.getWidth() > 0.0);
         return new Location(sprite.getWidth() / 4, sprite.getHeight() / 2);
     }
     
