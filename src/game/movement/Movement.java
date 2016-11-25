@@ -78,11 +78,11 @@ public class Movement {
   		  GameEngine.endGame("Number format error");
     	}
     	
-        double x = location.getX(); // Position in the axis X
-        double y = location.getY(); //Position in the axis Y
-        x += xVelocity;
-        y += yVelocity;
-        location.setLocation(x, y);
+        double axisXlocation = location.getX(); // Position in the axis X
+        double axisYlocation = location.getY(); //Position in the axis Y
+        axisXlocation += xVelocity;
+        axisYlocation += yVelocity;
+        location.setLocation(axisXlocation, axisYlocation);
         return location;
     }
 
@@ -91,12 +91,12 @@ public class Movement {
     	assert(location != null) : "Null location";
     	logging.debug(LOG_BRAKE);
     	
-        double x = location.getX(); // Position in the axis X
-        double y = location.getY(); // Position in the axis Y
+        double axisXlocation = location.getX(); // Position in the axis X
+        double axisYlocation = location.getY(); // Position in the axis Y
 
-        x += xVelocity;
-        y += yVelocity;
-        location.setLocation(x, y);
+        axisXlocation += xVelocity;
+        axisYlocation += yVelocity;
+        location.setLocation(axisXlocation, axisYlocation);
         return location;
     }
 
