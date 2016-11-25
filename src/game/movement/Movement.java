@@ -104,8 +104,8 @@ public class Movement {
      * Set the maximum velocity of this game character in the x axis
      *
      */
-    public void setMaxVelocity(double x) {
-        this.maxVelocity = x;
+    public void setMaxVelocity(double maxVelocity) {
+        this.maxVelocity = maxVelocity;
 
     }
 
