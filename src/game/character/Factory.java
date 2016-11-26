@@ -170,7 +170,21 @@ public class Factory {
         
         return area;
     }
-
+    
+    /*
+     * create an boat
+     * @param boat - new boat created
+     * @param renderer - gets map info
+     * @param x - the specified X coordinate
+     * @param y - the specified Y coordinate
+     * @param move - the initial features of movement for the boat
+     * @param images - unload the images of background
+     * @param boatImages - unload the images of the boat
+     * @param location - place where boat is on the map
+     * @param swayMove - the initial features of sway for the boat
+     * @return boat - new boat in the map
+     */
+    
     private Boat createBoat() {
         Boat boat = new Boat();
         Renderer renderer = Renderer.getInstance();
@@ -203,6 +217,10 @@ public class Factory {
         //Add a swaying motion to the boat
         Movement swayMove = new Swaying((AngledAcceleration) move, initialLocation, initialLocation, Math.random(), boat, 0.2, 0.3);
         boat.setMoveBehaviour(swayMove);
+        
+        /*
+         * If area not null, it's was a success creating an boat
+         */
         
         assert(boat != null): "Boat is null!";
         logging.info("Boat created!");
