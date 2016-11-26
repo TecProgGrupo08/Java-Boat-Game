@@ -1,5 +1,6 @@
 package game;
 
+//Import declarations
 import game.movement.AngledAcceleration;
 import game.movement.Random;
 import game.movement.Location;
@@ -13,6 +14,8 @@ import java.net.URL;
 import org.apache.log4j.Logger;
 
 public class Util {
+	
+	//Variables declararions
 
 	static Logger logging = Logger.getLogger(Util.class);	//Basic log system
     private static MediaTracker mt;		//Load the images 
@@ -21,7 +24,8 @@ public class Util {
     public static Location getBoatPivotPoint(Sprite sprite) {
         return new Location(sprite.getWidth() / 4, sprite.getHeight() / 2);
     }
-
+    
+    //Total area of the boat in the map
     public static Area getBoatArea(Image img) {
     	logging.debug("Rendering boat by image in getBoatArea!");
         Renderer renderer = Renderer.getInstance();
@@ -45,6 +49,7 @@ public class Util {
 
     }
 
+    //define a default angled acceleration
     public static Movement angledAccelerationPresets() {
         AngledAcceleration angledAcceleration = new AngledAcceleration();
         angledAcceleration.setVelocity(0.414);
@@ -62,6 +67,7 @@ public class Util {
         return new Random(angledAcceleration);
     }
 
+    //Add images to the map
     public static void loadImages() {
         URL url;
 
@@ -119,6 +125,7 @@ public class Util {
 
     }
 
+  //define a default movement pattern
     public static Movement getBoatMovePresets() {
         AngledAcceleration boatMove = new AngledAcceleration();
         boatMove.setAcceleration(0.0116);
@@ -132,7 +139,8 @@ public class Util {
 
         return boatMove;
     }
-
+    
+    //get the area of the island
     public static int[] getIslandData() {
 
         int[] i = {167, 198,
@@ -155,13 +163,15 @@ public class Util {
             164, 192};
         return i;
     }
-
+    
+    //get the area of the harbour
     public static int[] getHarbourData() {
 
         int[] i = {550, 2, 561, 54, 569, 77, 552, 137, 540, 148, 558, 175, 615, 225, 610, 260, 625, 380, 618, 461, 605, 483, 676, 484, 673, 0, 555, 1};
         return i;
     }
-
+    
+    //get the obstacles sizes
     public static int getObstacleSize() {
     	final int OBSTACLES_SIZE_ON_MAP = 20;
     	
