@@ -7,12 +7,13 @@ package game.character;
 import game.GameEngine;
 import java.util.*;
 class Goal extends Stationary {
-
+	
+	//If the colision is with the goal you win
     @Override
     public boolean detectCollision(ArrayList<Character> moving) {
         boolean collision = false;
         int length = moving.size();
-
+        
         for (int i = 0; i < length; i++) {
             Character character = moving.get(i);
             boolean detectCollision = collides(character);
