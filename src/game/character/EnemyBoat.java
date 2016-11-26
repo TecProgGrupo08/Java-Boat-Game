@@ -36,7 +36,7 @@ public class EnemyBoat extends Moveable {
 	private void finalizeObject(Object object) {
 		object = null;
 	}
-
+	
 	@Override
 	public void update() {
 		// Check if the direction was change

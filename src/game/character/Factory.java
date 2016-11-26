@@ -132,6 +132,15 @@ public class Factory {
         
         return character;
     }
+    
+    /*
+     * create an area give the specific location 
+     * @param location - Places on the map to be filled
+     * @param generalPath - Adds a point to the path by drawing a straight line from the current coordinates
+     * @param x - the specified X coordinate
+     * @param y - the specified Y coordinate
+     * @return area - new update map
+     */
 
     private Area createAreaFromLocations(int[] locations, GeneralPath generalPath) {
         
@@ -152,6 +161,10 @@ public class Factory {
         }
         generalPath.closePath();
         Area area = new Area(generalPath);
+        
+        /*
+         * If area not null, it's a success creating an valid area
+         */
 
         assert(area != null) : "Area is null";
         
