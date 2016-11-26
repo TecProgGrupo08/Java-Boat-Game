@@ -65,6 +65,7 @@ public class Factory {
         assert(buoy != null) : "buoy is null!";
         logging.info("Buoy created!");
         
+        //Clear object of the memory
         finalizeObject(renderer);
         finalizeObject(sprite);
         finalizeObject(transform);
