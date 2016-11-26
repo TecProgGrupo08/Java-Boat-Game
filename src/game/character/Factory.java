@@ -219,7 +219,7 @@ public class Factory {
         boat.setMoveBehaviour(swayMove);
         
         /*
-         * If area not null, it's was a success creating an boat
+         * If boat not null, it's was a success creating an boat
          */
         
         assert(boat != null): "Boat is null!";
@@ -234,6 +234,16 @@ public class Factory {
         return boat;
     }
 
+    /*
+     * create an obstacle boat 
+     * @param Enemyboat - new boat created
+     * @param renderer - gets map info
+     * @param x - the specified X coordinate
+     * @param y - the specified Y coordinate
+     * @param computerBoatMove - the initial features of movement for the enemyBoat
+     * @param boatImages - unload the images of the enemyBoat
+     * @return computerBoat - new boat in the map
+     */
     private EnemyBoat createComputerBoat() {
     	
         EnemyBoat computerBoat = new EnemyBoat();
@@ -264,6 +274,10 @@ public class Factory {
 
         Movement computerBoatMove = (Movement) Util.angledAccelerationPresets();
         computerBoat.setMoveBehaviour(computerBoatMove);
+        
+        /*
+         * If computerBoat not null, it's was a success creating an computerBoat
+         */
 
         assert(computerBoat != null) : "computerBoat is null!";
         logging.info("Computer boat created!");
