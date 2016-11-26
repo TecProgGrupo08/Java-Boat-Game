@@ -1,14 +1,15 @@
 package game;
 
+//imports used 
+
 import game.movement.AngledAcceleration;
 import game.character.Boat;
 import game.character.Character;
 
 public class ControlPanel extends javax.swing.JPanel {
 
-	/**
-	 * 
-	 */
+	//Variables declaration for behavior of the boat
+	
 	private static final long serialVersionUID = 1L; //Generator to generate serialVersionUID on carret position
 	private double accelerationScale = 0.1; //Defines the acceleration of the boat
 	private double maxVelocityScale = 3.0; // Defines the maximum speed of the boat
@@ -29,7 +30,9 @@ public class ControlPanel extends javax.swing.JPanel {
 		initComponents();
 
 	}
-
+	
+	//Retrive information from the graphical interface
+	
 	private void scaleAcceleration() {
 		this.accelerationScale = Double.valueOf(this.jTxtScaleAcceleration.getText());
 
@@ -71,6 +74,9 @@ public class ControlPanel extends javax.swing.JPanel {
 	 */
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code
 	// ">//GEN-BEGIN:initComponents
+	
+	//generate the graphical interface and should not be modified without modifying the form ControlPanel.form
+	
 	private void initComponents() {
 		jPnlControls = new javax.swing.JPanel();
 		jPanel5 = new javax.swing.JPanel();
@@ -714,6 +720,8 @@ public class ControlPanel extends javax.swing.JPanel {
 						javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addContainerGap()));
 	}// </editor-fold>//GEN-END:initComponents
+	
+	//methods for the actions of the graphical interface
 
 	private void jTxtAngularFrictionFocusLost(java.awt.event.FocusEvent evt)// GEN-FIRST:event_jTxtAngularFrictionFocusLost
 	{// GEN-HEADEREND:event_jTxtAngularFrictionFocusLost
@@ -872,6 +880,8 @@ public class ControlPanel extends javax.swing.JPanel {
 	private javax.swing.JSlider sldFriction;
 	// End of variables declaration//GEN-END:variables
 
+	//action of changing/update values behavior of the boat 
+	
 	private void sldFrictionChange() {
 		GameEngine ge = GameEngine.getInstance();
 		AngledAcceleration mb = (AngledAcceleration) ge.getCharacters().get("Boat").getMoveBehaviour();
