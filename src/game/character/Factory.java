@@ -99,8 +99,10 @@ public class Factory {
      */
     public Character createCharacter(String type) {
 
-
+    	
         Character character = null;
+        
+        //determine which character should be created
         switch (type) {
             case "BOAT":
                 character = createBoat();
