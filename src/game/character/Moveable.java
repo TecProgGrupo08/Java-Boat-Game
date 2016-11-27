@@ -34,8 +34,8 @@ public abstract class Moveable extends Character
         double w = (double) renderer.getWidth();
 
         @SuppressWarnings("unused")
-		double centreX = getSprite().getTransformedArea().getBounds().getCenterX();
-        double centreY = getSprite().getTransformedArea().getBounds().getCenterY();
+		double centreX = getSprite().getTransformedArea().getBounds().getCenterX(); //This variable hold the position of the center of the hitbox of the object in X
+        double centreY = getSprite().getTransformedArea().getBounds().getCenterY(); //This variable hold the position of the center of the hitbox of the object in Y
 
         double x = getLocation().getX();
         double y = getLocation().getY();
@@ -85,9 +85,9 @@ public abstract class Moveable extends Character
             immune = true;
             Movement moveAction = getMoveBehaviour();
             //getMoveBehaviour().angle+=(Math.random()-averageRandom);
-            moveAction.setAngularVelocity(moveAction.getAngularVelocity() + (Math.random() - averageRandom) * 0.4);
-            moveAction.setAngle(moveAction.getAngle() + (Math.random() - averageRandom) * 0.1);
-            moveAction.setVelocity(-moveAction.getVelocity() * (collisionInertia * Math.random()));
+            moveAction.setAngularVelocity(moveAction.getAngularVelocity() + (Math.random() - averageRandom) * 0.4); // Generates a random coefficient to reproduce the collision spin
+            moveAction.setAngle(moveAction.getAngle() + (Math.random() - averageRandom) * 0.1);  // Generates a random coefficient to define a new angle for the boat
+            moveAction.setVelocity(-moveAction.getVelocity() * (collisionInertia * Math.random())); // Uses the inertia of the boat movement to define a new velocity during the collision spin
 
             //control the limits of the speed
             if (moveAction.getVelocity() > moveAction.getMaxVelocity())
