@@ -71,6 +71,7 @@ public class Boat extends Moveable {
 	public void update() {
 	    InputController controller = getController();
 	    if (controller.keyPressEventsPending()) {
+	    	// Executes the requested controller events
 	        try{
 	            InputController.Control pressedControl = controller.getPressedControl();
 	            processKeyPressRotating(pressedControl);
@@ -85,6 +86,7 @@ public class Boat extends Moveable {
 	    if (controller.keyHeldEventsPending()) {
 	        int count = 0;
 	        while (count <= controller.getNumberOfHeldControls()) {
+	        	// Processing all the held keys events
 	            InputController.Control control = controller.getHeldControl(count);
 	            processKeyPressRotating(control);
 	            count++;
@@ -116,10 +118,10 @@ public class Boat extends Moveable {
         setEnergy(reduceEnergy);
 
         if (reduceEnergy <= 0) {
-
+        	// Making sure that the boat isn't running without energy
             GameEngine.getInstance().gameOver();
         } else {
-
+        	// Making constants energy reductions
             GameWindow.getInstance().setEnergyBarLevel(reduceEnergy);
         }
 
@@ -222,6 +224,7 @@ public class Boat extends Moveable {
         
         logging.debug("keypressed: " + keypress);
         switch (keypress) {
+        // Sets up the behavior for each pressed key
             case UP:
                 setLocation(getMoveBehaviour().goUp(getLocation()));
 

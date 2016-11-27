@@ -65,6 +65,7 @@ public class Factory {
         assert(buoy != null) : "buoy is null!";
         logging.info("Buoy created!");
         
+        //Clear object of the memory
         finalizeObject(renderer);
         finalizeObject(sprite);
         finalizeObject(transform);
@@ -98,8 +99,10 @@ public class Factory {
      */
     public Character createCharacter(String type) {
 
-
+    	
         Character character = null;
+        
+        //determine which character should be created
         switch (type) {
             case "BOAT":
                 character = createBoat();
@@ -129,6 +132,15 @@ public class Factory {
         
         return character;
     }
+    
+    /*
+     * create an area give the specific location 
+     * @param location - Places on the map to be filled
+     * @param generalPath - Adds a point to the path by drawing a straight line from the current coordinates
+     * @param x - the specified X coordinate
+     * @param y - the specified Y coordinate
+     * @return area - new update map
+     */
 
     private Area createAreaFromLocations(int[] locations, GeneralPath generalPath) {
         
@@ -149,12 +161,30 @@ public class Factory {
         }
         generalPath.closePath();
         Area area = new Area(generalPath);
+        
+        /*
+         * If area not null, it's a success creating an valid area
+         */
 
         assert(area != null) : "Area is null";
         
         return area;
     }
-
+    
+    /*
+     * create an boat
+     * @param boat - new boat created
+     * @param renderer - gets map info
+     * @param x - the specified X coordinate
+     * @param y - the specified Y coordinate
+     * @param move - the initial features of movement for the boat
+     * @param images - unload the images of background
+     * @param boatImages - unload the images of the boat
+     * @param location - place where boat is on the map
+     * @param swayMove - the initial features of sway for the boat
+     * @return boat - new boat in the map
+     */
+    
     private Boat createBoat() {
         Boat boat = new Boat();
         Renderer renderer = Renderer.getInstance();
@@ -188,6 +218,10 @@ public class Factory {
         Movement swayMove = new Swaying((AngledAcceleration) move, initialLocation, initialLocation, Math.random(), boat, 0.2, 0.3);
         boat.setMoveBehaviour(swayMove);
         
+        /*
+         * If boat not null, it's was a success creating an boat
+         */
+        
         assert(boat != null): "Boat is null!";
         logging.info("Boat created!");
         
@@ -200,6 +234,16 @@ public class Factory {
         return boat;
     }
 
+    /*
+     * create an obstacle boat 
+     * @param Enemyboat - new boat created
+     * @param renderer - gets map info
+     * @param x - the specified X coordinate
+     * @param y - the specified Y coordinate
+     * @param computerBoatMove - the initial features of movement for the enemyBoat
+     * @param boatImages - unload the images of the enemyBoat
+     * @return computerBoat - new boat in the map
+     */
     private EnemyBoat createComputerBoat() {
     	
         EnemyBoat computerBoat = new EnemyBoat();
@@ -230,6 +274,10 @@ public class Factory {
 
         Movement computerBoatMove = (Movement) Util.angledAccelerationPresets();
         computerBoat.setMoveBehaviour(computerBoatMove);
+        
+        /*
+         * If computerBoat not null, it's was a success creating an computerBoat
+         */
 
         assert(computerBoat != null) : "computerBoat is null!";
         logging.info("Computer boat created!");

@@ -89,6 +89,7 @@ public abstract class Moveable extends Character
             moveAction.setAngle(moveAction.getAngle() + (Math.random() - averageRandom) * 0.1);
             moveAction.setVelocity(-moveAction.getVelocity() * (collisionInertia * Math.random()));
 
+            //control the limits of the speed
             if (moveAction.getVelocity() > moveAction.getMaxVelocity())
             {
                 moveAction.setVelocity(moveAction.getMaxVelocity());
