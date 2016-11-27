@@ -43,16 +43,18 @@ public class Factory {
     }
     
     public Obstacle createBuoy() {
+    	
+    	// Generates a buoy on a random place of the stage
         Renderer renderer = Renderer.getInstance();
-        Obstacle buoy = new Obstacle();
+        Obstacle buoy = new Obstacle(); 
         double randomX = (Math.random() * renderer.getWidth());
         double randomY = (Math.random() * renderer.getHeight());
-        
-
         buoy.setLocation(randomX, randomY);
 
         Movement sway = new game.movement.Swaying(null, randomX, randomY, randomY, buoy, 1, 2);
         buoy.setMoveBehaviour(sway);
+        
+        // Define hitbox properties for the buoy
         int size = Util.getObstacleSize();
         Area area = new Area(new java.awt.geom.Ellipse2D.Double(randomX - size / 2, randomY - size / 2, size, size));
         AffineTransform transform = new AffineTransform();
@@ -65,7 +67,7 @@ public class Factory {
         assert(buoy != null) : "buoy is null!";
         logging.info("Buoy created!");
         
-        //Clear object of the memory
+        //Clear temporary objects of the memory
         finalizeObject(renderer);
         finalizeObject(sprite);
         finalizeObject(transform);
@@ -148,7 +150,7 @@ public class Factory {
     	assert(generalPath != null) : "No generalPath defined";
     	
     	int count = 0;
-        int x = locations[count];;
+        int x = locations[count];
         int y = locations[count + 1];
         generalPath.moveTo(x, y);
         count += 2;
@@ -225,6 +227,7 @@ public class Factory {
         assert(boat != null): "Boat is null!";
         logging.info("Boat created!");
         
+        // Clear all the temporary objects
         finalizeObject(renderer);
         finalizeObject(swayMove);
         finalizeObject(move);
@@ -367,6 +370,7 @@ public class Factory {
 
     private Character createOctopus() {
 
+    	// Place the octapus on the stage
         Image[] images = new Image[1];
         images[0] = (Image) Util.imageResources.get("OCTOPUS");
         Character octopus = new Obstacle();

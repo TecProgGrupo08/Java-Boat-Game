@@ -80,6 +80,7 @@ public abstract class Moveable extends Character
 
         if (immune == false)
         {
+        	// Defining all the character's behavior during a collision
             SpriteImage boatImage = (SpriteImage) getSprite();
             boatImage.setFrame(1);
             immune = true;
