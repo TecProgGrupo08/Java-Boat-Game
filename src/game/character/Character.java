@@ -72,10 +72,16 @@ public abstract class Character {
     public void setTransform(Location rotateCentre) {
 
 
-        AffineTransform temp = (AffineTransform) AffineTransform.getTranslateInstance(
+        AffineTransform temp = null;
+        
+        temp = (AffineTransform) AffineTransform.getTranslateInstance(
                 getLocation().getX(), getLocation().getY());
+        
+        assert(temp != null);
+        
         double centreHeight = 0;
         double centreWidth = 0;
+        
         if (rotateCentre == null) {
             centreWidth = centreX();
             centreHeight = centreY();
@@ -121,10 +127,17 @@ public abstract class Character {
      * @return true if this Character collided with one of characters
      */
     public boolean detectCollision(ArrayList<Character> data) {
-        ArrayList<Character> moving = data;
+        
+    	ArrayList<Character> moving = null;
+        moving = data;
+        assert(data != null);
+        
         boolean collision = false;
 
-        int length = moving.size();
+        int length = 0;
+        length = moving.size();
+        assert(length != 0);
+        
         for (int i = 0; i < length; i++) {
             Character character = (Character) moving.get(i);
 
