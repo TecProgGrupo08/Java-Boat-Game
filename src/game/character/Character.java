@@ -43,11 +43,18 @@ public abstract class Character {
         	//do nothing
         }
         
-        Area intersectArea = new Area(getTransformedArea());
-        Area b = character.getTransformedArea();
-
+        Area intersectArea = null;
+        intersectArea = new Area(getTransformedArea());
+        assert(intersectArea != null);
+        
+        Area b = null;
+        b = character.getTransformedArea();
+        assert(b != null);
+        
         intersectArea.intersect(b);
         boolean checkArea = intersectArea.isEmpty();
+        assert(checkArea == false || checkArea == true);
+        
         if(checkArea == true){
         	return false;
         }else{

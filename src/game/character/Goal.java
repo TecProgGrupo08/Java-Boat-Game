@@ -35,7 +35,7 @@ class Goal extends Stationary {
 
         }
         //check if the collision is a possible option
-        assert(collision != false || collision != true) : "collision is invalid!";
+        assert(collision == false || collision == true) : "collision is invalid!";
         return collision;
     }
 }
