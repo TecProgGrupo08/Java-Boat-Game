@@ -14,7 +14,7 @@ public class Cast extends HashMap<String, Character> {
 	static Logger logging = Logger.getLogger(Cast.class);
 	private static final long serialVersionUID = 1L;
 	private static Cast cast = null;
-
+	
 	/*
 	 * function that starts a game instance
 	 * @return cast  game environment

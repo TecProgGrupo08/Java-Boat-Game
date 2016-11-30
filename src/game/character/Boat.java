@@ -165,25 +165,25 @@ public class Boat extends Moveable {
     	logging.setLevel(Level.INFO);
     	
         
-        Point2D point = null; 
-        point = this.getController().getMouseLocation(); //mouse pointing
-        assert(point != null);
+        Point2D mousePointer = null; 
+        mousePointer = this.getController().getMouseLocation(); //mouse pointing
+        assert(mousePointer != null);
         
-        Location dest = null;
-        dest = new Location(point.getX(), point.getY()); //game coordinates
-        assert(dest != null);
+        Location destination = null;
+        destination = new Location(mousePointer.getX(), mousePointer.getY()); //game coordinates
+        assert(destination != null);
         
-        double dy = dest.getY() - y();
-        double dx = dest.getX() - x();
-        assert(dx < mouseMaxHeigh && dx > mouseMinHeigh) : MSGERROMOUSE;
-        assert(dy < mouseMaxWidth && dy > mouseMinWidth) : MSGERROMOUSE;  
-        logging.debug("dx click:" + dx);
-        logging.debug("dy click:" + dy);
-        assert(dx < mouseMaxHeigh && dx > mouseMinHeigh) : MSGERROMOUSE;
-        assert(dy < mouseMaxWidth && dy > mouseMinWidth) : MSGERROMOUSE;  
-        logging.debug(LOGDXCLICK + dx);
-        logging.debug(LOGDYCLICK + dy);
-        double destinationAngle = Math.atan2(dy, dx);
+        double axyY = destination.getY() - y();
+        double axyX = destination.getX() - x();
+        assert(axyX < mouseMaxHeigh && axyX > mouseMinHeigh) : MSGERROMOUSE;
+        assert(axyY < mouseMaxWidth && axyY > mouseMinWidth) : MSGERROMOUSE;  
+        logging.debug("dx click:" + axyX);
+        logging.debug("dy click:" + axyY);
+        assert(axyX < mouseMaxHeigh && axyX > mouseMinHeigh) : MSGERROMOUSE;
+        assert(axyY < mouseMaxWidth && axyY > mouseMinWidth) : MSGERROMOUSE;  
+        logging.debug(LOGDXCLICK + axyX);
+        logging.debug(LOGDYCLICK + axyY);
+        double destinationAngle = Math.atan2(axyY, axyX);
 
         AngledAcceleration mouseMove = (AngledAcceleration) getMoveBehaviour();
         double angleDelta = destinationAngle - mouseMove.getAngle();
@@ -226,8 +226,8 @@ public class Boat extends Moveable {
 
 
         setLocation(mouseMove.goUp(getLocation()));
-        finalizeObject(point);
-        finalizeObject(dest);
+        finalizeObject(mousePointer);
+        finalizeObject(destination);
 
     }
     
