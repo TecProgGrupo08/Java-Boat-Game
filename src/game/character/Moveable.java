@@ -70,6 +70,15 @@ public abstract class Moveable extends Character
             hitEdge = true;
         }
         assert(hitEdge == false || hitEdge == true) : "hitEdge is invalid!";
+        
+        finalizeObject(h);
+        finalizeObject(w);
+        finalizeObject(centreX);
+        finalizeObject(centreY);
+        finalizeObject(x);
+        finalizeObject(y);
+        finalizeObject(hitEdge);
+        
         return hitEdge;
     }
 
@@ -115,6 +124,10 @@ public abstract class Moveable extends Character
                      }
 		, 2000);
         }
+    }
+    
+    private void finalizeObject(Object object){
+    	object = null;
     }
 
 }
