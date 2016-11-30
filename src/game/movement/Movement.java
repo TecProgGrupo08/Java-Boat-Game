@@ -1,19 +1,9 @@
-/*
- *  File name: Movement
- *  File purpose: Class that contains all the movement properties.
- */
-
 package game.movement;
-
-import game.GameEngine;
-import org.apache.log4j.Logger;
 
 public class Movement {
 
     public Movement() {
     }
-    
-    static Logger logging = Logger.getLogger(Movement.class);
     
     private double velocity = 0;
     private double xVelocity = 0;
@@ -24,79 +14,49 @@ public class Movement {
     private double angularVelocity = 0;
     private double angle = 0;
     
+    
+    
     private double maxVelocity = 0;
     
+    
     private double angularMaxVelocity = 0;
-    private double angularAcceleration = 0;
+    private double angularAcceleration= 0;
     
-    final String LOG_BRAKE = "The boat was broke.";
-    final String LOG_UP = "The boat is moving up.";
-    final String LOG_DOWN = "The boat is moving down.";
-    final String LOG_RIGHT = "The boat is moving right.";
-    final String LOG_LEFT = "The boat is moving left.";
-    final String LOG_ACCELETATE = "The boat is acceleting.";
-    final String LOG_GO = "Go to the location seted";
-    /**
-     * Calibrates received values to not exceed the maximum allowed 
-     * 
-     * @param valueToVerify - the x or y velocity
-     * @param limit - the maximum value allowed for the velocity
-     * @return value
-     */
     
-    private double pinValue(double valueToVerify, double limit) {
-    	
-    	
-        if (valueToVerify > 0.0) {
-            if (valueToVerify > limit) {
-            	valueToVerify = limit;
+
+    private double pinValue(double value, double max) {
+        if (value > 0.0) {
+            if (value > max) {
+                value = max;
             }
         } else {
-            if (valueToVerify < -limit) {
-            	valueToVerify = -limit;
+            if (value < -max) {
+                value = -max;
             }
         }
-        return valueToVerify;
+        return value;
     }
 
-    /**
-     * Determines a new location of the object
-     * @param location
-     * @return
-     */
     public Location go(Location location) {
-    	
-    	assert (location!= null) : "Null location";
-    	logging.debug(LOG_GO);
-    	
-    	try {
+        double destinationAxyX = location.getX();
+        double destinationAxyY = location.getY();
 
-    		xVelocity = pinValue(xVelocity, maxVelocity); // Making sure that the xVelocity doesn't surpass it's maximum limit
-    		yVelocity = pinValue(yVelocity, maxVelocity); // Making sure that the yVelocity doesn't surpass it's maximum limit
-    	
-    	}catch(NumberFormatException error){
-  		  GameEngine.endGame("Number format error");
-    	}
-    	
-        double axisXlocation = location.getX(); // Position in the axis X
-        double axisYlocation = location.getY(); //Position in the axis Y
-        axisXlocation += xVelocity;
-        axisYlocation += yVelocity;
-        location.setLocation(axisXlocation, axisYlocation);
+        xVelocity = pinValue(xVelocity, maxVelocity);
+        yVelocity = pinValue(yVelocity, maxVelocity);
+
+        destinationAxyX += xVelocity;
+        destinationAxyY += yVelocity;
+        location.setLocation(destinationAxyX, destinationAxyY);
         return location;
     }
 
     public Location brake(Location location) {
-    	
-    	assert(location != null) : "Null location";
-    	logging.debug(LOG_BRAKE);
-    	
-        double axisXlocation = location.getX(); // Position in the axis X
-        double axisYlocation = location.getY(); // Position in the axis Y
+        double boatAxyX = location.getX();
+        double boatAxyY = location.getY();
 
-        axisXlocation += xVelocity;
-        axisYlocation += yVelocity;
-        location.setLocation(axisXlocation, axisYlocation);
+        boatAxyX += xVelocity;
+        boatAxyY += yVelocity;
+        location.setLocation(boatAxyX, boatAxyY);
         return location;
     }
 
@@ -104,8 +64,8 @@ public class Movement {
      * Set the maximum velocity of this game character in the x axis
      *
      */
-    public void setMaxVelocity(double maxVelocity) {
-        this.maxVelocity = maxVelocity;
+    public void setMaxVelocity(double horizont) {
+        this.maxVelocity = horizont;
 
     }
 
@@ -117,16 +77,12 @@ public class Movement {
      * @return Returns an updated Location object
      */
     public Location goRight(Location location) {
-    	
-    	assert(location != null) : "Null location";
-    	logging.debug(LOG_RIGHT);
-    	
-        double x = location.getX();
+        double boatAxyX = location.getX();
         velocity += acceleration;
-        velocity = pinValue(velocity, maxVelocity);  // Making sure that the xVelocity doesn't surpass it's maximum limit
+        velocity = pinValue(velocity, maxVelocity);
 
-        x = x + velocity;
-        location.setX(x);
+        boatAxyX =+ velocity;
+        location.setX(boatAxyX);
 
         return location;
     }
@@ -139,19 +95,14 @@ public class Movement {
      * @return Returns an updated Location object
      */
     public Location goLeft(Location location) {
-
-    	assert(location != null) : "Null location";
-        logging.debug(LOG_LEFT);
-        
+        double boatAxyX = location.getX();
         velocity -= acceleration;
-        
-    	// If the velocity exceeds the allowed limit, then it should receive the limit as it's own value.
+
         if ((-velocity) > (-maxVelocity)) {
-            velocity = -maxVelocity; // The max velocity is a negative number because it is going left.
+            velocity = -maxVelocity;
         }
-        double x = location.getX();
-        x = x - velocity;
-        location.setX(x);
+        boatAxyX = boatAxyX - velocity;
+        location.setX(boatAxyX);
 
         return location;
     }
@@ -164,18 +115,13 @@ public class Movement {
      * @return Returns an updated Location object
      */
     public Location goDown(Location location) {
-    	
-    	assert(location != null) : "Null location";
-        logging.debug(LOG_DOWN);
-    	
+        double boatAxyY = location.getY();
         velocity += acceleration;
-        // If the velocity exceeds the allowed limit, then it should receive the limit as it's own value.
         if ((velocity) > (maxVelocity)) {
             velocity = maxVelocity;
         }
-        double y = location.getY();
-        y = y + velocity;
-        location.setY(y);
+        boatAxyY = boatAxyY + velocity;
+        location.setY(boatAxyY);
         return location;
     }
 
@@ -187,17 +133,13 @@ public class Movement {
      * @return Returns an updated Location object
      */
     public Location goUp(Location location) {
-        
-        logging.debug(LOG_UP);
-    	
-    	velocity -= acceleration;
-        // If the velocity exceeds the allowed limit, then it should receive the limit as it's own value.
+        double boatAxyY = location.getY();
+        velocity -= acceleration;
         if ((-velocity) > (-maxVelocity)) {
-            velocity = -maxVelocity; // The max velocity is a negative number because it is going up.
+            velocity = -maxVelocity;
         }
-        double y = location.getY();
-        y = y + velocity;
-        location.setY(y);
+        boatAxyY = boatAxyY + velocity;
+        location.setY(boatAxyY);
         return location;
     }
 
