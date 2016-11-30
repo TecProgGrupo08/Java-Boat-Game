@@ -69,7 +69,10 @@ public class Boat extends Moveable {
 	 */
 	@Override
 	public void update() {
-	    InputController controller = getController();
+	    InputController controller = null;
+	    controller = getController();
+	    assert(controller != null);
+	    
 	    if (controller.keyPressEventsPending()) {
 	    	// Executes the requested controller events
 	        try{
@@ -112,7 +115,11 @@ public class Boat extends Moveable {
      * method that reduce energy of the boat
      */
     private void reduceEnergy() {
-        int reduceEnergy = getEnergy(); //auxiliary int for reducing energy
+    	
+        int reduceEnergy = 0;
+        reduceEnergy = getEnergy(); //auxiliary int for reducing energy
+        assert(reduceEnergy != 0);
+        
         reduceEnergy--;
 
         setEnergy(reduceEnergy);
@@ -145,6 +152,7 @@ public class Boat extends Moveable {
                 value = value + (2 * Math.PI);
             }
         }
+    	
         return value;
 
     }
@@ -157,10 +165,14 @@ public class Boat extends Moveable {
     	logging.setLevel(Level.INFO);
     	
         
-        Point2D point = this.getController().getMouseLocation(); //mouse pointing
-
-        Location dest = new Location(point.getX(), point.getY()); //game coordinates
-
+        Point2D point = null; 
+        point = this.getController().getMouseLocation(); //mouse pointing
+        assert(point != null);
+        
+        Location dest = null;
+        dest = new Location(point.getX(), point.getY()); //game coordinates
+        assert(dest != null);
+        
         double dy = dest.getY() - y();
         double dx = dest.getX() - x();
         assert(dx < mouseMaxHeigh && dx > mouseMinHeigh) : MSGERROMOUSE;
@@ -325,6 +337,7 @@ public class Boat extends Moveable {
     public int getEnergy() {
         logging.debug( LOGGETENERGY + energy);
         return energy;
+        
     }
 
 }
