@@ -22,7 +22,7 @@ public abstract class Character {
     private Location myLocation = null; //location X Y of the character main boat
     private Movement moveBehaviour = null; // behaviour of the movement
     private Sprite sprite = null; // sets the hitbox of the character boat
-    private InputController controller = InputController.getInstance();
+    private InputController controller = null; 
     final double initialPosition = 0.0;
 
     public abstract void collide();
@@ -152,7 +152,8 @@ public abstract class Character {
     }
 
     public InputController getController() {
-        return controller;
+        controller = InputController.getInstance();
+    	return controller;
     }
 
     public Area getUntransformedArea() {
