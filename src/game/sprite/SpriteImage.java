@@ -63,7 +63,9 @@ public class SpriteImage extends Sprite {
         } else {
             gg.drawImage(img, getTransform(), getImageObserver());
         }
-
+        
+        finalizeObject(img);
+        finalizeObject(b);
         return (Graphics) gg;
     }
 
@@ -102,5 +104,9 @@ public class SpriteImage extends Sprite {
 
     public void setSqueezeImageIntoTransformedArea(boolean squeezeImageIntoTransformedArea) {
         this.squeezeImageIntoTransformedArea = squeezeImageIntoTransformedArea;
+    }
+    
+    private void finalizeObject(Object object){
+    	object = null;
     }
 }
