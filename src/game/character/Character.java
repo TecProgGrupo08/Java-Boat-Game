@@ -47,11 +47,11 @@ public abstract class Character {
         intersectArea = new Area(getTransformedArea());
         assert(intersectArea != null);
         
-        Area b = null;
-        b = character.getTransformedArea();
-        assert(b != null);
+        Area auxiliarAreaBoat = null;
+        auxiliarAreaBoat = character.getTransformedArea();
+        assert(auxiliarAreaBoat != null);
         
-        intersectArea.intersect(b);
+        intersectArea.intersect(auxiliarAreaBoat);
         boolean checkArea = intersectArea.isEmpty();
         assert(checkArea == false || checkArea == true);
         
@@ -72,12 +72,12 @@ public abstract class Character {
     public void setTransform(Location rotateCentre) {
 
 
-        AffineTransform temp = null;
+        AffineTransform boatRotationAuxiliar = null;
         
-        temp = (AffineTransform) AffineTransform.getTranslateInstance(
+        boatRotationAuxiliar = (AffineTransform) AffineTransform.getTranslateInstance(
                 getLocation().getX(), getLocation().getY());
         
-        assert(temp != null);
+        assert(boatRotationAuxiliar != null);
         
         double centreHeight = 0;
         double centreWidth = 0;
@@ -90,14 +90,14 @@ public abstract class Character {
             centreHeight = rotateCentre.getY();
         }
 
-        temp.rotate(getMoveBehaviour().getAngle(),
+        boatRotationAuxiliar.rotate(getMoveBehaviour().getAngle(),
                 centreWidth,
                 centreHeight);
 
 
-        sprite.setTransform(temp);
-        sprite.setTransformedArea(sprite.getUntransformedArea().createTransformedArea(temp));
-        finalizeObject(temp);
+        sprite.setTransform(boatRotationAuxiliar);
+        sprite.setTransformedArea(sprite.getUntransformedArea().createTransformedArea(boatRotationAuxiliar));
+        finalizeObject(boatRotationAuxiliar);
     }
 
     public Rectangle getBounds() {
@@ -128,18 +128,18 @@ public abstract class Character {
      */
     public boolean detectCollision(ArrayList<Character> data) {
         
-    	ArrayList<Character> moving = null;
-        moving = data;
+    	ArrayList<Character> charactersMoving = null;
+        charactersMoving = data;
         assert(data != null);
         
         boolean collision = false;
 
         int length = 0;
-        length = moving.size();
+        length = charactersMoving.size();
         assert(length != 0);
         
         for (int i = 0; i < length; i++) {
-            Character character = (Character) moving.get(i);
+            Character character = (Character) charactersMoving.get(i);
 
             if (collision = collides(character)) { //checks the collision with the
                 character.collide();			   // character
@@ -147,7 +147,7 @@ public abstract class Character {
             	//do nothing
             }
         }
-        finalizeObject(moving);
+        finalizeObject(charactersMoving);
         return collision;
     }
 
