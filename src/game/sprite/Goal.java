@@ -38,6 +38,8 @@ public class Goal extends Vector{
 		
 		
 		gg.drawString("Goal", renderer.getWidth()-50, renderer.getHeight()-20);
+		
+		finalizeObject(font);
 		return gg;
 	}
  /** Creates a new instance of Sprite2d */
@@ -46,5 +48,10 @@ public class Goal extends Vector{
 			super(owner);//Used by the GameEngine to determine which character owns this sprite
 	
     }
+    
+    private void finalizeObject(Object object){
+    	object = null;
+    }
+    
    
 }
