@@ -22,7 +22,7 @@ public abstract class Character {
     private Location myLocation = null; //location X Y of the character main boat
     private Movement moveBehaviour = null; // behaviour of the movement
     private Sprite sprite = null; // sets the hitbox of the character boat
-    private InputController controller = InputController.getInstance();
+    private InputController controller = null; 
     final double initialPosition = 0.0;
 
     public abstract void collide();
@@ -43,11 +43,18 @@ public abstract class Character {
         	//do nothing
         }
         
-        Area intersectArea = new Area(getTransformedArea());
-        Area b = character.getTransformedArea();
-
-        intersectArea.intersect(b);
+        Area intersectArea = null;
+        intersectArea = new Area(getTransformedArea());
+        assert(intersectArea != null);
+        
+        Area auxiliarAreaBoat = null;
+        auxiliarAreaBoat = character.getTransformedArea();
+        assert(auxiliarAreaBoat != null);
+        
+        intersectArea.intersect(auxiliarAreaBoat);
         boolean checkArea = intersectArea.isEmpty();
+        assert(checkArea == false || checkArea == true);
+        
         if(checkArea == true){
         	return false;
         }else{
@@ -65,10 +72,16 @@ public abstract class Character {
     public void setTransform(Location rotateCentre) {
 
 
-        AffineTransform temp = (AffineTransform) AffineTransform.getTranslateInstance(
+        AffineTransform boatRotationAuxiliar = null;
+        
+        boatRotationAuxiliar = (AffineTransform) AffineTransform.getTranslateInstance(
                 getLocation().getX(), getLocation().getY());
+        
+        assert(boatRotationAuxiliar != null);
+        
         double centreHeight = 0;
         double centreWidth = 0;
+        
         if (rotateCentre == null) {
             centreWidth = centreX();
             centreHeight = centreY();
@@ -77,14 +90,14 @@ public abstract class Character {
             centreHeight = rotateCentre.getY();
         }
 
-        temp.rotate(getMoveBehaviour().getAngle(),
+        boatRotationAuxiliar.rotate(getMoveBehaviour().getAngle(),
                 centreWidth,
                 centreHeight);
 
 
-        sprite.setTransform(temp);
-        sprite.setTransformedArea(sprite.getUntransformedArea().createTransformedArea(temp));
-        finalizeObject(temp);
+        sprite.setTransform(boatRotationAuxiliar);
+        sprite.setTransformedArea(sprite.getUntransformedArea().createTransformedArea(boatRotationAuxiliar));
+        finalizeObject(boatRotationAuxiliar);
     }
 
     public Rectangle getBounds() {
@@ -114,12 +127,19 @@ public abstract class Character {
      * @return true if this Character collided with one of characters
      */
     public boolean detectCollision(ArrayList<Character> data) {
-        ArrayList<Character> moving = data;
+        
+    	ArrayList<Character> charactersMoving = null;
+        charactersMoving = data;
+        assert(data != null);
+        
         boolean collision = false;
 
-        int length = moving.size();
+        int length = 0;
+        length = charactersMoving.size();
+        assert(length != 0);
+        
         for (int i = 0; i < length; i++) {
-            Character character = (Character) moving.get(i);
+            Character character = (Character) charactersMoving.get(i);
 
             if (collision = collides(character)) { //checks the collision with the
                 character.collide();			   // character
@@ -127,12 +147,13 @@ public abstract class Character {
             	//do nothing
             }
         }
-        finalizeObject(moving);
+        finalizeObject(charactersMoving);
         return collision;
     }
 
     public InputController getController() {
-        return controller;
+        controller = InputController.getInstance();
+    	return controller;
     }
 
     public Area getUntransformedArea() {

@@ -14,7 +14,7 @@ public class Cast extends HashMap<String, Character> {
 	static Logger logging = Logger.getLogger(Cast.class);
 	private static final long serialVersionUID = 1L;
 	private static Cast cast = null;
-
+	
 	/*
 	 * function that starts a game instance
 	 * @return cast  game environment
@@ -35,6 +35,7 @@ public class Cast extends HashMap<String, Character> {
             }
 
         }
+        
         return cast;
     }
 
@@ -182,6 +183,8 @@ public class Cast extends HashMap<String, Character> {
         }
         return all;
     }
+    
+    
 
     /*
      * loads the obstacles
@@ -225,4 +228,11 @@ public class Cast extends HashMap<String, Character> {
         assert(obstacles != null) : "obstacles are null";
         return obstacles;
     }
+    
+    private void finalizeObject(Object object){
+    	object = null;
+    }
+    
+    
+    
 }

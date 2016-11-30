@@ -18,10 +18,10 @@ public class EnemyBoat extends Moveable {
 	private boolean changeDirection = false;
 	final int lengthMultiplier = 50;
 	private int counter = 0;
-	final static double averageRandom = 0.5;
+	static double averageRandom = 0; 
 	final static int initialMove = 1;
 	final static int lastRightLeftMove = 10;
-	final static int lastUpMove = 3;
+	static int lastUpMove = 0; 
 
 	/** Creates a new instance of CharacterComputerBoat */
 	public EnemyBoat() {
@@ -93,6 +93,8 @@ public class EnemyBoat extends Moveable {
 	@Override
 	public void collide() {
 		Movement moveAction = (Movement) getMoveBehaviour();
+		averageRandom = 0.5;
+		lastUpMove = 3;
 		// moveAction.setAngle(Math.random() + moveAction.getAngle());
 		moveAction.setVelocity(moveAction.getVelocity() * 0.99);
 		double random = Math.random();

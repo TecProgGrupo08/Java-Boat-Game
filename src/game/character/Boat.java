@@ -69,7 +69,10 @@ public class Boat extends Moveable {
 	 */
 	@Override
 	public void update() {
-	    InputController controller = getController();
+	    InputController controller = null;
+	    controller = getController();
+	    assert(controller != null);
+	    
 	    if (controller.keyPressEventsPending()) {
 	    	// Executes the requested controller events
 	        try{
@@ -112,7 +115,11 @@ public class Boat extends Moveable {
      * method that reduce energy of the boat
      */
     private void reduceEnergy() {
-        int reduceEnergy = getEnergy(); //auxiliary int for reducing energy
+    	
+        int reduceEnergy = 0;
+        reduceEnergy = getEnergy(); //auxiliary int for reducing energy
+        assert(reduceEnergy != 0);
+        
         reduceEnergy--;
 
         setEnergy(reduceEnergy);
@@ -145,6 +152,7 @@ public class Boat extends Moveable {
                 value = value + (2 * Math.PI);
             }
         }
+    	
         return value;
 
     }
@@ -157,21 +165,25 @@ public class Boat extends Moveable {
     	logging.setLevel(Level.INFO);
     	
         
-        Point2D point = this.getController().getMouseLocation(); //mouse pointing
-
-        Location dest = new Location(point.getX(), point.getY()); //game coordinates
-
-        double dy = dest.getY() - y();
-        double dx = dest.getX() - x();
-        assert(dx < mouseMaxHeigh && dx > mouseMinHeigh) : MSGERROMOUSE;
-        assert(dy < mouseMaxWidth && dy > mouseMinWidth) : MSGERROMOUSE;  
-        logging.debug("dx click:" + dx);
-        logging.debug("dy click:" + dy);
-        assert(dx < mouseMaxHeigh && dx > mouseMinHeigh) : MSGERROMOUSE;
-        assert(dy < mouseMaxWidth && dy > mouseMinWidth) : MSGERROMOUSE;  
-        logging.debug(LOGDXCLICK + dx);
-        logging.debug(LOGDYCLICK + dy);
-        double destinationAngle = Math.atan2(dy, dx);
+        Point2D mousePointer = null; 
+        mousePointer = this.getController().getMouseLocation(); //mouse pointing
+        assert(mousePointer != null);
+        
+        Location destination = null;
+        destination = new Location(mousePointer.getX(), mousePointer.getY()); //game coordinates
+        assert(destination != null);
+        
+        double axyY = destination.getY() - y();
+        double axyX = destination.getX() - x();
+        assert(axyX < mouseMaxHeigh && axyX > mouseMinHeigh) : MSGERROMOUSE;
+        assert(axyY < mouseMaxWidth && axyY > mouseMinWidth) : MSGERROMOUSE;  
+        logging.debug("dx click:" + axyX);
+        logging.debug("dy click:" + axyY);
+        assert(axyX < mouseMaxHeigh && axyX > mouseMinHeigh) : MSGERROMOUSE;
+        assert(axyY < mouseMaxWidth && axyY > mouseMinWidth) : MSGERROMOUSE;  
+        logging.debug(LOGDXCLICK + axyX);
+        logging.debug(LOGDYCLICK + axyY);
+        double destinationAngle = Math.atan2(axyY, axyX);
 
         AngledAcceleration mouseMove = (AngledAcceleration) getMoveBehaviour();
         double angleDelta = destinationAngle - mouseMove.getAngle();
@@ -214,8 +226,8 @@ public class Boat extends Moveable {
 
 
         setLocation(mouseMove.goUp(getLocation()));
-        finalizeObject(point);
-        finalizeObject(dest);
+        finalizeObject(mousePointer);
+        finalizeObject(destination);
 
     }
     
@@ -325,6 +337,7 @@ public class Boat extends Moveable {
     public int getEnergy() {
         logging.debug( LOGGETENERGY + energy);
         return energy;
+        
     }
 
 }
