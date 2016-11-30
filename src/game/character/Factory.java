@@ -29,8 +29,6 @@ public class Factory {
 	static Logger logging = Logger.getLogger(Factory.class);
 	static final int staticLocationRender = 30;
 	static final int initialLocation = 0;
-	static final int horizontalGoal = 100; // horizontal coordinate for placing goal
-	static final int verticalGoal = 50;    // horizontal coordinate for placing goal
 	public Factory() {
     }
     
@@ -374,7 +372,11 @@ public class Factory {
     }
 
     private game.character.Goal createGoal() {
-
+    	
+    	final int horizontalGoal = 100; // horizontal coordinate for placing goal
+    	final int verticalGoal = 50;    // horizontal coordinate for placing goal
+    	
+    	
         game.character.Goal goal = new game.character.Goal();
         game.sprite.Goal goalSprite = new game.sprite.Goal(goal);
         Area area = new Area(new Rectangle(initialLocation, initialLocation, horizontalGoal, verticalGoal));
