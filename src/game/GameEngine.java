@@ -1,5 +1,6 @@
 package game;
 
+//Import declaration
 import game.character.Cast;
 import game.movement.Location;
 import game.movement.Movement;
@@ -13,7 +14,15 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
   
 public class GameEngine implements Runnable {
+//<<<<<<< HEAD
 
+	
+	//Variable declarations
+	
+	//Logging system
+//=======
+
+//>>>>>>> master
 	static Logger logging = Logger.getLogger(GameEngine.class);
 
     private static Cast cast = game.character.Cast.getInstance(); // Object that cast all characters on map.
@@ -28,6 +37,11 @@ public class GameEngine implements Runnable {
     final int MIN_NUMBER_OF_OBSTACLES = 10; // Constant of minimum number of obstacles that have in the map. 
     final int MAX_NUMBER_OF_OBSTACLES = MIN_NUMBER_OF_OBSTACLES + 5; // Constant of maximum number of obstacles that have in the map.
     final int OBSTACLES_SIZE_ON_MAP = 20; // Constant of size of obstacles that have in the map.
+    public static final int SLEEP_LENGTH = 16;//16 ms equates to ~60 frames per second
+
+    //User outpout messages
+    final String GAME_OVER_GAME = "Game Over!"; // Game Over Message.
+    final String WIN_GAME = "You Win!"; // Win Message.
     
     public static Character getCharacter(String type){
         return GameEngine.getInstance().getCharacters().get(type);
@@ -54,7 +68,8 @@ public class GameEngine implements Runnable {
 
 
     }
-
+    
+    //Sync thread of GameEngine
     public static GameEngine getInstance() {
     	logging.setLevel(Level.INFO);
     	logging.debug("Entering in Singleton on GameEngine");
@@ -78,7 +93,12 @@ public class GameEngine implements Runnable {
         return gameEngine;
     }
 
+    
+    //instantiate Factory
+
+
     private Factory characterFactory; // Criator of characters
+
     private Factory factory() {
     	//This if verify if the factory object has already been created.
         if (this.characterFactory == null) {
@@ -88,7 +108,8 @@ public class GameEngine implements Runnable {
         return this.characterFactory;
 
     }
-
+    
+    //update character info
     private Character addCharacter(String name, String type) {
     	
     	assert(type != null) : "Null character type";
@@ -164,7 +185,8 @@ public class GameEngine implements Runnable {
         }
 
     }
-
+    
+    //set inicial map obstacles
     public void initialize() {
         Util.loadImages();
 
@@ -187,6 +209,8 @@ public class GameEngine implements Runnable {
 
 
     }
+    
+    //dangerous global variable
     boolean storm = false;
 
     /**
@@ -213,14 +237,13 @@ public class GameEngine implements Runnable {
         }
 
     }
+  
 
-    final String GAME_OVER_GAME = "Game Over!"; // Game Over Message.
-    final String WIN_GAME = "You Win!"; // Win Message.
-    
     public void gameOver() {
         endGame(GAME_OVER_GAME);
     }
-
+    
+    //display message for the user
     public void win() {
         endGame(WIN_GAME);
 
@@ -238,15 +261,19 @@ public class GameEngine implements Runnable {
 
     }
 
-    public static final int SLEEP_LENGTH = 16;//16 ms equates to ~60 frames per second
+
+    
+
     @Override
     public void run() {
         while (true) {
+        	
+        	//declare variables
+            ArrayList<Character> moving = cast.getMovingCharacters(); //interactive characters
+            ArrayList<Character> obstacles = cast.getObstacles(); // obstacles
 
-            ArrayList<Character> moving = cast.getMovingCharacters();
-            ArrayList<Character> obstacles = cast.getObstacles();
-
-            int x = obstacles.size();
+            //get obstacles
+            int x = obstacles.size(); 
             for (int i = 0; i < x; i++) {
                 Character character = obstacles.get(i);
 
@@ -257,6 +284,7 @@ public class GameEngine implements Runnable {
             x = moving.size();
             assert (x > 0): "Moving size is incompatible ";
             
+            //get interactive characters
             for (int i = 0; i < x; i++) {
                 try{
             		Character character = moving.get(i);
