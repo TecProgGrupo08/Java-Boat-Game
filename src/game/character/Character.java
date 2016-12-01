@@ -1,3 +1,7 @@
+/*
+ * File name: Character.
+ * File purpose: Class that controls position, area and collisions of the main boat.
+ */
 package game.character;
 
 import game.InputController;
@@ -19,44 +23,52 @@ public abstract class Character {
     private Movement moveBehaviour = null; // behaviour of the movement
     private Sprite sprite = null; // sets the hitbox of the character boat
     private InputController controller = InputController.getInstance();
+    final double initialPosition = 0.0;
 
     public abstract void collide();
-
-    public Location getLocation() {
-        return myLocation;
+    public abstract void update();
+   
+    /*
+     * function that finalizes any object
+     * @param object object that will be finalized
+     */
+    private void finalizeObject(Object object){
+    	object = null;
     }
+    
+    public boolean collides(Character character) {
+        if (character.equals(this)) {
+            return false;
+        }else{
+        	//do nothing
+        }
+        
+        Area intersectArea = new Area(getTransformedArea());
+        Area b = character.getTransformedArea();
 
-    public double getX() {
-        return myLocation.getX();
+        intersectArea.intersect(b);
+        boolean checkArea = intersectArea.isEmpty();
+        if(checkArea == true){
+        	return false;
+        }else{
+        	return true;
+        }
     }
+    
 
-    public double getY() {
-        return myLocation.getY();
-    }
-
-    public double centreY() {
-        return getHeight() / 2;
-    }
-
-    public double centreX() {
-        return getWidth() / 2;
-    }
-
-    public double getHeight() {
-        return getBounds().getHeight();
-    }
-
-    public double getWidth() {
-        return getBounds().getWidth();
-    }
-
+    /**
+     *
+     * @param data an ArrayList<CharacterBase> used to check for collisions
+     * @return true if this Character collided with one of characters
+     */
+    
     public void setTransform(Location rotateCentre) {
-        double centreHeight;
-        double centreWidth;
 
-        AffineTransform temp = AffineTransform.getTranslateInstance(
+
+        AffineTransform temp = (AffineTransform) AffineTransform.getTranslateInstance(
                 getLocation().getX(), getLocation().getY());
-
+        double centreHeight = 0;
+        double centreWidth = 0;
         if (rotateCentre == null) {
             centreWidth = centreX();
             centreHeight = centreY();
@@ -72,10 +84,8 @@ public abstract class Character {
 
         sprite.setTransform(temp);
         sprite.setTransformedArea(sprite.getUntransformedArea().createTransformedArea(temp));
-
+        finalizeObject(temp);
     }
-
-    public abstract void update();
 
     public Rectangle getBounds() {
         return sprite.getBounds();
@@ -89,19 +99,6 @@ public abstract class Character {
     public double y(){
         return getBounds().getCenterY();
 
-    }
-        
-    public boolean collides(Character character) {
-        if (character.equals(this)) {
-            return false;
-        }
-
-        Area intersectArea = new Area(getTransformedArea());
-        Area b = character.getTransformedArea();
-
-        intersectArea.intersect(b);
-
-        return !intersectArea.isEmpty();
     }
 
     public Area getTransformedArea() {
@@ -122,13 +119,15 @@ public abstract class Character {
 
         int length = moving.size();
         for (int i = 0; i < length; i++) {
-            Character character = moving.get(i);
+            Character character = (Character) moving.get(i);
 
-            if (collision = collides(character)) {
-                character.collide();
+            if (collision = collides(character)) { //checks the collision with the
+                character.collide();			   // character
+            }else{
+            	//do nothing
             }
         }
-
+        finalizeObject(moving);
         return collision;
     }
 
@@ -152,11 +151,19 @@ public abstract class Character {
 
     }
 
+    void setLocation(double x, double y) {
+        if (myLocation == null) {
+            myLocation = new Location(x, y);
+        } else {
+            this.myLocation.setLocation(x, y);
+        }
+    }
+
     /**
      * Creates a new instance of Character
      */
     public Character() {
-        myLocation = new Location(0.0, 0.0);
+        myLocation = new Location(initialPosition, initialPosition);
     }
 
     public Movement getMoveBehaviour() {
@@ -175,11 +182,38 @@ public abstract class Character {
         this.moveBehaviour = moveBehaviour;
     }
 
-    void setLocation(double x, double y) {
-        if (myLocation == null) {
-            myLocation = new Location(x, y);
-        } else {
-            this.myLocation.setLocation(x, y);
-        }
+    public Location getLocation() {
+    	assert(myLocation != null) : "myLocation is null";
+        return myLocation;
+    }
+
+    public double getX() {
+    	assert(myLocation.getX() > -100) : "getX() is negative";
+        return myLocation.getX();
+    }
+
+    public double getY() {
+    	assert(myLocation.getY() > -100) : "getY() is negative";
+        return myLocation.getY();
+    }
+
+    public double centreY() {
+    	assert(getHeight() > 0) : "getHeight() is negative";
+        return getHeight() / 2;
+    }
+
+    public double centreX() {
+    	assert(getWidth() > 0) : "getWidth() is negative";
+        return getWidth() / 2;
+    }
+
+    public double getHeight() {
+    	assert(getBounds().getHeight() > 0) : "getBounds.getHeight() is negative";
+        return getBounds().getHeight();
+    }
+
+    public double getWidth() {
+    	assert(getBounds().getWidth() > 0) : "getBounds.get.Widht() is negative";
+        return getBounds().getWidth();
     }
 }

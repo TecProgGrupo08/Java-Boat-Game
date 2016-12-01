@@ -1,3 +1,7 @@
+/*
+ * File name: EnemyBoat.
+ * File purpose: Class that controls the AI's boat movement.
+ */
 package game.character;
 
 import game.movement.Location;
@@ -10,25 +14,39 @@ import java.awt.geom.*;
  */
 public class EnemyBoat extends Moveable
 {
-
-    /** Creates a new instance of CharacterComputerBoat */
+    private int randomLength = 0;
+    private int turnDuration = 15;
+    private boolean changeDirection = false;
+    final int lengthMultiplier = 50;
+    private int counter = 0;
+    final static double averageRandom = 0.5;
+    final static int initialMove = 1;
+    final static int lastRightLeftMove = 10;
+    final static int lastUpMove = 3;
+    
+	
+	    /** Creates a new instance of CharacterComputerBoat */
     public EnemyBoat()
     {
 
     }
-    int randomLength = 0;
-    int turnDuration = 15;
-    boolean changeDirection = false;
-    int i = 0;
+      
+    /*
+     * function that finalizes any object
+     * @param object object that will be finalized
+     */
+    private void finalizeObject(Object object){
+    	object = null;
+    }
 
     @Override
     public void update()
     {
-        if (changeDirection)
+        if (changeDirection == true)
         {
             turnDuration--;
 
-            switch (i)
+            switch (counter) //randomizes the movement of the enemy boat
             {
                 case 0:
                     setLocation(getMoveBehaviour().goRight(getLocation()));
@@ -43,7 +61,7 @@ public class EnemyBoat extends Moveable
             if (turnDuration <= 0)
             {
                 turnDuration = 15;
-                i = (int) (2 * Math.random());
+                counter = (int) (2 * Math.random());
                 changeDirection = false;
             }
         }
@@ -54,7 +72,7 @@ public class EnemyBoat extends Moveable
 
             if (randomLength <= 0)
             {
-                randomLength = (int) (Math.random() * 50);
+                randomLength = (int) (Math.random() * lengthMultiplier);
                 changeDirection = true;
 
             }
@@ -64,12 +82,14 @@ public class EnemyBoat extends Moveable
         setLocation(getMoveBehaviour().go(getLocation()));
 
 
-        Rectangle2D enemyBoat = this.getSprite().getUntransformedArea().getBounds2D();
+        Rectangle2D enemyBoat = (Rectangle2D) this.getSprite().getUntransformedArea().getBounds2D();
         setTransform(new Location(enemyBoat.getCenterX(), enemyBoat.getCenterY()));
         if (checkScreenEdge())
         {
             getMoveBehaviour().setAngle(Math.PI + this.getMoveBehaviour().getAngle());
         }
+        
+        finalizeObject(enemyBoat);
     }
 
     
@@ -78,29 +98,30 @@ public class EnemyBoat extends Moveable
     @Override
     public void collide()
     {
-        Movement moveAction = getMoveBehaviour();
+        Movement moveAction = (Movement) getMoveBehaviour();
 //		moveAction.setAngle(Math.random() + moveAction.getAngle());
         moveAction.setVelocity(moveAction.getVelocity() * 0.99);
         double random = Math.random();
-        if (random > 0.5)
-        {
-            for (int x = 1; x < 10; x++)
-            {
+        if (random > averageRandom){
+            for (int x = initialMove; x < lastRightLeftMove; x++){
+            	//sets the new location after a collision
                 setLocation(moveAction.goRight(getLocation()));
             }
 
         }
-        else
-        {
-            for (int x = 1; x < 10; x++)
-            {
+        else{
+            for (int x = initialMove; x < lastRightLeftMove; x++){
+            	//sets the new location after a collision
                 setLocation(moveAction.goLeft(getLocation()));
             }
 
         }
-        for (int x = 1; x < 3; x++)
-        {
+        for (int x = initialMove; x < lastUpMove; x++){
+        		//sets the new location after a collision
             setLocation(moveAction.goUp(getLocation()));
         }
+    
+        finalizeObject(moveAction);
     }
+    
 }

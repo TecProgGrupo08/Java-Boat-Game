@@ -83,6 +83,7 @@ public class InputController {
      	} else {
          //   return Control.NULL_CONTROL;
         }
+        assert(Control.NULL_CONTROL != null) : "Control.NULL_CONTROL is null!";
 		return Control.NULL_CONTROL;
 
     }
@@ -158,7 +159,7 @@ public class InputController {
     		System.out.println("Erro :" + e);
     		heldControl = 0;
     	}
-    	
+    	assert(heldControl >= 0) : "heldControl is negative!";
 		return heldControl;
     }
 
@@ -175,6 +176,7 @@ public class InputController {
 	}
 
     public boolean isMouseHeld() {
+    	assert (blnMouseHeld == false || blnMouseHeld == true);
         return blnMouseHeld;
     }
     

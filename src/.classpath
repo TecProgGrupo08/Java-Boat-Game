@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/media/anderson/DARTH_VADER/TECPROG/repositorios/tecprog/Java-Boat-Game/dist/lib/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="/media/anderson/DARTH_VADER/TECPROG/repositorios/tecprog/Java-Boat-Game/dist/lib/AbsoluteLayout.jar"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

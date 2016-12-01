@@ -4,6 +4,6 @@
 	<classpathentry kind="lib" path="dist/Game.jar"/>
 	<classpathentry kind="lib" path="dist/lib/AbsoluteLayout.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/gran/Documents/tecprog/Java-Boat-Game/dist/lib/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="D:/Development/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

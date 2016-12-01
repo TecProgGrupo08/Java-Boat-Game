@@ -1,3 +1,7 @@
+/*
+ * File name: Moveable.
+ * File pourpose: Class that defines the moveable area.
+ */
 package game.character;
 
 import game.movement.Movement;
@@ -13,8 +17,9 @@ public abstract class Moveable extends Character
 	
 	static Logger logging = Logger.getLogger(Moveable.class);
     protected boolean immune = false; //boolean that sets player to receive damage
-    Renderer renderer = Renderer.getInstance();
-
+    private Renderer renderer = Renderer.getInstance();
+    static final double averageRandom = 0.5;
+    static final double collisionInertia = 3.8; //constant speed after collision
     
     public Moveable()
     {
@@ -25,8 +30,6 @@ public abstract class Moveable extends Character
 
     protected boolean checkScreenEdge()
     {
-        boolean hitEdge = false;
-
         double h = (double) renderer.getHeight();
         double w = (double) renderer.getWidth();
 
@@ -36,7 +39,8 @@ public abstract class Moveable extends Character
 
         double x = getLocation().getX();
         double y = getLocation().getY();
-
+        
+        boolean hitEdge = false;
 //if over right side
         if (x > w)
         {
@@ -65,6 +69,7 @@ public abstract class Moveable extends Character
             getLocation().setY(0);
             hitEdge = true;
         }
+        assert(hitEdge == false || hitEdge == true) : "hitEdge is invalid!";
         return hitEdge;
     }
 
@@ -73,16 +78,16 @@ public abstract class Moveable extends Character
     {
 
 
-        if (!immune)
+        if (immune == false)
         {
             SpriteImage boatImage = (SpriteImage) getSprite();
             boatImage.setFrame(1);
             immune = true;
             Movement moveAction = getMoveBehaviour();
-            //getMoveBehaviour().angle+=(Math.random()-0.5);
-            moveAction.setAngularVelocity(moveAction.getAngularVelocity() + (Math.random() - 0.5) * 0.4);
-            moveAction.setAngle(moveAction.getAngle() + (Math.random() - 0.5) * 0.1);
-            moveAction.setVelocity(-moveAction.getVelocity() * (3.8 * Math.random()));
+            //getMoveBehaviour().angle+=(Math.random()-averageRandom);
+            moveAction.setAngularVelocity(moveAction.getAngularVelocity() + (Math.random() - averageRandom) * 0.4);
+            moveAction.setAngle(moveAction.getAngle() + (Math.random() - averageRandom) * 0.1);
+            moveAction.setVelocity(-moveAction.getVelocity() * (collisionInertia * Math.random()));
 
             if (moveAction.getVelocity() > moveAction.getMaxVelocity())
             {

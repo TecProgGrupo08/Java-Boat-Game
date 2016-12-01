@@ -1,3 +1,7 @@
+/*
+ * File name: Goal.
+ * File purpose: Class that defines the behavior of the goal.
+ */
 package game.character;
 
 import game.GameEngine;
@@ -11,8 +15,8 @@ class Goal extends Stationary {
 
         for (int i = 0; i < length; i++) {
             Character character = moving.get(i);
-
-            if (collision = collides(character)) {
+            boolean detectCollision = collides(character);
+            if (collision = detectCollision) { //checks if the boat hits the goal
                 if (character.equals(GameEngine.getCharacter("Boat"))) {
                     GameEngine.getInstance().win();
 
@@ -22,7 +26,7 @@ class Goal extends Stationary {
             }
 
         }
-        
+        assert(collision == false || collision == true) : "collision is invalid!";
         return collision;
     }
 }

@@ -1,3 +1,7 @@
+/*
+ * File name: Cast.
+ * File purpose: Class that casts elements of the game.
+ */
 package game.character;
 
 import java.util.*;
@@ -25,6 +29,8 @@ public class Cast extends HashMap<String, Character> {
                 if (cast == null) {
                 	logging.info("New cast created");
                     cast = new Cast();
+                }else{
+                	//do nothing
                 }
             }
 
@@ -110,13 +116,15 @@ public class Cast extends HashMap<String, Character> {
         boolean finished = false;
         while (!finished) {
 
+        	//verify all the obstacles and how many of them
             if (cast.containsKey("Obstacle" + String.valueOf(x))) {
             	try{
+            		//adds the objects to a list
             		all.add(cast.get("Obstacle" + String.valueOf(x)));
             		logging.info("Adding obstacles to all chars");
             	}catch(IndexOutOfBoundsException e){
                 	logging.info("Failed to add:" + e);
-                	all = new ArrayList<>();
+                	all = new ArrayList<>(); //resets the list if fails
                 }
             	x++;
             } else {
@@ -125,14 +133,18 @@ public class Cast extends HashMap<String, Character> {
         }
         String[] objects = {"Harbour", "Island", "Boat"};
         for (int y = 0; y < 3; y++) {
+        	//verify all the objects that arent obstacles/enemies and how many of them
             if (cast.containsKey(objects + String.valueOf(x))) {
                 try{
+                	//adds the objects to a list
                 	all.add(cast.get(objects + String.valueOf(x)));
                 	logging.info("Adding objects");
                 }catch(IndexOutOfBoundsException e){
                 	logging.debug("Failed to add:" + e);
-                	all = new ArrayList<>();
+                	all = new ArrayList<>(); //resets the list if fails
                 }
+            }else{
+            	//do nothing
             }
         }
 
@@ -140,14 +152,15 @@ public class Cast extends HashMap<String, Character> {
         finished = false;
 
         while (!finished) {
-
+        	//verify all the enemy boats and how many of them
             if (cast.containsKey("ComputerBoat" + String.valueOf(x))) {
                 try{
+                	//adds the computer boats to a list
                 	all.add(cast.get("ComputerBoat" + String.valueOf(x)));
                 	logging.info("Adding computer boats");
                 }catch(IndexOutOfBoundsException e){
                 	logging.debug("Failed to add:" + e);
-                	all = new ArrayList<>();
+                	all = new ArrayList<>(); //resets the list if fails
                 }
                 x++;
             } else {
@@ -155,14 +168,17 @@ public class Cast extends HashMap<String, Character> {
             }
 
         }
+        //adds the goal to the all list
         if (cast.containsKey("Goal")) {
             try{
             	all.add(cast.get("Goal"));
             	logging.info("adding goal");
             }catch(IndexOutOfBoundsException e){
             	logging.debug("Failed to add:" + e);
-            	all = new ArrayList<>();
+            	all = new ArrayList<>(); //resets the list if fails
             }
+        }else{
+        	//do nothing
         }
         return all;
     }
@@ -178,6 +194,7 @@ public class Cast extends HashMap<String, Character> {
     	logging.setLevel(Level.INFO);
         ArrayList<Character> obstacles = new ArrayList<>();
         int x = 0;
+        //adds all the obstacles
         while (cast.containsKey("Obstacle" + String.valueOf(x))) {
             obstacles.add(cast.get("Obstacle" + String.valueOf(x)));
             logging.debug("adding obstacles");
@@ -185,10 +202,10 @@ public class Cast extends HashMap<String, Character> {
 
         }
         try{
-        	obstacles.add(cast.get("Harbour"));
-        	logging.debug("adding harbour");
-        	
-        	obstacles.add(cast.get("Island"));
+        	obstacles.add(cast.get("Harbour")); //adds the harbor
+        	logging.debug("adding harbour");    //will not be used as a obstacle
+        									    //but needs to be detected
+        	obstacles.add(cast.get("Island")); //adds the middle island
         	logging.debug("adding island");
         }catch(IndexOutOfBoundsException e){
         	logging.debug("Erro:" + e);
@@ -196,14 +213,16 @@ public class Cast extends HashMap<String, Character> {
         }
         if (cast.containsKey("Goal")) {
         	try{
-        		obstacles.add(cast.get("Goal"));
+        		obstacles.add(cast.get("Goal")); // adds the goal, same as harbor
         		logging.debug("adding goal (obstacle)");
         	}catch(IndexOutOfBoundsException e){
             	logging.debug("Erro:" + e);
             	obstacles = new ArrayList<>();
             }
+        }else{
+        	//do nothing
         }
-
+        assert(obstacles != null) : "obstacles are null";
         return obstacles;
     }
 }

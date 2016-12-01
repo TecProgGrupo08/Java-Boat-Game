@@ -3,36 +3,42 @@ package game;
 //Import declaration
 import game.character.Cast;
 import game.movement.Location;
+import game.movement.Movement;
 import game.sprite.Sprite;
 import game.character.Factory;
 import game.character.Character;
 
 import java.util.*;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
   
 public class GameEngine implements Runnable {
+//<<<<<<< HEAD
 
 	
 	//Variable declarations
 	
 	//Logging system
+//=======
+
+//>>>>>>> master
 	static Logger logging = Logger.getLogger(GameEngine.class);
 
     private static Cast cast = game.character.Cast.getInstance(); // Object that cast all characters on map.
     public static Renderer renderer; // Object that render boat in map.
+    private static GameEngine gameEngine; // Engine of the game
     private static InputController controller = InputController.getInstance(); // Object that defines controllers of game.
+
     private static int minObstacles; // Minimum number of obstacles that have in the map.
     private static int maxObstacles; // Maximum number of obstacles that have in the map.
     private static int obstacleSize; // Size of obstacles that have in the map.
-    private Factory characterFactory; // Criator of characters
-    public static final int SLEEP_LENGTH = 16;//16 ms equates to ~60 frames per second
-    private static GameEngine gameEngine; // Engine of the game
-
+    
     final int MIN_NUMBER_OF_OBSTACLES = 10; // Constant of minimum number of obstacles that have in the map. 
     final int MAX_NUMBER_OF_OBSTACLES = MIN_NUMBER_OF_OBSTACLES + 5; // Constant of maximum number of obstacles that have in the map.
     final int OBSTACLES_SIZE_ON_MAP = 20; // Constant of size of obstacles that have in the map.
-    
+    public static final int SLEEP_LENGTH = 16;//16 ms equates to ~60 frames per second
+
     //User outpout messages
     final String GAME_OVER_GAME = "Game Over!"; // Game Over Message.
     final String WIN_GAME = "You Win!"; // Win Message.
@@ -65,6 +71,7 @@ public class GameEngine implements Runnable {
     
     //Sync thread of GameEngine
     public static GameEngine getInstance() {
+    	logging.setLevel(Level.INFO);
     	logging.debug("Entering in Singleton on GameEngine");
     	//Verify if the object of GameEngine was already created.
         if (gameEngine != null) {
@@ -85,8 +92,13 @@ public class GameEngine implements Runnable {
     	logging.info("Returning object of GameEngine.");
         return gameEngine;
     }
+
     
     //instantiate Factory
+
+
+    private Factory characterFactory; // Criator of characters
+
     private Factory factory() {
     	//This if verify if the factory object has already been created.
         if (this.characterFactory == null) {
@@ -99,13 +111,20 @@ public class GameEngine implements Runnable {
     
     //update character info
     private Character addCharacter(String name, String type) {
+    	
+    	assert(type != null) : "Null character type";
+    	assert(name != null) : "Null character name";
         Character character = create(type);
         cast.put(name, character);
+        assert(character != null) : "character is null!";
         return character;
     }
 
     private Character create(String type) {
+    	
+    	assert(type != null) : "Null character type";
         Character character = factory().createCharacter(type);
+        assert(character != null) : "character is null!";
         return character;
     }
     
@@ -121,28 +140,36 @@ public class GameEngine implements Runnable {
     	logging.debug("The method of obstacles creation was activated!");
         Character obstacle;
 
-        int min = Util.getMinimumNumberOfObstacles();
-        int max = Util.getMaxiumNumberOfObstacles();
-        int numberOfObstacles = (int) (Math.random() * (max - min));
-    	logging.info("Total of obstacles created: " +numberOfObstacles);
+        int min = (int) Util.getMinimumNumberOfObstacles();
+        int max = (int) Util.getMaxiumNumberOfObstacles();
+
+        assert( min < Util.getMaxiumNumberOfObstacles());
+        assert( max > min);
+        
+        int numberOfObstacles = (int) (Math.random() * (max - min));  // Creates the number of objects between the maximum and minimum allowed
+        assert( numberOfObstacles >= min);
+        assert( numberOfObstacles <= max);
+        
+        logging.info("Total of obstacles created: " +numberOfObstacles);
     	//This for determined by the number of obstacles the type of obstacle.
         for (int x = 0; x
                 < numberOfObstacles + 1; x++) {
+
             if (Math.random() > 0.5) {
-                obstacle = create("BUOY");
+                obstacle = (Character) create("BUOY");
             } else {
-                obstacle = create("OCTOPUS");
+                obstacle = (Character) create("OCTOPUS");
 
             }
         	logging.debug("Type of obstacle were defined!");
 
-            Location l = new Location(
+            Location location = new Location(
                     Math.random() * renderer.getWidth(),
                     Math.random() * renderer.getHeight());
 
-            obstacle.setLocation(l);
-            Sprite s = obstacle.getSprite();
-            obstacle.getSprite().getTransform().setToTranslation(l.getX(), l.getY());
+            obstacle.setLocation(location);
+            Sprite s = (Sprite) obstacle.getSprite();
+            obstacle.getSprite().getTransform().setToTranslation(location.getX(), location.getY());
 
             s.setUntransformedArea(
                     s.getUntransformedArea().createTransformedArea(obstacle.getSprite().
@@ -203,15 +230,15 @@ public class GameEngine implements Runnable {
         
         //This structure controller verify if the player want to see evening map.
         if (storm) {
-            renderer.setBackgroundImage(Util.imageResources.get("NIGHT"));
+            renderer.setBackgroundImage(Util.imageResources.get("NIGHT")); // When the player hit the storm button, then the night map is loaded
 
         } else {
-            renderer.setBackgroundImage(Util.imageResources.get("SEA"));
+            renderer.setBackgroundImage(Util.imageResources.get("SEA")); //  If the storm is not activated, the map should just be normal "SEA"
         }
 
     }
-    
-    //display message for the user
+  
+
     public void gameOver() {
         endGame(GAME_OVER_GAME);
     }
@@ -222,16 +249,21 @@ public class GameEngine implements Runnable {
 
     }
 
-    private void endGame(String message) {
+    public static void endGame(String message) {
+    	
+    	assert (message != null) : "Null message for end game";
+    	
         if (cast.setBoatVulnerable()) {
-            javax.swing.JOptionPane.showMessageDialog(null, message);
+            javax.swing.JOptionPane.showMessageDialog(null, message); // Creates a dialog with the user with the defined message
             cast.setBoatImmune();
 
         }
 
     }
+
+
     
-    //execute the application
+
     @Override
     public void run() {
         while (true) {
@@ -250,6 +282,7 @@ public class GameEngine implements Runnable {
             }
             
             x = moving.size();
+            assert (x > 0): "Moving size is incompatible ";
             
             //get interactive characters
             for (int i = 0; i < x; i++) {
