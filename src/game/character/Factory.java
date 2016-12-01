@@ -29,8 +29,6 @@ public class Factory {
 	static Logger logging = Logger.getLogger(Factory.class);
 	static final int staticLocationRender = 30;
 	static final int initialLocation = 0;
-	static final int horizontalGoal = 100; // horizontal coordinate for placing goal
-	static final int verticalGoal = 50;    // horizontal coordinate for placing goal
 	public Factory() {
     }
     
@@ -43,35 +41,37 @@ public class Factory {
     }
     
     public Obstacle createBuoy() {
+    	
+    	// Generates a buoy on a random place of the stage
         Renderer renderer = Renderer.getInstance();
-        Obstacle buoy = new Obstacle();
+        Obstacle buoy = new Obstacle(); 
         double randomX = (Math.random() * renderer.getWidth());
         double randomY = (Math.random() * renderer.getHeight());
-        
-
         buoy.setLocation(randomX, randomY);
 
         Movement sway = new game.movement.Swaying(null, randomX, randomY, randomY, buoy, 1, 2);
         buoy.setMoveBehaviour(sway);
+        
+        // Define hitbox properties for the buoy
         int size = Util.getObstacleSize();
         Area area = new Area(new java.awt.geom.Ellipse2D.Double(randomX - size / 2, randomY - size / 2, size, size));
         AffineTransform transform = new AffineTransform();
         transform.setToTranslation(randomX, randomY);
 
         Sprite sprite = initializeSprite(area, buoy, size);
-
         buoy.setSprite(sprite);
 
         assert(buoy != null) : "buoy is null!";
         logging.info("Buoy created!");
         
+        //Clear temporary objects of the memory
         finalizeObject(renderer);
         finalizeObject(sprite);
         finalizeObject(transform);
         finalizeObject(sway);
         finalizeObject(area);
+        
         return buoy;
-
     }
     
     /*
@@ -82,7 +82,8 @@ public class Factory {
      * @return sprite sprite object initialized
      */
     private Sprite initializeSprite(Area area, Obstacle buoy, int size){
-        Sprite sprite = new Buoy(buoy);
+       
+    	Sprite sprite = new Buoy(buoy);
         sprite.setUntransformedArea(area);
         sprite.setTransformedArea(area);
         sprite.setShowSprite(true);
@@ -98,8 +99,9 @@ public class Factory {
      */
     public Character createCharacter(String type) {
 
-
         Character character = null;
+        
+        //determine which character should be created
         switch (type) {
             case "BOAT":
                 character = createBoat();
@@ -129,6 +131,15 @@ public class Factory {
         
         return character;
     }
+    
+    /*
+     * create an area give the specific location 
+     * @param location - Places on the map to be filled
+     * @param generalPath - Adds a point to the path by drawing a straight line from the current coordinates
+     * @param x - the specified X coordinate
+     * @param y - the specified Y coordinate
+     * @return area - new update map
+     */
 
     private Area createAreaFromLocations(int[] locations, GeneralPath generalPath) {
         
@@ -136,61 +147,73 @@ public class Factory {
     	assert(generalPath != null) : "No generalPath defined";
     	
     	int count = 0;
-        int x = locations[count];;
+        int x = locations[count];
         int y = locations[count + 1];
+        
         generalPath.moveTo(x, y);
         count += 2;
+        
         while (count < locations.length) {
-
             x = locations[count];
             y = locations[count + 1];
             count += 2;
             generalPath.lineTo(x, y);
         }
+        
         generalPath.closePath();
         Area area = new Area(generalPath);
-
         assert(area != null) : "Area is null";
         
+         // If area not null, it's a success creating an valid area
+         
         return area;
     }
-
+    
+    /*
+     * create an boat
+     * @param boat - new boat created
+     * @param renderer - gets map info
+     * @param x - the specified X coordinate
+     * @param y - the specified Y coordinate
+     * @param move - the initial features of movement for the boat
+     * @param images - unload the images of background
+     * @param boatImages - unload the images of the boat
+     * @param location - place where boat is on the map
+     * @param swayMove - the initial features of sway for the boat
+     * @return boat - new boat in the map
+     */
+    
     private Boat createBoat() {
+    	
         Boat boat = new Boat();
         Renderer renderer = Renderer.getInstance();
 
         int x = 10;
         int y = Renderer.getInstance().getHeight() - staticLocationRender;
         Location location = new Location(x, y);
-
         boat.setLocation(location);
 
-        Image[] boatImages = new Image[2];
-      
+        Image[] boatImages = new Image[2];   
         boatImages[0] = Util.imageResources.get("BOAT");
         boatImages[1] = Util.imageResources.get("BOAT_EXPLODE");
-      
         SpriteImage boatSprite = new SpriteImage(boatImages, boat);
 
         
         boatSprite.setTransformation(x, y, Util.getBoatArea(boatImages[0]));
-
-
         boat.setLocation(new Location(staticLocationRender, renderer.getHeight()));
-
-
-
         boat.setSprite(boatSprite);
 
-        Movement move = Util.getBoatMovePresets();
-
         //Add a swaying motion to the boat
+        Movement move = Util.getBoatMovePresets();
         Movement swayMove = new Swaying((AngledAcceleration) move, initialLocation, initialLocation, Math.random(), boat, 0.2, 0.3);
         boat.setMoveBehaviour(swayMove);
         
+        //  If boat not null, it's was a success creating an boat
+         
         assert(boat != null): "Boat is null!";
         logging.info("Boat created!");
         
+        // Clear all the temporary objects
         finalizeObject(renderer);
         finalizeObject(swayMove);
         finalizeObject(move);
@@ -200,40 +223,44 @@ public class Factory {
         return boat;
     }
 
+    /*
+     * create an obstacle boat 
+     * @param Enemyboat - new boat created
+     * @param renderer - gets map info
+     * @param x - the specified X coordinate
+     * @param y - the specified Y coordinate
+     * @param computerBoatMove - the initial features of movement for the enemyBoat
+     * @param boatImages - unload the images of the enemyBoat
+     * @return computerBoat - new boat in the map
+     */
     private EnemyBoat createComputerBoat() {
     	
         EnemyBoat computerBoat = new EnemyBoat();
-
-
         Renderer renderer = Renderer.getInstance();
 
-        computerBoat.setLocation(
-                Math.random() * renderer.getWidth(),
-                Math.random() * renderer.getHeight());
-
-
+        computerBoat.setLocation ( Math.random() * renderer.getWidth(),
+        													Math.random() * renderer.getHeight());
 
         Image[] boatImages = new Image[2];
         boatImages[0] = Util.imageResources.get("BOAT2");
         boatImages[1] = Util.imageResources.get("BOAT_EXPLODE");
 
-
-        SpriteImage computerBoatSprite = new SpriteImage(boatImages, computerBoat);
-        computerBoatSprite.setShowSprite(true);
-
-        
         int x = 450;
         int y = 400;
-
+        SpriteImage computerBoatSprite = new SpriteImage(boatImages, computerBoat);
+        computerBoatSprite.setShowSprite(true);
         computerBoatSprite.setTransformation(x, y, Util.getBoatArea(boatImages[0]));
         computerBoat.setSprite(computerBoatSprite);
 
         Movement computerBoatMove = (Movement) Util.angledAccelerationPresets();
         computerBoat.setMoveBehaviour(computerBoatMove);
+        
+        // If computerBoat not null, it's was a success creating an computerBoat
 
         assert(computerBoat != null) : "computerBoat is null!";
         logging.info("Computer boat created!");
         
+        //Clear temporary objects of the memory
         finalizeObject(renderer);
         finalizeObject(boatImages);
         finalizeObject(computerBoatSprite);
@@ -247,29 +274,21 @@ public class Factory {
 
         @SuppressWarnings("unused")
 		Renderer renderer = Renderer.getInstance();
-
-
         Harbour harbour = new Harbour();
         game.sprite.Harbour harbourSprite = new game.sprite.Harbour(harbour);
-
         GeneralPath generalPath = new GeneralPath();
-
 
         int[] locations = Util.getHarbourData();
         Area area = (Area) createAreaFromLocations(locations, generalPath);
-
-
         harbour.setLocation(new Location(initialLocation, initialLocation));
-
         harbourSprite.setUntransformedArea(area);
+        
         AffineTransform transform = new AffineTransform();
         transform.setToTranslation(initialLocation, initialLocation);
         harbourSprite.setTransform(transform);
         harbourSprite.setTransformedArea(area.createTransformedArea(transform));
-
+        
         harbourSprite.setShowSprite(false);
-
-
         harbour.setSprite(harbourSprite);
 
         assert(harbour != null) : "Harbour is null!";
@@ -291,12 +310,10 @@ public class Factory {
         int[] locations = (int[]) Util.getIslandData();
         GeneralPath generalPath = new GeneralPath();
         Area area = createAreaFromLocations(locations, generalPath);
-        
         AffineTransform transform = new AffineTransform();
         transform.setToIdentity();
         
         game.sprite.Island islandSprite = initializeIslandSprite(area, transform, island);
-
         island.setSprite(islandSprite);
 
         assert(island != null) : "Island is null!";
@@ -319,6 +336,7 @@ public class Factory {
 
     private Character createOctopus() {
 
+    	// Place the octopus on the stage
         Image[] images = new Image[1];
         images[0] = (Image) Util.imageResources.get("OCTOPUS");
         Character octopus = new Obstacle();
@@ -326,8 +344,8 @@ public class Factory {
         
         Renderer renderer = Renderer.getInstance();
         Ellipse2D boundingEllipse = new Ellipse2D.Double(initialLocation, initialLocation,
-                images[0].getWidth(renderer),
-                images[0].getHeight(renderer));
+                																					images[0].getWidth(renderer),
+                																					images[0].getHeight(renderer));
 
         Area area = new Area(boundingEllipse);
 
@@ -338,9 +356,8 @@ public class Factory {
 
         octopusSprite.setUntransformedArea(area);
         AffineTransform transform = new AffineTransform();
-
         transform.setToIdentity();
-
+        
         octopusSprite.setTransform(transform);
         octopusSprite.setTransformedArea(area.createTransformedArea(transform));
         octopusSprite.setSqueezeImageIntoTransformedArea(true);
@@ -355,13 +372,13 @@ public class Factory {
     }
 
     private game.character.Goal createGoal() {
-
-
+    	
+    	final int horizontalGoal = 100; // horizontal coordinate for placing goal
+    	final int verticalGoal = 50;    // horizontal coordinate for placing goal
+    	
+    	
         game.character.Goal goal = new game.character.Goal();
-
-
         game.sprite.Goal goalSprite = new game.sprite.Goal(goal);
-
         Area area = new Area(new Rectangle(initialLocation, initialLocation, horizontalGoal, verticalGoal));
 
         goalSprite.setUntransformedArea(area);
@@ -369,13 +386,11 @@ public class Factory {
  
         Renderer renderer = Renderer.getInstance();
         transform.setToTranslation(renderer.getWidth() - horizontalGoal, renderer.getHeight() - verticalGoal);
+        
+        
         goalSprite.setTransform(transform);
-
         goalSprite.setTransformedArea(area.createTransformedArea(transform));
-
         goalSprite.setShowSprite(true);
-
-
         goal.setSprite(goalSprite);
 
         assert(goal != null) : "goal is null";
